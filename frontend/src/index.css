@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --sage-deep: #8c956a;
+    --sage-mid: #9eb094;
+    --khaki-pale: #c6cab2;
+    --blush-grey: #d6cfcc;
+    --paper: #f8f6f1;
+    --ink: #2b2728;
+    --ink-soft: #4a4542;
+
+    --bg: var(--paper);
+    --surface: #ffffff;
+    --text: var(--ink);
+    --text-soft: var(--ink-soft);
+    --accent: var(--sage-deep);
+    --accent-2: var(--sage-mid);
+    --line: rgba(43, 39, 40, 0.14);
+    --tint: var(--khaki-pale);
+    --tint-2: var(--blush-grey);
+
+    --font-fraunces: 'Fraunces', serif;
+    --font-jost: 'Jost', sans-serif;
+    --font-serif: "Fraunces", "EB Garamond", serif;
+    --font-sans: "Jost", "Hanken Grotesk", sans-serif;
+    --font-mono: "Space Mono", monospace;
+  }
+
+  [data-theme="dark"] {
+    --charcoal: #2b2728;
+    --forest: #526a45;
+    --sage-muted: #b3bf97;
+    --cream: #ded7cb;
+
+    --bg: var(--charcoal);
+    --surface: #353030;
+    --text: var(--cream);
+    --text-soft: #c9c1b3;
+    --accent: var(--sage-muted);
+    --accent-2: var(--forest);
+    --line: rgba(222, 215, 203, 0.16);
+    --tint: #3a4a33;
+    --tint-2: #454040;
+  }
+
+  body {
+    font-family: var(--font-jost), 'Jost', sans-serif;
+    background-color: #151311;
+    color: #e8e1de;
+  }
+
+  h1, h2, h3, .display, .font-serif-heading {
+    font-family: var(--font-fraunces), 'Fraunces', serif;
+    font-weight: 500;
+  }
+}
+
+/* Utilities */
+.font-fraunces {
+  font-family: "Fraunces", "EB Garamond", serif;
+}
+
+.font-jost {
+  font-family: "Jost", system-ui, sans-serif;
+}
+
+.font-ebGaramond {
+  font-family: "Fraunces", "EB Garamond", Georgia, serif;
+}
+
+.font-hankenGrotesk {
+  font-family: "Jost", "Hanken Grotesk", system-ui, sans-serif;
+}
+
+.font-mono-code {
+  font-family: "Space Mono", monospace;
+}
+
+.eyebrow {
+  font-family: 'Jost', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 12px;
+  color: var(--sage-deep);
+  font-weight: 600;
+}
+
+.crosshatch {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(222,215,203,0.06) 0, rgba(222,215,203,0.06) 1px, transparent 1px, transparent 34px),
+    repeating-linear-gradient(-45deg, rgba(222,215,203,0.06) 0, rgba(222,215,203,0.06) 1px, transparent 1px, transparent 34px);
+}
+
+/* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar,
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hover Lift */
+.hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Image Zoom */
+.img-zoom {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .img-zoom {
+  transform: scale(1.06);
+}
+
+/* Custom Grain Overlay */
+.grain-bg {
+  background-image: radial-gradient(rgba(232, 225, 222, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+

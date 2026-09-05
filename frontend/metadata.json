@@ -1,0 +1,6 @@
+{
+  "name": "Sadyaatra",
+  "description": "Editorial travel planning and intelligent destination discovery with AI companion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
