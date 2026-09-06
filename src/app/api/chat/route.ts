@@ -3,6 +3,49 @@ import { prisma } from "@/lib/prisma";
 import { groq } from "@/lib/groq";
 import { randomUUID } from "crypto";
 
+/**
+ * @swagger
+ * /api/chat:
+ *   post:
+ *     summary: Chat with the AI travel assistant
+ *     description: Sends a message to the AI assistant and returns the response. Creates a new conversation if no conversation_id is provided.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - message
+ *             properties:
+ *               message:
+ *                 type: string
+ *                 description: The user's chat message
+ *                 example: "Hello, tell me about Kerala"
+ *               conversation_id:
+ *                 type: string
+ *                 description: ID of an existing conversation
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 conversation_id:
+ *                   type: string
+ *                 message:
+ *                   type: string
+ *                 suggestions:
+ *                   type: array
+ *                   items:
+ *                     type: string
+ *       400:
+ *         description: Missing required fields
+ *       404:
+ *         description: Conversation not found
+ */
 export async function POST(request: Request) {
   const body = await request.json();
   const { conversation_id, message } = body;

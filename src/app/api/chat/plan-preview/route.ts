@@ -3,6 +3,43 @@ import { prisma } from "@/lib/prisma";
 import { groq } from "@/lib/groq";
 import { randomUUID } from "crypto";
 
+/**
+ * @swagger
+ * /api/chat/plan-preview:
+ *   post:
+ *     summary: Generate a trip plan preview
+ *     description: Creates a short, multi-day itinerary preview using AI.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - destination
+ *             properties:
+ *               conversation_id:
+ *                 type: string
+ *               destination:
+ *                 type: string
+ *               duration_days:
+ *                 type: integer
+ *               budget:
+ *                 type: number
+ *               interests:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Destination is required
+ */
 export async function POST(request: Request) {
   const body = await request.json();
   const { conversation_id, destination, duration_days, budget, interests } = body;
