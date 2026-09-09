@@ -95,12 +95,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       if (oscillatorRef.current) {
         try {
           oscillatorRef.current.stop();
-        } catch {}
+        } catch { }
       }
       if (audioContextRef.current) {
         try {
           audioContextRef.current.close();
-        } catch {}
+        } catch { }
       }
     };
   }, []);
@@ -111,7 +111,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
         {/* Deep Ambient Atmospheric Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#9EB094]/8 blur-[160px] rounded-full" />
-        
+
         {/* Layer 1: Distant Misty Sky & Celestial Gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0e0c0b] via-[#151311]/90 to-[#151311]" />
 
@@ -221,7 +221,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#1e1b19]/80 backdrop-blur-md border border-[#383432] text-[11px] font-mono-code text-[#9EB094]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#9EB094] animate-pulse" />
-            <span>SEASON 2026 • 12 SANCTUARIES ACTIVE</span>
+            <span>SEASON 2026 • 1 SANCTUARY ACTIVE</span>
           </div>
         </motion.div>
 
@@ -235,11 +235,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <button
             id="hero-ambient-audio-toggle"
             onClick={toggleAmbientSound}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-code transition-all border ${
-              isAudioPlaying
-                ? 'bg-[#9EB094]/20 border-[#9EB094] text-[#9EB094]'
-                : 'bg-[#1e1b19]/80 border-[#383432] text-[#cfc4c6] hover:text-[#e8e1de]'
-            }`}
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-code transition-all border ${isAudioPlaying
+              ? 'bg-[#9EB094]/20 border-[#9EB094] text-[#9EB094]'
+              : 'bg-[#1e1b19]/80 border-[#383432] text-[#cfc4c6] hover:text-[#e8e1de]'
+              }`}
             title="Toggle meditative ambient soundscape"
           >
             {isAudioPlaying ? <Volume2 className="w-3.5 h-3.5 text-[#9EB094] animate-pulse" /> : <VolumeX className="w-3.5 h-3.5" />}
@@ -247,20 +246,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </button>
 
           {/* Interactive Zoom Level Slider */}
-          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-[#1e1b19]/80 border border-[#383432] text-xs font-mono-code text-[#cfc4c6]">
-            <Sliders className="w-3 h-3 text-[#9EB094]" />
-            <span className="text-[10px] uppercase">Zoom: {zoomLevel.toFixed(1)}x</span>
-            <input
-              id="hero-mask-zoom-slider"
-              type="range"
-              min="1"
-              max="2"
-              step="0.1"
-              value={zoomLevel}
-              onChange={(e) => setZoomLevel(parseFloat(e.target.value))}
-              className="w-16 accent-[#9EB094] cursor-pointer"
-            />
-          </div>
+
         </motion.div>
       </div>
 
@@ -337,11 +323,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               key={r}
               id={`hero-region-btn-${r.toLowerCase()}`}
               onClick={() => onSelectRegion(r)}
-              className={`px-4 py-1.5 rounded-full text-xs font-mono-code tracking-wider uppercase transition-all ${
-                selectedRegion === r
-                  ? 'bg-[#9EB094] text-[#100e0c] font-bold shadow-md'
-                  : 'bg-[#1e1b19]/80 backdrop-blur-md border border-[#2d2927] text-[#cfc4c6] hover:text-[#e8e1de] hover:border-[#383432]'
-              }`}
+              className={`px-4 py-1.5 rounded-full text-xs font-mono-code tracking-wider uppercase transition-all ${selectedRegion === r
+                ? 'bg-[#9EB094] text-[#100e0c] font-bold shadow-md'
+                : 'bg-[#1e1b19]/80 backdrop-blur-md border border-[#2d2927] text-[#cfc4c6] hover:text-[#e8e1de] hover:border-[#383432]'
+                }`}
             >
               {r === 'All' ? 'All Territories' : r}
             </button>

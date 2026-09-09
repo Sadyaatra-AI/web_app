@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Compass, Sparkles, Heart, Search, HelpCircle } from 'lucide-react';
 
 interface NavigationProps {
@@ -18,76 +18,101 @@ export const Navigation: React.FC<NavigationProps> = ({
   searchQuery,
   setSearchQuery,
 }) => {
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [lastScrollY, setLastScrollY] = useState<number>(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        // Scrolling down -> hide navbar
+        setIsVisible(false);
+      } else {
+        // Scrolling up -> show navbar
+        setIsVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
   return (
     <header
       id="main-navigation"
-      className="sticky top-0 z-40 w-full border-b border-[#2d2927] bg-[#151311]/90 backdrop-blur-md transition-colors"
+      className={`fixed top-0 left-0 right-0 z-50 w-full border-b border-[#2d2927]/80 bg-[#151311]/80 backdrop-blur-xl transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0 shadow-2xl shadow-black/40' : '-translate-y-full'
+        }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-        {/* Logo */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3 sm:gap-4">
+        {/* Logo with rounded cut corners and lighter background badge */}
         <div
           id="brand-logo"
           onClick={() => setActiveTab('explore')}
           className="flex items-center gap-3 cursor-pointer group"
         >
-          <img
-            src="/logo.png"
-            alt="Sadyaatra Logo"
-            className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
-          />
+          <div className="bg-[#f8f6f1]/90 hover:bg-[#ffffff] border border-[#c6cab2]/80 rounded-2xl p-1.5 sm:p-2 shadow-sm flex items-center justify-center overflow-hidden transition-all group-hover:scale-105 group-hover:shadow-md group-hover:shadow-[#8c956a]/20">
+            <img
+              src="/logo.png"
+              alt="Sadyaatra Logo"
+              className="h-7 sm:h-9 w-auto object-contain rounded-lg"
+            />
+          </div>
+
         </div>
 
         {/* Center Nav Links */}
-        <nav id="nav-links" className="hidden md:flex items-center gap-1 bg-[#1e1b19]/60 p-1.5 rounded-full border border-[#2d2927]">
+        <nav id="nav-links" className="hidden md:flex items-center gap-1.5 bg-[#1e1b19]/80 p-1.5 rounded-full border border-[#2d2927] backdrop-blur-md shadow-inner">
           <button
             id="nav-explore-btn"
             onClick={() => setActiveTab('explore')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all ${
-              activeTab === 'explore'
-                ? 'bg-[#2d2927] text-[#e8e1de] shadow-sm'
-                : 'text-[#cfc4c6] hover:text-[#e8e1de] hover:bg-[#221f1d]'
-            }`}
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all ${activeTab === 'explore'
+                ? 'bg-[#8c956a] text-[#f8f6f1] shadow-md font-semibold'
+                : 'text-[#cfc4c6] hover:text-[#e8e1de] hover:bg-[#282422]'
+              }`}
           >
             Sanctuaries
           </button>
+
           <button
             id="nav-quiz-btn"
             onClick={() => setActiveTab('quiz')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${
-              activeTab === 'quiz'
-                ? 'bg-[#2d2927] text-[#9EB094] shadow-sm'
-                : 'text-[#cfc4c6] hover:text-[#e8e1de] hover:bg-[#221f1d]'
-            }`}
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${activeTab === 'quiz'
+                ? 'bg-[#8c956a] text-[#f8f6f1] shadow-md font-semibold'
+                : 'text-[#cfc4c6] hover:text-[#9eb094] hover:bg-[#282422]'
+              }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#9EB094]" />
+            <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'quiz' ? 'text-[#f8f6f1]' : 'text-[#9eb094]'}`} />
             Trip Matcher
           </button>
+
           <button
             id="nav-saved-btn"
             onClick={() => setActiveTab('saved')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${
-              activeTab === 'saved'
-                ? 'bg-[#2d2927] text-[#e8e1de] shadow-sm'
-                : 'text-[#cfc4c6] hover:text-[#e8e1de] hover:bg-[#221f1d]'
-            }`}
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${activeTab === 'saved'
+                ? 'bg-[#8c956a] text-[#f8f6f1] shadow-md font-semibold'
+                : 'text-[#cfc4c6] hover:text-[#e8e1de] hover:bg-[#282422]'
+              }`}
           >
-            <Heart className={`w-3.5 h-3.5 ${savedCount > 0 ? 'fill-[#c2cb9c] text-[#c2cb9c]' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 ${savedCount > 0 ? 'fill-[#9eb094] text-[#9eb094]' : ''}`} />
             Saved ({savedCount})
           </button>
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Search Trigger */}
-          <div className="relative hidden sm:block w-48 lg:w-64">
+          <div className="relative hidden sm:block w-40 md:w-48 lg:w-60">
             <Search className="w-4 h-4 text-[#cfc4c6]/60 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               id="global-search-input"
               type="text"
-              placeholder="Search places, vibes..."
+              placeholder="Search sanctuaries..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#1e1b19] border border-[#2d2927] focus:border-[#9EB094]/60 text-xs text-[#e8e1de] placeholder-[#cfc4c6]/50 rounded-full pl-9 pr-3 py-2 outline-none transition-all"
+              className="w-full bg-[#1e1b19]/90 border border-[#2d2927] focus:border-[#8c956a] text-xs text-[#e8e1de] placeholder-[#cfc4c6]/50 rounded-full pl-9 pr-3 py-2 outline-none transition-all shadow-inner"
             />
           </div>
 
@@ -95,9 +120,9 @@ export const Navigation: React.FC<NavigationProps> = ({
           <button
             id="open-ai-chat-btn"
             onClick={onOpenChat}
-            className="flex items-center gap-2 bg-[#9EB094] hover:bg-[#b0c2a5] text-[#100e0c] px-4 py-2 rounded-full text-xs font-medium tracking-wide uppercase shadow-sm transition-all active:scale-95"
+            className="flex items-center gap-2 bg-gradient-to-r from-[#8c956a] to-[#7a835b] hover:from-[#9eb094] hover:to-[#8c956a] text-[#f8f6f1] px-3.5 sm:px-4 py-2 rounded-full text-xs font-medium tracking-wide uppercase shadow-lg shadow-[#8c956a]/20 hover:shadow-[#8c956a]/40 transition-all active:scale-95 group"
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Sparkles className="w-3.5 h-3.5 text-[#f8f6f1] group-hover:rotate-12 transition-transform" />
             <span className="hidden sm:inline">AI Companion</span>
             <span className="sm:hidden">AI</span>
           </button>
@@ -105,33 +130,32 @@ export const Navigation: React.FC<NavigationProps> = ({
       </div>
 
       {/* Mobile Sub Navigation */}
-      <div className="md:hidden flex items-center justify-around border-t border-[#221f1d] px-2 py-2 bg-[#151311]">
+      <div className="md:hidden flex items-center justify-around border-t border-[#252220] px-2 py-2 bg-[#151311]/95 backdrop-blur-lg">
         <button
           id="mobile-nav-explore"
           onClick={() => setActiveTab('explore')}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium ${
-            activeTab === 'explore' ? 'bg-[#2d2927] text-[#e8e1de]' : 'text-[#cfc4c6]'
-          }`}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${activeTab === 'explore' ? 'bg-[#8c956a] text-[#f8f6f1] font-semibold' : 'text-[#cfc4c6]'
+            }`}
         >
-          Explore
+          Sanctuaries
         </button>
+
         <button
           id="mobile-nav-quiz"
           onClick={() => setActiveTab('quiz')}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 ${
-            activeTab === 'quiz' ? 'bg-[#2d2927] text-[#9EB094]' : 'text-[#cfc4c6]'
-          }`}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 transition-all ${activeTab === 'quiz' ? 'bg-[#8c956a] text-[#f8f6f1] font-semibold' : 'text-[#cfc4c6]'
+            }`}
         >
-          <Sparkles className="w-3 h-3 text-[#9EB094]" /> Matcher
+          <Sparkles className="w-3.5 h-3.5 text-[#9eb094]" /> Matcher
         </button>
+
         <button
           id="mobile-nav-saved"
           onClick={() => setActiveTab('saved')}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1 ${
-            activeTab === 'saved' ? 'bg-[#2d2927] text-[#e8e1de]' : 'text-[#cfc4c6]'
-          }`}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 transition-all ${activeTab === 'saved' ? 'bg-[#8c956a] text-[#f8f6f1] font-semibold' : 'text-[#cfc4c6]'
+            }`}
         >
-          <Heart className={`w-3 h-3 ${savedCount > 0 ? 'fill-[#c2cb9c] text-[#c2cb9c]' : ''}`} /> Saved ({savedCount})
+          <Heart className={`w-3.5 h-3.5 ${savedCount > 0 ? 'fill-[#9eb094] text-[#9eb094]' : ''}`} /> Saved ({savedCount})
         </button>
       </div>
     </header>

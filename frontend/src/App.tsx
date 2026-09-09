@@ -9,6 +9,7 @@ import { DestinationCard } from './components/DestinationCard';
 import { SplitScreenDestinationDetail } from './components/SplitScreenDestinationDetail';
 import { MatchQuizModal } from './components/MatchQuizModal';
 import { AIChatDrawer } from './components/AIChatDrawer';
+import { TripIntentCard } from './components/TripIntentCard';
 import { Footer } from './components/Footer';
 import { DESTINATIONS } from './data/destinations';
 import { Destination, FilterState, Region } from './types';
@@ -148,7 +149,7 @@ export function App() {
       />
 
       {/* Main Viewports */}
-      <main className="flex-1">
+      <main className="flex-1 pt-20 md:pt-20">
         {/* TAB 1: EXPLORE / SANCTUARIES */}
         {activeTab === 'explore' && (
           <div>
@@ -165,6 +166,11 @@ export function App() {
               }}
               onStartQuiz={() => setActiveTab('quiz')}
               onExploreClick={scrollToCatalog}
+            />
+
+            {/* 1.5 CLASSY TRIP INTENT CARD */}
+            <TripIntentCard
+              onSelectOption={(prompt) => handleOpenAIChat(prompt)}
             />
 
             {/* 2. AUTO-SCROLLING LUXURY DESTINATION MARQUEE (Ref: Travel-Sensations) */}

@@ -43,6 +43,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
   const [selectedPhotoIdx, setSelectedPhotoIdx] = useState<number>(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
   const [isMobileChatOpen, setIsMobileChatOpen] = useState<boolean>(false);
+  const [isDesktopChatOpen, setIsDesktopChatOpen] = useState<boolean>(true);
   const [selectedPersona, setSelectedPersona] = useState<string>('all');
   const [stayTier, setStayTier] = useState<'budget' | 'heritage' | 'luxury'>('heritage');
   const [activeSection, setActiveSection] = useState<'overview' | 'itinerary' | 'budget' | 'transit' | 'culture'>('overview');
@@ -136,15 +137,15 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
     switch (activeSection) {
       case 'itinerary':
         return [
-          `Adjust the ${destination.name} itinerary for a slower, quiet walking pace`,
-          `What are the most peaceful sunrise spots in ${destination.name}?`,
-          `Suggest authentic lunch stops between Day 1 and Day 2`,
+          `Tailor Day 2 for a peaceful waterfall morning in ${destination.name}`,
+          `Which spots are best for early morning photography?`,
+          `Are there guided trekking options for the peak viewpoints?`,
         ];
       case 'budget':
         return [
-          `Break down estimated costs for a 4-day ${stayTier} trip in ${destination.name}`,
-          `Are there heritage homestays under ₹4,000 in ${destination.name}?`,
-          `What are typical taxi vs local transit rates here?`,
+          `Break down luxury heritage hotel vs boutique stay costs in ${destination.name}`,
+          `Are local cafes and meals affordable around ${destination.name}?`,
+          `Hidden expenses or entry permits I should know about?`,
         ];
       case 'transit':
         return [
@@ -182,28 +183,31 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
     reason: 'Excellent overall synergy with mindful, contemplative voyages.',
   };
 
-  const renderAIChatCanvas = (isMobileView: boolean) => (
-    <div
-      className={
-        isMobileView
-          ? "w-full h-full flex flex-col justify-between bg-[#12100f] text-[#e8e1de]"
-          : "hidden lg:flex w-full lg:w-[40%] xl:w-[38%] h-full flex-col justify-between bg-[#12100f] text-[#e8e1de] border-l border-[#2d2927]"
-      }
-    >
-      <div className="p-4 sm:p-5 border-b border-[#2d2927] bg-[#161413] flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-[#1e1b19] border border-[#383432] flex items-center justify-center text-[#8c956a]">
-            <Sparkles className="w-4 h-4 animate-spin" style={{ animationDuration: '16s' }} />
-          </div>
-          <div>
-            <h3 className="font-fraunces text-xl text-[#e8e1de]">Sadyaatra AI Companion</h3>
-            <span className="font-mono-code text-[10px] text-[#8c956a] uppercase tracking-wider block">
-              Active Sanctuary: {destination.name}
-            </span>
-          </div>
-        </div>
+  const renderAIChatCanvas = (isMobileView: boolean) => {
+    if (!isMobileView && !isDesktopChatOpen) return null;
 
-        <div className="flex items-center gap-2">
+    return (
+      <div
+        className={
+          isMobileView
+            ? "w-full h-full flex flex-col justify-between bg-[#12100f] text-[#e8e1de]"
+            : "hidden lg:flex w-full lg:w-[340px] xl:w-[360px] shrink-0 h-full flex-col justify-between bg-[#12100f] text-[#e8e1de] border-l border-[#2d2927] transition-all"
+        }
+      >
+        <div className="p-4 sm:p-5 border-b border-[#2d2927] bg-[#161413] flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-[#1e1b19] border border-[#383432] flex items-center justify-center text-[#8c956a]">
+              <Sparkles className="w-4 h-4 animate-spin" style={{ animationDuration: '16s' }} />
+            </div>
+            <div>
+              <h3 className="font-fraunces text-xl text-[#e8e1de]">Sadyaatra AI Companion</h3>
+              <span className="font-mono-code text-[10px] text-[#8c956a] uppercase tracking-wider block">
+                Active Sanctuary: {destination.name}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
           {isMobileView && (
             <button
               onClick={() => setIsMobileChatOpen(false)}
@@ -362,6 +366,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
       </div>
     </div>
   );
+};
 
   return (
     <AnimatePresence>
@@ -395,6 +400,19 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
 
           <div className="flex items-center gap-3">
             <button
+              onClick={() => setIsDesktopChatOpen((prev) => !prev)}
+              className={`hidden lg:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-medium transition-all ${
+                isDesktopChatOpen
+                  ? 'bg-[#8c956a] text-[#f8f6f1] border-[#8c956a]'
+                  : 'bg-[#1e1b19] text-[#cfc4c6] border-[#383432] hover:text-[#e8e1de]'
+              }`}
+              title="Toggle AI Companion Panel"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-current" />
+              <span>{isDesktopChatOpen ? 'Hide AI Companion' : 'AI Companion'}</span>
+            </button>
+
+            <button
               onClick={() => onToggleSave(destination.id)}
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1e1b19] border border-[#383432] text-xs font-medium text-[#e8e1de] hover:border-[#8c956a]/50 transition-colors"
             >
@@ -425,7 +443,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
         <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
           <div
             id="editorial-content-pane"
-            className="w-full lg:w-[60%] xl:w-[62%] h-full flex-1 overflow-y-auto p-4 sm:p-8 lg:p-10 space-y-12 no-scrollbar bg-[#151311] border-r border-[#2d2927]"
+            className="w-full flex-1 h-full overflow-y-auto p-4 sm:p-8 lg:p-10 space-y-12 no-scrollbar bg-[#151311] border-r border-[#2d2927]"
             onScroll={(e) => {
               const top = (e.target as HTMLElement).scrollTop;
               if (top < 500) setActiveSection('overview');

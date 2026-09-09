@@ -1,4 +1,4 @@
-export type Region = 'All' | 'North' | 'South' | 'West' | 'East' | 'International';
+export type Region = 'All' | 'North' | 'South' | 'West' | 'East' | 'Central' | 'International';
 
 export type DestinationType =
   | 'Beach'
@@ -15,6 +15,7 @@ export type DestinationType =
 
 export type TravelMood =
   | 'Slow & Peaceful'
+  | 'Nature Escape'
   | 'Adventurous'
   | 'Romantic'
   | 'Cultural'

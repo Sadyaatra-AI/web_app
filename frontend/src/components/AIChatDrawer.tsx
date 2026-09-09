@@ -68,7 +68,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
   // Handle initial prompt if passed from outside
   useEffect(() => {
     if (initialPrompt && isOpen) {
-      handleSendMessage(initialPrompt);
+      setInputMessage(initialPrompt);
     }
   }, [initialPrompt, isOpen]);
 
@@ -192,7 +192,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           exit={{ x: '100%' }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-lg h-full bg-[#151311] border-l border-[#2d2927] flex flex-col justify-between shadow-2xl text-[#e8e1de]"
+          className="w-full max-w-md h-full bg-[#151311] border-l border-[#2d2927] flex flex-col justify-between shadow-2xl text-[#e8e1de]"
         >
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-[#2d2927] bg-[#151311]/90 backdrop-blur-md flex items-center justify-between">

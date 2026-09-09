@@ -22,8 +22,8 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
     ? destinations
     : destinations.filter((d) => d.region === activeCategory || d.destinationTypes.includes(activeCategory as any));
 
-  // Double array for seamless infinite scroll
-  const displayList = [...filteredDestinations, ...filteredDestinations, ...filteredDestinations];
+  // Single list display - show each destination once
+  const displayList = filteredDestinations;
 
   // Auto-scroll logic
   useEffect(() => {
@@ -36,8 +36,8 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
       if (isPlaying && container) {
         container.scrollLeft += scrollStep;
 
-        // Reset scroll position when reaching the first third loop
-        if (container.scrollLeft >= container.scrollWidth / 3) {
+        // Reset scroll position smoothly when reaching the end
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth - 2) {
           container.scrollLeft = 0;
         }
       }
@@ -84,11 +84,10 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                  activeCategory === cat
-                    ? 'bg-[#9EB094] text-[#100e0c] font-semibold'
-                    : 'text-[#cfc4c6] hover:text-[#e8e1de]'
-                }`}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${activeCategory === cat
+                  ? 'bg-[#9EB094] text-[#100e0c] font-semibold'
+                  : 'text-[#cfc4c6] hover:text-[#e8e1de]'
+                  }`}
               >
                 {cat}
               </button>
@@ -106,16 +105,7 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
               {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             </button>
 
-            <button
-              id="carousel-speed-toggle-btn"
-              onClick={() => setSpeed((s) => (s === 'normal' ? 'slow' : 'normal'))}
-              className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono-code uppercase transition-colors ${
-                speed === 'slow' ? 'bg-[#9EB094] text-[#100e0c]' : 'text-[#cfc4c6]'
-              }`}
-              title="Toggle scroll speed"
-            >
-              {speed === 'normal' ? '1x Pace' : '0.5x Slow'}
-            </button>
+
           </div>
 
           {/* Navigation Arrows */}
