@@ -19,6 +19,9 @@ export const DESTINATIONS: Destination[] = [
     curatorNotes:
       'A rare Central Indian hill station where sandstone plateaus, dense sal forests, ancient caves, cascading waterfalls, and sweeping Satpura viewpoints converge.',
 
+    poeticTagline: "For mornings when you don't want to rush anywhere.",
+    featureTags: ['Forests', 'Waterfalls', 'Caves', 'Slow mornings'],
+
     heroImage:
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85',
 

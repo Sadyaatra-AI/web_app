@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Compass } from 'lucide-react';
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -36,12 +35,12 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           id="sadyaatra-preloader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, y: -20, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }}
-          className="fixed inset-0 z-50 flex flex-col justify-between p-6 sm:p-12 bg-[#151311] text-[#e8e1de] select-none"
+          className="fixed inset-0 z-50 flex flex-col justify-between p-6 sm:p-12 bg-[#f8f6f1] text-[#2b2728] select-none"
         >
           {/* Top Bar */}
-          <div className="flex items-center justify-between font-mono-code text-xs text-[#cfc4c6]/70 tracking-widest uppercase">
-            <div className="flex items-center gap-2">
-              <span className="inline-block w-2 h-2 rounded-full bg-[#9EB094] animate-pulse" />
+          <div className="flex items-center justify-between font-mono-code text-xs text-[#4a4542] tracking-widest uppercase">
+            <div className="flex items-center gap-2 font-medium">
+              <span className="inline-block w-2 h-2 rounded-full bg-[#8c956a] animate-pulse" />
               <span>Sadyaatra Archives</span>
             </div>
             <span>Coordinates: 14.5479° N, 74.3188° E</span>
@@ -74,13 +73,13 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
 
           {/* Bottom Progress Bar */}
           <div className="w-full max-w-md mx-auto space-y-3">
-            <div className="flex justify-between font-mono-code text-xs text-[#cfc4c6]/70">
+            <div className="flex justify-between font-mono-code text-xs text-[#4a4542]">
               <span>Mapping sanctuary routes</span>
               <span>{Math.min(progress, 100)}%</span>
             </div>
-            <div className="w-full h-1 bg-[#221f1d] rounded-full overflow-hidden">
+            <div className="w-full h-1 bg-[#2b2728]/10 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-[#9EB094]"
+                className="h-full bg-[#8c956a]"
                 style={{ width: `${Math.min(progress, 100)}%` }}
                 transition={{ ease: 'easeOut' }}
               />

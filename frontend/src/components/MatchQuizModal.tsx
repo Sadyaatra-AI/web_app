@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Check, ArrowRight, RotateCcw, Compass, MapPin, Heart } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Sparkles, Check, ArrowRight, RotateCcw, Compass, MapPin } from 'lucide-react';
 import { Destination } from '../types';
 
 interface MatchQuizModalProps {
@@ -40,7 +40,6 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
   const [selectedDuration, setSelectedDuration] = useState<string>('mid');
   const [selectedBudget, setSelectedBudget] = useState<string>('comfortable');
 
-  // Compute recommendation
   const getRecommendation = () => {
     let topDest = destinations[0];
     let highestScore = 0;
@@ -50,13 +49,11 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
       let score = dest.matchScore;
       let curReasons: string[] = [];
 
-      // Mood match
       if (dest.travelMoods.some(m => m.toLowerCase().includes(selectedMood.toLowerCase()) || selectedMood.toLowerCase().includes(m.toLowerCase()))) {
         score += 8;
         curReasons.push(`Matches your intention for a **${selectedMood}** escape.`);
       }
 
-      // Budget match
       if (selectedBudget === 'budget' && dest.budgetTypical <= 16000) {
         score += 6;
         curReasons.push(`Fits within your modest budget (${dest.budgetFormatted}).`);
@@ -68,7 +65,6 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
         curReasons.push(`Offers exceptional heritage havelis and elevated boutique stays.`);
       }
 
-      // Duration match
       curReasons.push(`Recommended timeline: **${dest.idealDuration}**.`);
 
       if (score > highestScore) {
@@ -93,19 +89,19 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
   return (
     <div id="trip-matcher-container" className="max-w-3xl mx-auto py-8 px-4 sm:px-6">
       {/* Container Card */}
-      <div className="bg-[#1e1b19] border border-[#2d2927] rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+      <div className="bg-white border border-[#2b2728]/10 rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden text-[#2b2728]">
         {/* Subtle Ambient Glow */}
-        <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#9EB094]/10 blur-[90px] rounded-full pointer-events-none" />
+        <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#8c956a]/10 blur-[90px] rounded-full pointer-events-none" />
 
         {/* Progress Header */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#2d2927]">
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#2b2728]/10">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[#151311] border border-[#383432] flex items-center justify-center text-[#9EB094]">
+            <div className="w-8 h-8 rounded-full bg-[#f8f6f1] border border-[#2b2728]/10 flex items-center justify-center text-[#8c956a]">
               <Compass className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-ebGaramond text-xl sm:text-2xl text-[#e8e1de]">Intelligent Sanctuary Matcher</h2>
-              <p className="font-mono-code text-[11px] text-[#cfc4c6]/70">Step {step} of 3</p>
+              <h2 className="font-fraunces text-xl sm:text-2xl text-[#2b2728]">Intelligent Sanctuary Matcher</h2>
+              <p className="font-mono-code text-[11px] text-[#4a4542]">Step {step} of 3</p>
             </div>
           </div>
 
@@ -114,7 +110,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
               <div
                 key={s}
                 className={`h-1.5 rounded-full transition-all ${
-                  step === s ? 'w-8 bg-[#9EB094]' : step > s ? 'w-4 bg-[#9EB094]/50' : 'w-4 bg-[#2d2927]'
+                  step === s ? 'w-8 bg-[#8c956a]' : step > s ? 'w-4 bg-[#8c956a]/50' : 'w-4 bg-[#2b2728]/10'
                 }`}
               />
             ))}
@@ -130,10 +126,10 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
             className="space-y-6"
           >
             <div>
-              <h3 className="font-ebGaramond text-2xl sm:text-3xl text-[#e8e1de] mb-2">
+              <h3 className="font-fraunces text-2xl sm:text-3xl text-[#2b2728] mb-2">
                 What energy are you seeking from this voyage?
               </h3>
-              <p className="text-xs sm:text-sm text-[#cfc4c6] font-light">
+              <p className="text-xs sm:text-sm text-[#4a4542] font-light">
                 Select the primary atmosphere you need to replenish your mind and spirit.
               </p>
             </div>
@@ -146,16 +142,16 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                   onClick={() => setSelectedMood(m.id)}
                   className={`p-4 rounded-2xl text-left border transition-all ${
                     selectedMood === m.id
-                      ? 'bg-[#2d2927] border-[#9EB094] text-[#e8e1de] shadow-md'
-                      : 'bg-[#151311] border-[#2d2927] text-[#cfc4c6] hover:border-[#383432]'
+                      ? 'bg-[#8c956a] text-white border-[#8c956a] shadow-xs'
+                      : 'bg-[#f8f6f1] border-[#2b2728]/10 text-[#2b2728] hover:border-[#8c956a]/40'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-xl">{m.icon}</span>
-                    {selectedMood === m.id && <Check className="w-4 h-4 text-[#9EB094]" />}
+                    {selectedMood === m.id && <Check className="w-4 h-4 text-white" />}
                   </div>
-                  <div className="font-medium text-sm text-[#e8e1de]">{m.label}</div>
-                  <div className="text-xs text-[#cfc4c6]/70 mt-1 font-light leading-relaxed">{m.desc}</div>
+                  <div className={`font-medium text-sm ${selectedMood === m.id ? 'text-white' : 'text-[#2b2728]'}`}>{m.label}</div>
+                  <div className={`text-xs mt-1 font-light leading-relaxed ${selectedMood === m.id ? 'text-white/90' : 'text-[#4a4542]'}`}>{m.desc}</div>
                 </button>
               ))}
             </div>
@@ -164,7 +160,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
               <button
                 id="quiz-step1-next"
                 onClick={() => setStep(2)}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9EB094] text-[#100e0c] font-medium text-xs tracking-wider uppercase shadow-md hover:bg-[#b0c2a5] transition-all"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#8c956a] text-white font-medium text-xs tracking-wider uppercase shadow-sm hover:bg-[#7a835a] transition-all"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
@@ -182,10 +178,10 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
             className="space-y-6"
           >
             <div>
-              <h3 className="font-ebGaramond text-2xl sm:text-3xl text-[#e8e1de] mb-2">
+              <h3 className="font-fraunces text-2xl sm:text-3xl text-[#2b2728] mb-2">
                 How many days can you dedicate?
               </h3>
-              <p className="text-xs sm:text-sm text-[#cfc4c6] font-light">
+              <p className="text-xs sm:text-sm text-[#4a4542] font-light">
                 We balance travel transit times so your journey feels restorative, never rushed.
               </p>
             </div>
@@ -198,12 +194,12 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                   onClick={() => setSelectedDuration(d.id)}
                   className={`p-4 rounded-2xl text-left border transition-all flex items-center justify-between ${
                     selectedDuration === d.id
-                      ? 'bg-[#2d2927] border-[#9EB094] text-[#e8e1de] shadow-md'
-                      : 'bg-[#151311] border-[#2d2927] text-[#cfc4c6] hover:border-[#383432]'
+                      ? 'bg-[#8c956a] text-white border-[#8c956a] shadow-xs'
+                      : 'bg-[#f8f6f1] border-[#2b2728]/10 text-[#2b2728] hover:border-[#8c956a]/40'
                   }`}
                 >
-                  <div className="font-medium text-sm text-[#e8e1de]">{d.label}</div>
-                  {selectedDuration === d.id && <Check className="w-4 h-4 text-[#9EB094]" />}
+                  <div className={`font-medium text-sm ${selectedDuration === d.id ? 'text-white' : 'text-[#2b2728]'}`}>{d.label}</div>
+                  {selectedDuration === d.id && <Check className="w-4 h-4 text-white" />}
                 </button>
               ))}
             </div>
@@ -212,14 +208,14 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
               <button
                 id="quiz-step2-back"
                 onClick={() => setStep(1)}
-                className="px-5 py-2 rounded-full border border-[#383432] text-xs text-[#cfc4c6] hover:text-[#e8e1de] transition-colors"
+                className="px-5 py-2 rounded-full border border-[#2b2728]/15 text-xs text-[#4a4542] hover:text-[#2b2728] transition-colors"
               >
                 Back
               </button>
               <button
                 id="quiz-step2-next"
                 onClick={() => setStep(3)}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9EB094] text-[#100e0c] font-medium text-xs tracking-wider uppercase shadow-md hover:bg-[#b0c2a5] transition-all"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#8c956a] text-white font-medium text-xs tracking-wider uppercase shadow-sm hover:bg-[#7a835a] transition-all"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
@@ -237,10 +233,10 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
             className="space-y-6"
           >
             <div>
-              <h3 className="font-ebGaramond text-2xl sm:text-3xl text-[#e8e1de] mb-2">
+              <h3 className="font-fraunces text-2xl sm:text-3xl text-[#2b2728] mb-2">
                 What budget spectrum feels most comfortable?
               </h3>
-              <p className="text-xs sm:text-sm text-[#cfc4c6] font-light">
+              <p className="text-xs sm:text-sm text-[#4a4542] font-light">
                 Estimated per person inclusive of lodging, regional food, and local transit.
               </p>
             </div>
@@ -253,15 +249,15 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                   onClick={() => setSelectedBudget(b.id)}
                   className={`p-4 rounded-2xl text-left border transition-all ${
                     selectedBudget === b.id
-                      ? 'bg-[#2d2927] border-[#9EB094] text-[#e8e1de] shadow-md'
-                      : 'bg-[#151311] border-[#2d2927] text-[#cfc4c6] hover:border-[#383432]'
+                      ? 'bg-[#8c956a] text-white border-[#8c956a] shadow-xs'
+                      : 'bg-[#f8f6f1] border-[#2b2728]/10 text-[#2b2728] hover:border-[#8c956a]/40'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="font-medium text-sm text-[#e8e1de]">{b.label}</div>
-                    {selectedBudget === b.id && <Check className="w-4 h-4 text-[#9EB094]" />}
+                    <div className={`font-medium text-sm ${selectedBudget === b.id ? 'text-white' : 'text-[#2b2728]'}`}>{b.label}</div>
+                    {selectedBudget === b.id && <Check className="w-4 h-4 text-white" />}
                   </div>
-                  <div className="text-xs text-[#cfc4c6]/70 mt-1">{b.desc}</div>
+                  <div className={`text-xs mt-1 ${selectedBudget === b.id ? 'text-white/90' : 'text-[#4a4542]'}`}>{b.desc}</div>
                 </button>
               ))}
             </div>
@@ -270,14 +266,14 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
               <button
                 id="quiz-step3-back"
                 onClick={() => setStep(2)}
-                className="px-5 py-2 rounded-full border border-[#383432] text-xs text-[#cfc4c6] hover:text-[#e8e1de] transition-colors"
+                className="px-5 py-2 rounded-full border border-[#2b2728]/15 text-xs text-[#4a4542] hover:text-[#2b2728] transition-colors"
               >
                 Back
               </button>
               <button
                 id="quiz-step3-reveal"
                 onClick={() => setStep(4)}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#9EB094] text-[#100e0c] font-medium text-xs tracking-wider uppercase shadow-md hover:bg-[#b0c2a5] transition-all"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#8c956a] text-white font-medium text-xs tracking-wider uppercase shadow-sm hover:bg-[#7a835a] transition-all"
               >
                 <Sparkles className="w-4 h-4" />
                 <span>Reveal Matched Sanctuary</span>
@@ -293,23 +289,23 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
             animate={{ opacity: 1, scale: 1 }}
             className="space-y-6 text-center sm:text-left"
           >
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-[#2d2927]">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-[#2b2728]/10">
               <div>
-                <span className="font-mono-code text-[11px] text-[#9EB094] uppercase tracking-widest block mb-1">
+                <span className="font-mono-code text-[11px] text-[#8c956a] uppercase tracking-widest block mb-1 font-semibold">
                   Voyage Algorithm Recommendation
                 </span>
-                <h3 className="font-ebGaramond text-3xl sm:text-4xl text-[#e8e1de]">
-                  Your Sanctuary is <span className="text-[#9EB094]">{result.destination.name}</span>
+                <h3 className="font-fraunces text-3xl sm:text-4xl text-[#2b2728]">
+                  Your Sanctuary is <span className="text-[#8c956a]">{result.destination.name}</span>
                 </h3>
               </div>
-              <div className="px-4 py-2 rounded-2xl bg-[#151311] border border-[#383432] font-mono-code text-xs text-[#9EB094]">
+              <div className="px-4 py-2 rounded-2xl bg-[#f8f6f1] border border-[#8c956a]/30 font-mono-code text-xs text-[#8c956a] font-bold">
                 Match Score: {result.score}%
               </div>
             </div>
 
             {/* Destination Preview Card */}
-            <div className="grid sm:grid-cols-2 gap-6 bg-[#151311] rounded-2xl p-5 border border-[#2d2927]">
-              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-[#100e0c]">
+            <div className="grid sm:grid-cols-2 gap-6 bg-[#f8f6f1] rounded-2xl p-5 border border-[#2b2728]/10 shadow-xs">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-white">
                 <img
                   src={result.destination.heroImage}
                   alt={result.destination.name}
@@ -319,22 +315,22 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
 
               <div className="flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-mono-code text-[#cfc4c6]">
-                    <MapPin className="w-3.5 h-3.5 text-[#9EB094]" />
+                  <div className="flex items-center gap-2 text-xs font-mono-code text-[#4a4542]">
+                    <MapPin className="w-3.5 h-3.5 text-[#8c956a]" />
                     <span>{result.destination.state ? `${result.destination.state}, ` : ''}{result.destination.country}</span>
                   </div>
-                  <p className="font-ebGaramond text-lg text-[#e8e1de] leading-snug">
+                  <p className="font-fraunces text-lg text-[#2b2728] leading-snug">
                     "{result.destination.shortDescription}"
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <span className="text-xs font-mono-code text-[#9EB094] uppercase tracking-wider block">
+                  <span className="text-xs font-mono-code text-[#8c956a] uppercase tracking-wider block font-semibold">
                     Why this matches you:
                   </span>
-                  <ul className="text-xs text-[#cfc4c6] space-y-1.5 list-disc list-inside">
+                  <ul className="text-xs text-[#4a4542] space-y-1.5 list-disc list-inside font-light">
                     {result.reasons.map((r, i) => (
-                      <li key={i} dangerouslySetInnerHTML={{ __html: r.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                      <li key={i} dangerouslySetInnerHTML={{ __html: r.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-[#2b2728]">$1</strong>') }} />
                     ))}
                   </ul>
                 </div>
@@ -343,7 +339,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                   <button
                     id="quiz-view-sanctuary-btn"
                     onClick={() => onSelectDestination(result.destination)}
-                    className="flex-1 py-2.5 px-4 rounded-xl bg-[#9EB094] hover:bg-[#b0c2a5] text-[#100e0c] font-medium text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2"
+                    className="flex-1 py-2.5 px-4 rounded-xl bg-[#8c956a] hover:bg-[#7a835a] text-white font-medium text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 shadow-xs"
                   >
                     <span>View Sanctuary Dossier</span>
                     <ArrowRight className="w-4 h-4" />
@@ -351,7 +347,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                   <button
                     id="quiz-restart-btn"
                     onClick={handleReset}
-                    className="p-2.5 rounded-xl bg-[#221f1d] hover:bg-[#2d2927] border border-[#383432] text-[#cfc4c6] hover:text-[#e8e1de] transition-colors"
+                    className="p-2.5 rounded-xl bg-white border border-[#2b2728]/15 text-[#4a4542] hover:text-[#2b2728] transition-colors"
                     title="Retake Quiz"
                   >
                     <RotateCcw className="w-4 h-4" />

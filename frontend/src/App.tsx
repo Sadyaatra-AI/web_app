@@ -134,7 +134,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#151311] text-[#e8e1de] font-jost flex flex-col selection:bg-[#8c956a] selection:text-[#f8f6f1]">
+    <div className="min-h-screen bg-[#f8f6f1] text-[#2b2728] font-jost flex flex-col selection:bg-[#8c956a] selection:text-[#ffffff]">
       {/* Atmosphere preloader */}
       {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
 
@@ -188,10 +188,10 @@ export function App() {
             {/* 4. MAIN SANCTUARY CATALOGUE & FILTERS */}
             <div ref={catalogRef} id="sanctuary-catalog-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
               <div className="mb-6">
-                <span className="font-mono-code text-xs text-[#9EB094] uppercase tracking-widest block mb-1">
+                <span className="font-mono-code text-xs text-[#8c956a] uppercase tracking-widest block mb-1">
                   Full Curated Collection
                 </span>
-                <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#e8e1de]">
+                <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#2b2728]">
                   Explore Sanctuaries & Solitary Havens
                 </h2>
               </div>
@@ -203,12 +203,12 @@ export function App() {
               />
 
               {filteredDestinations.length === 0 ? (
-                <div className="text-center py-24 bg-[#1e1b19] border border-[#2d2927] rounded-3xl p-8 space-y-4">
-                  <div className="w-12 h-12 rounded-full bg-[#151311] border border-[#383432] flex items-center justify-center mx-auto text-[#9EB094]">
+                <div className="text-center py-24 bg-white border border-[#2b2728]/10 rounded-3xl p-8 space-y-4 shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-[#f8f6f1] border border-[#8c956a]/30 flex items-center justify-center mx-auto text-[#8c956a]">
                     <Search className="w-6 h-6" />
                   </div>
-                  <h3 className="font-ebGaramond text-2xl text-[#e8e1de]">No sanctuaries match your criteria</h3>
-                  <p className="text-xs sm:text-sm text-[#cfc4c6] max-w-md mx-auto">
+                  <h3 className="font-ebGaramond text-2xl text-[#2b2728]">No sanctuaries match your criteria</h3>
+                  <p className="text-xs sm:text-sm text-[#4a4542] max-w-md mx-auto">
                     Try loosening your filters or resetting your mood preferences to view our catalog.
                   </p>
                   <button
@@ -223,7 +223,7 @@ export function App() {
                         sortBy: 'recommended',
                       })
                     }
-                    className="px-5 py-2 rounded-full bg-[#9EB094] text-[#100e0c] font-medium text-xs uppercase tracking-wider"
+                    className="px-5 py-2 rounded-full bg-[#8c956a] hover:bg-[#7a835a] text-white font-medium text-xs uppercase tracking-wider transition-colors shadow-sm"
                   >
                     Reset Filters
                   </button>
@@ -259,29 +259,29 @@ export function App() {
         {/* TAB 3: SAVED SANCTUARIES */}
         {activeTab === 'saved' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-            <div className="border-b border-[#2d2927] pb-6 flex items-baseline justify-between">
+            <div className="border-b border-[#2b2728]/10 pb-6 flex items-baseline justify-between">
               <div>
-                <span className="font-mono-code text-[11px] text-[#9EB094] uppercase tracking-widest block mb-1">
+                <span className="font-mono-code text-[11px] text-[#8c956a] uppercase tracking-widest block mb-1">
                   Private Curations
                 </span>
-                <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#e8e1de]">
+                <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#2b2728]">
                   Your Saved Sanctuaries ({savedIds.length})
                 </h2>
               </div>
             </div>
 
             {filteredDestinations.length === 0 ? (
-              <div className="text-center py-24 bg-[#1e1b19] border border-[#2d2927] rounded-3xl p-8 space-y-4">
-                <div className="w-12 h-12 rounded-full bg-[#151311] border border-[#383432] flex items-center justify-center mx-auto text-[#c2cb9c]">
+              <div className="text-center py-24 bg-white border border-[#2b2728]/10 rounded-3xl p-8 space-y-4 shadow-sm">
+                <div className="w-12 h-12 rounded-full bg-[#f8f6f1] border border-[#8c956a]/30 flex items-center justify-center mx-auto text-[#8c956a]">
                   <Heart className="w-6 h-6" />
                 </div>
-                <h3 className="font-ebGaramond text-2xl text-[#e8e1de]">No saved sanctuaries yet</h3>
-                <p className="text-xs sm:text-sm text-[#cfc4c6] max-w-md mx-auto">
+                <h3 className="font-ebGaramond text-2xl text-[#2b2728]">No saved sanctuaries yet</h3>
+                <p className="text-xs sm:text-sm text-[#4a4542] max-w-md mx-auto">
                   Explore our curated catalogue and click the heart icon to save your favorite destinations for future journeys.
                 </p>
                 <button
                   onClick={() => setActiveTab('explore')}
-                  className="px-5 py-2 rounded-full bg-[#9EB094] text-[#100e0c] font-medium text-xs uppercase tracking-wider"
+                  className="px-5 py-2 rounded-full bg-[#8c956a] hover:bg-[#7a835a] text-white font-medium text-xs uppercase tracking-wider transition-colors shadow-sm"
                 >
                   Explore Sanctuaries
                 </button>
@@ -326,7 +326,7 @@ export function App() {
       <button
         id="floating-ai-companion-btn"
         onClick={() => handleOpenAIChat()}
-        className="fixed bottom-6 right-6 z-40 bg-[#8c956a] hover:bg-[#9eb094] text-[#f8f6f1] p-3.5 sm:px-5 sm:py-3 rounded-full shadow-2xl flex items-center gap-2.5 font-medium text-xs tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95 group"
+        className="fixed bottom-6 right-6 z-40 bg-[#8c956a] hover:bg-[#7a835a] text-white p-3.5 sm:px-5 sm:py-3 rounded-full shadow-lg flex items-center gap-2.5 font-medium text-xs tracking-wider uppercase transition-all duration-300 hover:scale-105 active:scale-95 group"
         title="Open AI Travel Companion"
       >
         <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />

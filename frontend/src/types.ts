@@ -72,6 +72,8 @@ export interface Destination {
   coordinates?: { lat: number; lng: number; formatted: string };
   elevation?: string;
   curatorNotes?: string;
+  poeticTagline?: string;
+  featureTags?: string[];
   shortDescription: string;
   fullDescription: string;
   destinationTypes: DestinationType[];

@@ -60,18 +60,18 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
   };
 
   return (
-    <section id="curated-carousel-section" className="py-16 bg-[#131110] border-y border-[#252220] overflow-hidden">
+    <section id="curated-carousel-section" className="py-16 bg-[#f8f6f1] border-y border-[#2b2728]/10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
         {/* Editorial Heading */}
         <div className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-mono-code text-[#9EB094] uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-xs font-mono-code text-[#8c956a] uppercase tracking-widest font-medium">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Curated Sanctuary Marquee</span>
           </div>
-          <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#e8e1de] font-normal">
+          <h2 className="font-fraunces text-3xl sm:text-4xl text-[#2b2728] font-normal">
             Highlighted Vistas & Quiet Escapes
           </h2>
-          <p className="text-xs sm:text-sm text-[#cfc4c6] max-w-lg font-light">
+          <p className="text-xs sm:text-sm text-[#4a4542] max-w-lg font-light">
             Continuous showcase of hand-selected retreats across the Indian subcontinent and sacred international sanctuaries.
           </p>
         </div>
@@ -79,14 +79,14 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
         {/* Carousel Control Bar */}
         <div className="flex flex-wrap items-center gap-3">
           {/* Category Filter Chips */}
-          <div className="flex items-center gap-1.5 bg-[#1a1816] p-1 rounded-full border border-[#2d2927]">
+          <div className="flex items-center gap-1.5 bg-white p-1 rounded-full border border-[#2b2728]/10 shadow-sm">
             {['All', 'Mountains', 'Beach', 'Spiritual', 'Heritage'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${activeCategory === cat
-                  ? 'bg-[#9EB094] text-[#100e0c] font-semibold'
-                  : 'text-[#cfc4c6] hover:text-[#e8e1de]'
+                  ? 'bg-[#8c956a] text-white font-semibold'
+                  : 'text-[#4a4542] hover:text-[#2b2728]'
                   }`}
               >
                 {cat}
@@ -94,32 +94,30 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
             ))}
           </div>
 
-          {/* Play/Pause & Speed */}
-          <div className="flex items-center gap-1.5 bg-[#1a1816] p-1 rounded-full border border-[#2d2927]">
+          {/* Play/Pause */}
+          <div className="flex items-center gap-1.5 bg-white p-1 rounded-full border border-[#2b2728]/10 shadow-sm">
             <button
               id="carousel-play-pause-btn"
               onClick={() => setIsPlaying((p) => !p)}
-              className="w-7 h-7 rounded-full bg-[#252220] flex items-center justify-center text-[#e8e1de] hover:text-[#9EB094] transition-colors"
+              className="w-7 h-7 rounded-full bg-[#f8f6f1] flex items-center justify-center text-[#2b2728] hover:text-[#8c956a] transition-colors"
               title={isPlaying ? 'Pause Marquee' : 'Play Marquee'}
             >
               {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             </button>
-
-
           </div>
 
           {/* Navigation Arrows */}
           <div className="flex items-center gap-1">
             <button
               onClick={() => handleManualScroll('left')}
-              className="w-8 h-8 rounded-full bg-[#1e1b19] border border-[#2d2927] flex items-center justify-center text-[#cfc4c6] hover:text-[#e8e1de] hover:border-[#383432] transition-colors"
+              className="w-8 h-8 rounded-full bg-white border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
               title="Scroll left"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => handleManualScroll('right')}
-              className="w-8 h-8 rounded-full bg-[#1e1b19] border border-[#2d2927] flex items-center justify-center text-[#cfc4c6] hover:text-[#e8e1de] hover:border-[#383432] transition-colors"
+              className="w-8 h-8 rounded-full bg-white border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
               title="Scroll right"
             >
               <ChevronRight className="w-4 h-4" />
@@ -140,33 +138,33 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
           <div
             key={`${dest.id}-${idx}`}
             onClick={() => onSelectDestination(dest)}
-            className="group relative flex-shrink-0 w-[300px] sm:w-[340px] bg-[#1a1816] rounded-2xl overflow-hidden border border-[#2d2927] hover:border-[#9EB094]/60 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-black/60 cursor-pointer"
+            className="group relative flex-shrink-0 w-[300px] sm:w-[340px] bg-white rounded-3xl overflow-hidden border border-[#2b2728]/10 hover:border-[#8c956a] transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#2b2728]/5 cursor-pointer"
           >
             {/* Image Container */}
-            <div className="relative aspect-[4/3] overflow-hidden bg-[#100e0c]">
+            <div className="relative aspect-[4/3] overflow-hidden bg-[#f8f6f1]">
               <img
                 src={dest.heroImage}
                 alt={dest.name}
                 className="w-full h-full object-cover img-zoom transition-transform duration-700 group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1a1816] via-[#1a1816]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
               {/* Tag & Match Score */}
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-full bg-[#100e0c]/80 backdrop-blur-md border border-[#383432] text-[10px] font-mono-code text-[#9EB094] uppercase tracking-wider">
+                <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#2b2728]/10 text-[10px] font-mono-code text-[#8c956a] font-semibold uppercase tracking-wider shadow-sm">
                   {dest.tag}
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-[#100e0c]/80 backdrop-blur-md border border-[#383432] text-[10px] font-mono-code text-[#e8e1de] flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-[#9EB094]" />
+                <span className="px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-md border border-[#8c956a]/40 text-[10px] font-mono-code text-[#2b2728] font-semibold flex items-center gap-1 shadow-sm">
+                  <Sparkles className="w-3 h-3 text-[#8c956a]" />
                   {dest.matchScore}%
                 </span>
               </div>
 
-              {/* Coordinates & Elevation */}
+              {/* Coordinates */}
               {dest.coordinates && (
-                <div className="absolute bottom-3 left-3 text-[10px] font-mono-code text-[#cfc4c6]/80 bg-[#100e0c]/80 px-2.5 py-1 rounded-full border border-[#383432] flex items-center gap-1.5">
-                  <MapPin className="w-3 h-3 text-[#9EB094]" />
+                <div className="absolute bottom-3 left-3 text-[10px] font-mono-code text-white bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
+                  <MapPin className="w-3 h-3 text-[#c6cab2]" />
                   <span>{dest.coordinates.formatted}</span>
                 </div>
               )}
@@ -175,21 +173,21 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
             {/* Body Info */}
             <div className="p-5 space-y-3">
               <div className="flex items-baseline justify-between">
-                <h3 className="font-ebGaramond text-2xl text-[#e8e1de] group-hover:text-[#9EB094] transition-colors">
+                <h3 className="font-fraunces text-2xl text-[#2b2728] group-hover:text-[#8c956a] transition-colors">
                   {dest.name}
                 </h3>
-                <span className="text-[11px] font-mono-code text-[#cfc4c6]/60 uppercase">
+                <span className="text-[11px] font-mono-code text-[#4a4542] uppercase">
                   {dest.state || dest.country}
                 </span>
               </div>
 
-              <p className="text-xs text-[#cfc4c6] line-clamp-2 leading-relaxed font-light">
+              <p className="text-xs text-[#4a4542] line-clamp-2 leading-relaxed font-light">
                 {dest.shortDescription}
               </p>
 
-              <div className="pt-3 border-t border-[#2d2927] flex items-center justify-between text-xs font-mono-code text-[#cfc4c6]/80">
+              <div className="pt-3 border-t border-[#2b2728]/10 flex items-center justify-between text-xs font-mono-code text-[#4a4542]">
                 <span>{dest.idealDuration}</span>
-                <div className="flex items-center gap-1 text-[#9EB094] group-hover:translate-x-1 transition-transform">
+                <div className="flex items-center gap-1 text-[#8c956a] font-semibold group-hover:translate-x-1 transition-transform">
                   <span>Explore Dossier</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>

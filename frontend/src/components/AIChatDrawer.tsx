@@ -4,14 +4,12 @@ import {
   Sparkles,
   X,
   Send,
-  Bot,
   User,
   RotateCcw,
   Copy,
   Check,
   MapPin,
   Compass,
-  ArrowRight
 } from 'lucide-react';
 import { Destination, ChatMessage } from '../types';
 
@@ -40,8 +38,8 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
       id: 'welcome',
       sender: 'assistant',
       text: activeDestination
-        ? `Greetings. I am your **Sadyaatra Curator** for **${activeDestination.name}**. How may I refine your journey today? You can ask for a day-by-day quiet itinerary, hidden spots, or local food recommendations.`
-        : `Greetings traveler. I am the **Sadyaatra AI Companion**. Tell me what kind of journey you dream of, or ask me for personalized recommendations across our sanctuaries.`,
+        ? `Greetings. I am your **Sadhyatra Companion** for **${activeDestination.name}**. How may I refine your journey today? Ask for places to visit, hidden spots, or local food recommendations.`
+        : `Greetings traveler. I am the **Sadhyatra AI Companion**. Tell me what kind of journey you dream of, or ask me for personalized recommendations across our sanctuaries.`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -58,14 +56,12 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
     }
   }, [messages, isOpen]);
 
-  // Update selected destination when activeDestination changes
   useEffect(() => {
     if (activeDestination) {
       setSelectedDestId(activeDestination.id);
     }
   }, [activeDestination]);
 
-  // Handle initial prompt if passed from outside
   useEffect(() => {
     if (initialPrompt && isOpen) {
       setInputMessage(initialPrompt);
@@ -142,16 +138,13 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
   };
 
   const formatText = (content: string) => {
-    // Render basic markdown formatting
     return content.split('\n').map((line, idx) => {
-      // Bold
-      let formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#e8e1de] font-semibold">$1</strong>');
-      // Bullet points
+      let formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>');
       if (line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')) {
         return (
           <p
             key={idx}
-            className="pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-[#9EB094] text-xs sm:text-sm text-[#cfc4c6] my-1"
+            className="pl-4 relative before:content-['•'] before:absolute before:left-0 text-xs sm:text-sm my-1"
             dangerouslySetInnerHTML={{ __html: formatted.replace(/^[\s•\-\*]+/, '') }}
           />
         );
@@ -159,7 +152,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
       return (
         <p
           key={idx}
-          className="text-xs sm:text-sm text-[#cfc4c6] my-1.5 leading-relaxed"
+          className="text-xs sm:text-sm my-1.5 leading-relaxed"
           dangerouslySetInnerHTML={{ __html: formatted }}
         />
       );
@@ -171,9 +164,9 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
   const SUGGESTIONS = currentDestObj
     ? currentDestObj.defaultPrompts
     : [
-        'Recommend 3 quiet destinations for solo reflection in India.',
-        'What is the ideal 4-day budget itinerary for Gokarna?',
-        'Best season and packing advice for Spiti Valley?',
+        'Recommend quiet destinations for solo reflection in India.',
+        'What are the best places to visit in Pachmarhi?',
+        'Best season and packing advice for Satpura mountain trips?',
       ];
 
   if (!isOpen) return null;
@@ -182,7 +175,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
     <AnimatePresence>
       <div
         id="ai-chat-drawer-overlay"
-        className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end"
+        className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex justify-end"
         onClick={onClose}
       >
         <motion.div
@@ -192,17 +185,17 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           exit={{ x: '100%' }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-md h-full bg-[#151311] border-l border-[#2d2927] flex flex-col justify-between shadow-2xl text-[#e8e1de]"
+          className="w-full max-w-md h-full bg-[#f8f6f1] border-l border-[#2b2728]/10 flex flex-col justify-between shadow-2xl text-[#2b2728]"
         >
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-[#2d2927] bg-[#151311]/90 backdrop-blur-md flex items-center justify-between">
+          <div className="p-4 sm:p-5 border-b border-[#2b2728]/10 bg-white flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-[#1e1b19] border border-[#383432] flex items-center justify-center text-[#9EB094]">
+              <div className="w-9 h-9 rounded-full bg-[#8c956a] text-white flex items-center justify-center shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <h3 className="font-ebGaramond text-xl text-[#e8e1de]">Sadyaatra AI Curator</h3>
-                <span className="font-mono-code text-[10px] text-[#9EB094] uppercase tracking-wider">
+                <h3 className="font-fraunces text-xl text-[#2b2728] font-medium">Sadhyatra Companion</h3>
+                <span className="font-mono-code text-[10px] text-[#8c956a] uppercase tracking-wider font-semibold">
                   Mindful Travel Intelligence
                 </span>
               </div>
@@ -212,7 +205,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
               <button
                 id="ai-chat-clear-btn"
                 onClick={handleClear}
-                className="w-8 h-8 rounded-full bg-[#1e1b19] border border-[#2d2927] flex items-center justify-center text-[#cfc4c6] hover:text-[#e8e1de] transition-colors"
+                className="w-8 h-8 rounded-full bg-[#f8f6f1] border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] transition-colors"
                 title="Reset conversation"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -220,7 +213,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
               <button
                 id="ai-chat-close-btn"
                 onClick={onClose}
-                className="w-8 h-8 rounded-full bg-[#1e1b19] border border-[#2d2927] flex items-center justify-center text-[#cfc4c6] hover:text-[#e8e1de] transition-colors"
+                className="w-8 h-8 rounded-full bg-[#f8f6f1] border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] transition-colors"
                 title="Close drawer"
               >
                 <X className="w-4 h-4" />
@@ -229,14 +222,14 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           </div>
 
           {/* Context Selector */}
-          <div className="px-5 py-2.5 bg-[#1a1816] border-b border-[#2d2927] flex items-center gap-2 text-xs">
-            <MapPin className="w-3.5 h-3.5 text-[#9EB094] shrink-0" />
-            <span className="font-mono-code text-[#cfc4c6]/70">Context:</span>
+          <div className="px-5 py-2.5 bg-white border-b border-[#2b2728]/10 flex items-center gap-2 text-xs">
+            <MapPin className="w-3.5 h-3.5 text-[#8c956a] shrink-0" />
+            <span className="font-mono-code text-[#4a4542] font-medium">Context:</span>
             <select
               id="ai-destination-context-select"
               value={selectedDestId}
               onChange={(e) => setSelectedDestId(e.target.value)}
-              className="bg-[#151311] border border-[#2d2927] rounded-lg px-2 py-1 text-xs text-[#e8e1de] outline-none focus:border-[#9EB094]"
+              className="bg-[#f8f6f1] border border-[#2b2728]/10 rounded-lg px-2 py-1 text-xs text-[#2b2728] outline-none focus:border-[#8c956a]"
             >
               <option value="all">All Sanctuaries & General Advice</option>
               {destinations.map((d) => (
@@ -255,29 +248,29 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                 className={`flex gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.sender === 'assistant' && (
-                  <div className="w-7 h-7 rounded-full bg-[#1e1b19] border border-[#383432] flex items-center justify-center text-[#9EB094] shrink-0 mt-0.5">
+                  <div className="w-7 h-7 rounded-full bg-[#8c956a] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
                     <Compass className="w-3.5 h-3.5" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[85%] rounded-2xl p-4 space-y-2 relative group ${
+                  className={`max-w-[85%] rounded-2xl p-4 space-y-2 relative group shadow-2xs ${
                     msg.sender === 'user'
-                      ? 'bg-[#2d2927] text-[#e8e1de] rounded-tr-none border border-[#383432]'
-                      : 'bg-[#1e1b19] text-[#cfc4c6] rounded-tl-none border border-[#2d2927]'
+                      ? 'bg-[#8c956a] text-white rounded-tr-none'
+                      : 'bg-white text-[#2b2728] border border-[#2b2728]/10 rounded-tl-none'
                   }`}
                 >
                   <div className="break-words">{formatText(msg.text)}</div>
 
-                  <div className="flex items-center justify-between pt-1 text-[10px] font-mono-code text-[#cfc4c6]/50">
+                  <div className="flex items-center justify-between pt-1 text-[10px] font-mono-code opacity-60">
                     <span>{msg.timestamp}</span>
                     {msg.sender === 'assistant' && (
                       <button
                         onClick={() => handleCopy(msg.id, msg.text)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 hover:text-[#e8e1de]"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 hover:underline"
                       >
                         {copiedId === msg.id ? (
-                          <Check className="w-3 h-3 text-[#9EB094]" />
+                          <Check className="w-3 h-3 text-[#8c956a]" />
                         ) : (
                           <Copy className="w-3 h-3" />
                         )}
@@ -288,7 +281,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                 </div>
 
                 {msg.sender === 'user' && (
-                  <div className="w-7 h-7 rounded-full bg-[#2d2927] border border-[#4c4547] flex items-center justify-center text-[#e8e1de] shrink-0 mt-0.5">
+                  <div className="w-7 h-7 rounded-full bg-[#2b2728] text-white flex items-center justify-center shrink-0 mt-0.5">
                     <User className="w-3.5 h-3.5" />
                   </div>
                 )}
@@ -297,11 +290,11 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
 
             {isLoading && (
               <div className="flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-[#1e1b19] border border-[#383432] flex items-center justify-center text-[#9EB094] shrink-0">
+                <div className="w-7 h-7 rounded-full bg-[#8c956a] text-white flex items-center justify-center shrink-0">
                   <Compass className="w-3.5 h-3.5 animate-spin" />
                 </div>
-                <div className="bg-[#1e1b19] border border-[#2d2927] px-4 py-3 rounded-2xl rounded-tl-none text-xs text-[#cfc4c6] flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#9EB094] animate-ping" />
+                <div className="bg-white border border-[#2b2728]/10 px-4 py-3 rounded-2xl rounded-tl-none text-xs text-[#4a4542] flex items-center gap-2 shadow-2xs">
+                  <span className="w-2 h-2 rounded-full bg-[#8c956a] animate-ping" />
                   <span>Curating insights from sanctuary archives...</span>
                 </div>
               </div>
@@ -311,8 +304,8 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           </div>
 
           {/* Quick Suggestion Pills */}
-          <div className="p-3 bg-[#181513] border-t border-[#2d2927] space-y-2">
-            <div className="text-[10px] font-mono-code text-[#cfc4c6]/60 uppercase tracking-wider">
+          <div className="p-3 bg-white border-t border-[#2b2728]/10 space-y-2">
+            <div className="text-[10px] font-mono-code text-[#4a4542] uppercase tracking-wider font-semibold">
               Suggested Explorations
             </div>
             <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
@@ -321,9 +314,9 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                   key={idx}
                   id={`drawer-prompt-pill-${idx}`}
                   onClick={() => handleSendMessage(prompt)}
-                  className="whitespace-nowrap px-3 py-1.5 rounded-full bg-[#1e1b19] hover:bg-[#2d2927] border border-[#2d2927] text-xs text-[#cfc4c6] hover:text-[#e8e1de] transition-colors shrink-0 flex items-center gap-1.5"
+                  className="whitespace-nowrap px-3 py-1.5 rounded-full bg-[#f8f6f1] hover:bg-[#8c956a] hover:text-white border border-[#2b2728]/10 text-xs text-[#4a4542] transition-colors shrink-0 flex items-center gap-1.5 font-medium"
                 >
-                  <Sparkles className="w-3 h-3 text-[#9EB094]" />
+                  <Sparkles className="w-3 h-3 text-[#8c956a]" />
                   <span>{prompt}</span>
                 </button>
               ))}
@@ -331,13 +324,13 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           </div>
 
           {/* Input Footer */}
-          <div className="p-4 bg-[#151311] border-t border-[#2d2927]">
+          <div className="p-4 bg-white border-t border-[#2b2728]/10">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="flex items-center gap-2 bg-[#1e1b19] border border-[#2d2927] focus-within:border-[#9EB094] rounded-full p-1.5 pl-4 transition-all"
+              className="flex items-center gap-2 bg-[#f8f6f1] border border-[#2b2728]/10 focus-within:border-[#8c956a] rounded-full p-1.5 pl-4 transition-all"
             >
               <input
                 id="ai-chat-input"
@@ -349,13 +342,13 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                 }
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 bg-transparent text-xs sm:text-sm text-[#e8e1de] placeholder-[#cfc4c6]/50 outline-none"
+                className="flex-1 bg-transparent text-xs sm:text-sm text-[#2b2728] placeholder-[#4a4542]/50 outline-none"
               />
               <button
                 id="ai-chat-send-btn"
                 type="submit"
                 disabled={!inputMessage.trim() || isLoading}
-                className="w-9 h-9 rounded-full bg-[#9EB094] hover:bg-[#b0c2a5] disabled:opacity-40 disabled:hover:bg-[#9EB094] text-[#100e0c] flex items-center justify-center transition-all shrink-0"
+                className="w-9 h-9 rounded-full bg-[#8c956a] hover:bg-[#7a835a] disabled:opacity-40 text-white flex items-center justify-center transition-all shrink-0 shadow-xs"
               >
                 <Send className="w-4 h-4" />
               </button>
