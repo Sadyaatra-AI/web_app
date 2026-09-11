@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
 import { Compass, MapPin, ArrowRight, Volume2, VolumeX } from 'lucide-react';
 import { Region } from '../types';
 
@@ -21,6 +21,68 @@ const QUICK_MOODS = [
   { label: 'Heritage', icon: '🏛️' },
   { label: 'Adventure', icon: '🧗' },
 ];
+
+// ── Parallax sub-components (each owns its own useTransform calls) ─────────
+
+const FrontMountain: React.FC<{ scrollYProgress: MotionValue<number>; bgBrightness: MotionValue<number> }> = ({
+  scrollYProgress,
+  bgBrightness,
+}) => {
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '12%']);
+  return (
+    <motion.img
+      src="/images/hero/front-mountain.png"
+      alt=""
+      className="absolute inset-0 w-full h-full object-cover object-[60%_bottom] scale-[1.06]"
+      style={{ y, filter: `brightness(${bgBrightness}) saturate(1.1)` } as React.CSSProperties}
+    />
+  );
+};
+
+const MistLayer: React.FC<{ scrollYProgress: MotionValue<number> }> = ({ scrollYProgress }) => {
+  const yMistLeft = useTransform(scrollYProgress, [0, 1], ['0%', '-6%']);
+  const yMistRight = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
+  return (
+    <>
+      {/* Left mist panel */}
+      <motion.img
+        src="/images/hero/mist-left.png"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover object-left-center scale-[1.1]"
+        style={{ y: yMistLeft, opacity: 0.72 } as React.CSSProperties}
+      />
+      {/* Heavy cloud/mist crossing between layers – screen blend */}
+      <motion.img
+        src="/images/hero/background-mountain.png"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover object-right scale-[1.12]"
+        style={{ y: yMistRight, opacity: 0.35, mixBlendMode: 'screen' } as React.CSSProperties}
+      />
+    </>
+  );
+};
+
+const TempleLayer: React.FC<{ scrollYProgress: MotionValue<number>; bgBrightness: MotionValue<number> }> = ({
+  scrollYProgress,
+  bgBrightness,
+}) => {
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '-14%']);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
+  return (
+    <motion.img
+      src="/images/hero/temple.png"
+      alt="Himalayan monastery nestled in misty forest"
+      className="absolute w-[34vw] max-w-[500px] min-w-[260px] right-[5%] bottom-[7%] object-contain"
+      style={{
+        y,
+        scale,
+        filter: `brightness(${bgBrightness}) drop-shadow(0 20px 60px rgba(43,39,40,0.15))`,
+      } as React.CSSProperties}
+    />
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onSelectMood,
@@ -107,68 +169,73 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       ref={containerRef}
       className="relative min-h-[95vh] lg:min-h-[105vh] bg-[#f8f6f1] overflow-hidden flex flex-col justify-between"
     >
-      {/* 1. CINEMATIC COLORFUL PARALLAX BACKGROUND THAT BRIGHTENS ON SCROLL */}
+      {/* ═══════════════════════════════════════════════ */}
+      {/* 1. CINEMATIC 4-LAYER PARALLAX BACKGROUND       */}
+      {/* ═══════════════════════════════════════════════ */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-        {/* Dynamic Warm Sunburst & Sage Glow */}
-        <motion.div
-          style={{ filter: `brightness(${bgBrightness})` }}
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-gradient-to-tr from-[#8c956a]/20 via-[#c6cab2]/40 to-[#e9e5d8]/60 blur-[140px] rounded-full transition-all duration-300"
+
+        {/* ── LAYER 1 · Background mountain (slowest parallax) ── */}
+        <motion.img
+          src="/images/hero/background-mountain.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-[60%_center] scale-[1.08]"
+          style={{
+            y: mountainY,
+            filter: `brightness(${bgBrightness}) saturate(1.15)`,
+          } as React.CSSProperties}
         />
 
-        {/* Background Landscape Photo with Soft Warm Tint */}
+        {/* ── LAYER 2 · SVG map contour (behind mist, left-anchored) ── */}
         <motion.div
-          style={{ y: mountainY }}
-          className="absolute inset-0 flex items-center justify-center transition-transform duration-500"
+          style={{
+            scale: maskScale,
+            opacity: maskOpacity,
+          }}
+          className="absolute inset-0 flex items-center justify-start pl-[6%]"
         >
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-multiply filter saturate-150 contrast-105 scale-105"
-            style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=85')`,
-            }}
-          />
-
-          {/* SVG Map Contour Overlay */}
-          <motion.div
-            style={{
-              scale: maskScale,
-              opacity: maskOpacity,
-            }}
-            className="relative w-full h-full flex items-center justify-center"
+          <svg
+            viewBox="0 0 1000 1000"
+            className="w-[55vw] max-w-[650px] h-[65vh] max-h-[650px] opacity-20 filter drop-shadow-[0_0_30px_rgba(140,149,106,0.2)]"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg
-              viewBox="0 0 1000 1000"
-              className="w-[85vw] max-w-[900px] h-[85vh] max-h-[800px] opacity-45 filter drop-shadow-[0_0_40px_rgba(140,149,106,0.25)]"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient id="mapGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#8c956a" stopOpacity="0.45" />
-                  <stop offset="50%" stopColor="#9eb094" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#c6cab2" stopOpacity="0.15" />
-                </linearGradient>
-              </defs>
-
-              <path
-                d="M 500 80 C 580 80, 680 140, 720 220 C 760 300, 740 400, 760 480 C 780 560, 700 680, 620 780 C 540 880, 500 940, 490 950 C 480 940, 440 880, 360 780 C 280 680, 220 560, 240 460 C 260 360, 320 220, 380 140 C 420 80, 460 80, 500 80 Z"
-                fill="url(#mapGradLight)"
-                stroke="#8c956a"
-                strokeWidth="1.8"
-                strokeDasharray="4 4"
-              />
-
-              <circle cx="485" cy="850" r="5" fill="#8c956a" className="animate-ping" style={{ transformOrigin: '485px 850px' }} />
-              <circle cx="485" cy="850" r="3" fill="#2b2728" />
-              <text x="500" y="855" fill="#8c956a" fontSize="12" fontFamily="Space Mono" fontWeight="600" letterSpacing="2">GOKARNA • 14.54°N</text>
-
-              <circle cx="480" cy="540" r="5" fill="#a66f5b" />
-              <text x="495" y="545" fill="#a66f5b" fontSize="12" fontFamily="Space Mono" fontWeight="600">PACHMARHI • 22.46°N</text>
-            </svg>
-          </motion.div>
+            <defs>
+              <linearGradient id="mapGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#8c956a" stopOpacity="0.45" />
+                <stop offset="50%" stopColor="#9eb094" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#c6cab2" stopOpacity="0.15" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 500 80 C 580 80, 680 140, 720 220 C 760 300, 740 400, 760 480 C 780 560, 700 680, 620 780 C 540 880, 500 940, 490 950 C 480 940, 440 880, 360 780 C 280 680, 220 560, 240 460 C 260 360, 320 220, 380 140 C 420 80, 460 80, 500 80 Z"
+              fill="url(#mapGradLight)"
+              stroke="#8c956a"
+              strokeWidth="1.8"
+              strokeDasharray="4 4"
+            />
+            <circle cx="485" cy="850" r="5" fill="#8c956a" className="animate-ping" style={{ transformOrigin: '485px 850px' }} />
+            <circle cx="485" cy="850" r="3" fill="#2b2728" />
+            <text x="500" y="855" fill="#8c956a" fontSize="12" fontFamily="Space Mono" fontWeight="600" letterSpacing="2">GOKARNA • 14.54°N</text>
+            <circle cx="480" cy="540" r="5" fill="#a66f5b" />
+            <text x="495" y="545" fill="#a66f5b" fontSize="12" fontFamily="Space Mono" fontWeight="600">PACHMARHI • 22.46°N</text>
+          </svg>
         </motion.div>
 
-        {/* Top & Bottom Soft Gradient Fades */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f8f6f1]/80 via-transparent to-[#f8f6f1]" />
+        {/* ── LAYER 3 · Front mountain / vegetation (medium speed) ── */}
+        <FrontMountain scrollYProgress={scrollYProgress} bgBrightness={bgBrightness} />
+
+        {/* ── LAYER 4 · Mist-left panel (drifts slightly upward) ── */}
+        <MistLayer scrollYProgress={scrollYProgress} />
+
+        {/* ── LAYER 5 · Temple / focal point (fastest upward – feels closest) ── */}
+        <TempleLayer scrollYProgress={scrollYProgress} bgBrightness={bgBrightness} />
+
+        {/* ── Warm cinematic colour grade ── */}
+        <div className="absolute inset-0 bg-[#8c956a]/[0.06] mix-blend-color pointer-events-none" />
+
+        {/* ── Soft readability gradient (top + bottom) ── */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#f8f6f1]/70 via-transparent to-[#f8f6f1] pointer-events-none" />
+
       </div>
 
       {/* 2. TOP HUD CONTROLS */}
