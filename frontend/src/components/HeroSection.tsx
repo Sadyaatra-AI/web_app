@@ -107,8 +107,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const maskOpacity = useTransform(scrollYProgress, [0, 0.5, 0.9], [0.95, 0.85, 0.3]);
   const mountainY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
   const bgBrightness = useTransform(scrollYProgress, [0, 1], [1, 1.35]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0.1]);
-
+  const textOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0.1]);
+  
   // Ambient sound synthesizer
   const toggleAmbientSound = () => {
     if (isAudioPlaying) {
@@ -169,74 +169,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       ref={containerRef}
       className="relative min-h-[95vh] lg:min-h-[105vh] bg-[#f8f6f1] overflow-hidden flex flex-col justify-between"
     >
-      {/* ═══════════════════════════════════════════════ */}
-      {/* 1. CINEMATIC 4-LAYER PARALLAX BACKGROUND       */}
-      {/* ═══════════════════════════════════════════════ */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      {/* CINEMATIC HERO BACKGROUND */}
+<div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
 
-        {/* ── LAYER 1 · Background mountain (slowest parallax) ── */}
-        <motion.img
-          src="/images/hero/background-mountain.png"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover object-[60%_center] scale-[1.08]"
-          style={{
-            y: mountainY,
-            filter: `brightness(${bgBrightness}) saturate(1.15)`,
-          } as React.CSSProperties}
-        />
+  {/* Main photograph */}
+  <motion.img
+    src="public/images/hero/original.jpg"
+    alt=""
+    className="absolute inset-0 w-full h-full object-cover object-[62%_center]"
+    style={{
+      y: mountainY,
+      scale: 1.04,
+    }}
+  />
 
-        {/* ── LAYER 2 · SVG map contour (behind mist, left-anchored) ── */}
-        <motion.div
-          style={{
-            scale: maskScale,
-            opacity: maskOpacity,
-          }}
-          className="absolute inset-0 flex items-center justify-start pl-[6%]"
-        >
-          <svg
-            viewBox="0 0 1000 1000"
-            className="w-[55vw] max-w-[650px] h-[65vh] max-h-[650px] opacity-20 filter drop-shadow-[0_0_30px_rgba(140,149,106,0.2)]"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <linearGradient id="mapGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#8c956a" stopOpacity="0.45" />
-                <stop offset="50%" stopColor="#9eb094" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#c6cab2" stopOpacity="0.15" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 500 80 C 580 80, 680 140, 720 220 C 760 300, 740 400, 760 480 C 780 560, 700 680, 620 780 C 540 880, 500 940, 490 950 C 480 940, 440 880, 360 780 C 280 680, 220 560, 240 460 C 260 360, 320 220, 380 140 C 420 80, 460 80, 500 80 Z"
-              fill="url(#mapGradLight)"
-              stroke="#8c956a"
-              strokeWidth="1.8"
-              strokeDasharray="4 4"
-            />
-            <circle cx="485" cy="850" r="5" fill="#8c956a" className="animate-ping" style={{ transformOrigin: '485px 850px' }} />
-            <circle cx="485" cy="850" r="3" fill="#2b2728" />
-            <text x="500" y="855" fill="#8c956a" fontSize="12" fontFamily="Space Mono" fontWeight="600" letterSpacing="2">GOKARNA • 14.54°N</text>
-            <circle cx="480" cy="540" r="5" fill="#a66f5b" />
-            <text x="495" y="545" fill="#a66f5b" fontSize="12" fontFamily="Space Mono" fontWeight="600">PACHMARHI • 22.46°N</text>
-          </svg>
-        </motion.div>
+  {/* Soft atmospheric wash — very subtle */}
+  <div className="absolute inset-0 bg-[#8c956a]/[0.035] mix-blend-color" />
 
-        {/* ── LAYER 3 · Front mountain / vegetation (medium speed) ── */}
-        <FrontMountain scrollYProgress={scrollYProgress} bgBrightness={bgBrightness} />
+  {/* Readability gradient — concentrated behind the text */}
+  <div
+    className="absolute inset-0"
+    style={{
+      background: `
+        linear-gradient(
+          90deg,
+          rgba(248,246,241,0.82) 0%,
+          rgba(248,246,241,0.58) 27%,
+          rgba(248,246,241,0.12) 58%,
+          rgba(248,246,241,0.02) 100%
+        ),
+        linear-gradient(
+          0deg,
+          rgba(248,246,241,0.35) 0%,
+          transparent 35%
+        )
+      `,
+    }}
+  />
 
-        {/* ── LAYER 4 · Mist-left panel (drifts slightly upward) ── */}
-        <MistLayer scrollYProgress={scrollYProgress} />
-
-        {/* ── LAYER 5 · Temple / focal point (fastest upward – feels closest) ── */}
-        <TempleLayer scrollYProgress={scrollYProgress} bgBrightness={bgBrightness} />
-
-        {/* ── Warm cinematic colour grade ── */}
-        <div className="absolute inset-0 bg-[#8c956a]/[0.06] mix-blend-color pointer-events-none" />
-
-        {/* ── Soft readability gradient (top + bottom) ── */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#f8f6f1]/70 via-transparent to-[#f8f6f1] pointer-events-none" />
-
-      </div>
+</div>
 
       {/* 2. TOP HUD CONTROLS */}
       <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 flex items-center justify-between">
