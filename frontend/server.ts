@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import Groq from 'groq-sdk';
 import { GoogleGenAI } from '@google/genai';
 import {
   getDestinations,
@@ -25,6 +26,15 @@ app.use(express.json());
 
 // Initialize seed data on startup
 seedDatabaseIfEmpty().catch((err) => console.warn('Seed init warning:', err));
+
+// Lazy-initialized Groq client
+let groqClient: Groq | null = null;
+function getGroq(): Groq | null {
+  if (!groqClient && process.env.GROQ_API_KEY) {
+    groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return groqClient;
+}
 
 // Lazy-initialized Gemini client
 let genAIClient: GoogleGenAI | null = null;
@@ -95,25 +105,46 @@ app.post('/api/chat', async (req, res) => {
       metadata: { destinationContext },
     });
 
+    const groq = getGroq();
     const ai = getGenAI();
     let replyText = '';
 
-    if (ai) {
-      const systemInstruction = `You are the Sadyaatra Intelligent Travel Companion — a discerning, culturally attuned, and deeply knowledgeable travel curator.
+    const systemInstruction = `You are the Sadyaatra Intelligent Travel Companion — a discerning, culturally attuned, and deeply knowledgeable travel curator.
 Tone: Sophisticated, poetic yet grounded, highly practical, and respectful of local traditions.
 If destinationContext is provided: Focus specifically on ${destinationContext?.name || 'the destination'} (${destinationContext?.state || ''}, ${destinationContext?.country || ''}).
 Provide recommendations including hidden gems, mindful timings (dawn/dusk to avoid crowds), local culinary staples, and realistic budget expectations.
 Structure your answers with clean paragraphs and bullet points for readability.`;
 
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: [
-          { role: 'user', parts: [{ text: `${systemInstruction}\n\nUser Question: ${message}` }] }
-        ]
-      });
+    if (groq) {
+      try {
+        const completion = await groq.chat.completions.create({
+          messages: [
+            { role: 'system', content: systemInstruction },
+            { role: 'user', content: message },
+          ],
+          model: 'llama-3.3-70b-versatile',
+        });
+        replyText = completion.choices[0]?.message?.content || "I apologize, I couldn't generate a response at this moment.";
+      } catch (groqErr) {
+        console.warn('Groq AI error, attempting fallback:', groqErr);
+      }
+    }
 
-      replyText = response.text || "I apologize, I couldn't generate a response at this moment.";
-    } else {
+    if (!replyText && ai) {
+      try {
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: [
+            { role: 'user', parts: [{ text: `${systemInstruction}\n\nUser Question: ${message}` }] }
+          ]
+        });
+        replyText = response.text || '';
+      } catch (geminiErr) {
+        console.warn('Gemini AI error, attempting fallback:', geminiErr);
+      }
+    }
+
+    if (!replyText) {
       // High-quality contextual fallback responses
       const query = message.toLowerCase();
 
