@@ -85,6 +85,15 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
 
     const currentDest = destinations.find((d) => d.id === selectedDestId);
 
+    const visitorId = (() => {
+      let v = localStorage.getItem('sadyaatra_visitor');
+      if (!v) {
+        v = `v_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+        localStorage.setItem('sadyaatra_visitor', v);
+      }
+      return v;
+    })();
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -93,6 +102,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           message: userMsg.text,
           destinationContext: currentDest || null,
           history: messages.slice(-4),
+          visitorId,
         }),
       });
 

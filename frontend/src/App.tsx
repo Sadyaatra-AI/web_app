@@ -19,6 +19,7 @@ export function App() {
   const [showPreloader, setShowPreloader] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'explore' | 'quiz' | 'saved'>('explore');
   const catalogRef = useRef<HTMLDivElement>(null);
+  const [apiDestinations, setApiDestinations] = useState<Destination[]>(DESTINATIONS);
   const [savedIds, setSavedIds] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem('sadyaatra_saved');
@@ -43,7 +44,36 @@ export function App() {
     sortBy: 'recommended',
   });
 
-  // Save to LocalStorage
+  // Fetch live destinations from backend DB API
+  useEffect(() => {
+    let isMounted = true;
+    const fetchApiDestinations = async () => {
+      try {
+        const queryParams = new URLSearchParams();
+        if (filters.search) queryParams.set('search', filters.search);
+        if (filters.region !== 'All') queryParams.set('region', filters.region);
+        if (filters.mood !== 'All Moods') queryParams.set('mood', filters.mood);
+        if (filters.type !== 'All Types') queryParams.set('type', filters.type);
+        if (filters.sortBy) queryParams.set('sortBy', filters.sortBy);
+
+        const res = await fetch(`/api/destinations?${queryParams.toString()}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.destinations && Array.isArray(data.destinations) && data.destinations.length > 0) {
+            setApiDestinations(data.destinations);
+          }
+        }
+      } catch (err) {
+        console.warn('Backend API fetch notice (using cached data):', err);
+      }
+    };
+    fetchApiDestinations();
+    return () => {
+      isMounted = false;
+    };
+  }, [filters]);
+
+  // Save to LocalStorage & Backend sync
   useEffect(() => {
     try {
       localStorage.setItem('sadyaatra_saved', JSON.stringify(savedIds));
@@ -56,6 +86,11 @@ export function App() {
     setSavedIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
+    fetch('/api/saved/toggle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    }).catch(() => {});
   };
 
   const scrollToCatalog = () => {
@@ -67,7 +102,7 @@ export function App() {
 
   // Filter and Sort logic
   const filteredDestinations = useMemo(() => {
-    return DESTINATIONS.filter((d) => {
+    return apiDestinations.filter((d) => {
       // Tab filter
       if (activeTab === 'saved' && !savedIds.includes(d.id)) {
         return false;
@@ -125,7 +160,7 @@ export function App() {
       }
       return b.matchScore - a.matchScore;
     });
-  }, [filters, activeTab, savedIds]);
+  }, [apiDestinations, filters, activeTab, savedIds]);
 
   const handleOpenAIChat = (prompt?: string, dest?: Destination) => {
     setAiChatContext(dest || null);

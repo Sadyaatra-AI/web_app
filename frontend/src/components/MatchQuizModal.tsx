@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, Check, ArrowRight, RotateCcw, Compass, MapPin } from 'lucide-react';
 import { Destination } from '../types';
@@ -85,6 +85,23 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
   };
 
   const result = getRecommendation();
+
+  // Log quiz match to backend DB when revealed
+  useEffect(() => {
+    if (step === 4 && result.destination) {
+      fetch('/api/quiz-match', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mood: selectedMood,
+          budget: selectedBudget,
+          duration: selectedDuration,
+          destination: result.destination.name,
+          previewData: { score: result.score, reasons: result.reasons },
+        }),
+      }).catch((err) => console.warn('Quiz match backend log notice:', err));
+    }
+  }, [step]);
 
   return (
     <div id="trip-matcher-container" className="max-w-3xl mx-auto py-8 px-4 sm:px-6">

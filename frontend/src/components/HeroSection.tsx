@@ -34,7 +34,7 @@ const FrontMountain: React.FC<{ scrollYProgress: MotionValue<number>; bgBrightne
       src="/images/hero/front-mountain.png"
       alt=""
       className="absolute inset-0 w-full h-full object-cover object-[60%_bottom] scale-[1.06]"
-      style={{ y, filter: `brightness(${bgBrightness}) saturate(1.1)` } as React.CSSProperties}
+      style={{ y, filter: `brightness(${bgBrightness}) saturate(1.1)` } as any}
     />
   );
 };
@@ -49,14 +49,14 @@ const MistLayer: React.FC<{ scrollYProgress: MotionValue<number> }> = ({ scrollY
         src="/images/hero/mist-left.png"
         alt=""
         className="absolute inset-0 w-full h-full object-cover object-left-center scale-[1.1]"
-        style={{ y: yMistLeft, opacity: 0.72 } as React.CSSProperties}
+        style={{ y: yMistLeft, opacity: 0.72 } as any}
       />
       {/* Heavy cloud/mist crossing between layers – screen blend */}
       <motion.img
         src="/images/hero/background-mountain.png"
         alt=""
         className="absolute inset-0 w-full h-full object-cover object-right scale-[1.12]"
-        style={{ y: yMistRight, opacity: 0.35, mixBlendMode: 'screen' } as React.CSSProperties}
+        style={{ y: yMistRight, opacity: 0.35, mixBlendMode: 'screen' } as any}
       />
     </>
   );
@@ -77,7 +77,7 @@ const TempleLayer: React.FC<{ scrollYProgress: MotionValue<number>; bgBrightness
         y,
         scale,
         filter: `brightness(${bgBrightness}) drop-shadow(0 20px 60px rgba(43,39,40,0.15))`,
-      } as React.CSSProperties}
+      } as any}
     />
   );
 };

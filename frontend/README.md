@@ -1,76 +1,74 @@
-# Sadyaatra (सद्यात्रा) 🌿🕉️
+# Sadyaatra (सद्यात्रा) 🌿🕉️ — Full Stack Web Application
 
 > **Mindful & Cultural Travel Companion Across India**  
-> *Transforming authentic heritage, spiritual pilgrimages, and eco-conscious travel into immersive, AI-assisted journeys.*
+> *Transforming authentic heritage, spiritual pilgrimages, and eco-conscious travel into immersive, AI-assisted journeys backed by a live Express API and Prisma database layer.*
 
 ---
 
-## 📌 Overview
+## 📌 Overview & Architecture
 
-**Sadyaatra** (derived from Sanskrit *Sat* + *Yatra*, meaning "Righteous/Mindful Journey") is an editorial and AI-powered travel platform designed for exploring India's richest spiritual, cultural, and eco-heritage destinations. 
+**Sadyaatra** (derived from Sanskrit *Sat* + *Yatra*, meaning "Righteous/Mindful Journey") is an editorial and AI-powered travel platform designed for exploring India's richest spiritual, cultural, and eco-heritage destinations.
 
-Whether planning a sacred pilgrimage to Kedarnath, discovering ancient architectural marvels in Hampi, or experiencing cultural rituals in Varanasi, Sadyaatra blends deep editorial storytelling with real-time AI assistance.
+The frontend is built with **React 19**, **TypeScript**, and **Vite**, served directly alongside an **Express REST API** (`server.ts`) and a **Prisma 7 ORM** database layer (`src/lib/db.ts`).
 
 ---
 
-## ✨ Key Features
+## ✨ Features & Functionality
 
 - 🌿 **Curated Heritage & Spiritual Expeditions**: Detailed guides on sacred trails, temple rituals, ideal seasons, local customs, and sustainable travel practices.
-- 🤖 **Interactive AI Companion (Gemini API)**:
+- 🤖 **Interactive AI Companion (Gemini 2.5 API)**:
   - Real-time travel advice, custom itinerary generation, and local cultural etiquette tips.
-  - **Adaptive Responsive Layout**: 
-    - **Desktop**: Integrated side-by-side 60/40 split-screen view.
-    - **Mobile View**: Full-screen editorial immersion with a minimized floating popup drawer that slides up on demand.
-- 🎨 **Sadyaatra Design System**: Built adhering strictly to the **Sadyaatra Brand Toolkit**:
+  - **Persistent Chat History**: Automatically logs visitor chat sessions and assistant replies into `WebChatConversation` and `WebChatMessage` database tables.
+- 🎯 **Intelligent Sanctuary Matcher**: 3-step interactive travel quiz that matches your desired mood, duration, and budget to sanctuaries, saving `WebPlanPreview` data in the backend database.
+- 🎨 **Sadyaatra Design System**:
   - **Typography**: *Fraunces* (Serif Display) for regal, timeless headings & *Jost* (Geometric Sans-Serif) for modern readability.
   - **Color Palette**: Deep Sage (`#8c956a`), Paper Tone (`#f8f6f1`), Ink Accent (`#2b2728`), Warm Ochre & Terracotta.
   - Signature crosshatch textures and glassmorphic micro-animations.
-- 🗺️ **Dynamic Trip Planner & Customizer**: Filter trips by category (Spiritual, Heritage, Nature, Eco-Retreat), difficulty, duration, and budget.
-- 🔊 **Voice & Audio Guides**: Listen to ritual narrations and historical audio briefings directly within trip pages.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Changes Implemented in the Project
 
-- **Frontend**: React 19, TypeScript, Vite, Motion, Tailwind CSS v4
-- **Backend / API**: Node.js, Express, `tsx`
-- **AI Integration**: `@google/genai` (Google Gemini 2.5 Pro / Flash models)
-- **Icons & Typography**: Lucide React Icons, Google Fonts (*Fraunces* & *Jost*)
+1. **Live REST APIs (`server.ts`)**:
+   - `GET /api/destinations`: Live sanctuary query with search, region, mood, type, and sort filters.
+   - `GET /api/destinations/:id`: Destination detail lookup route.
+   - `POST /api/chat`: Gemini AI handler with automatic database logging.
+   - `POST /api/quiz-match`: Quiz result plan preview recorder.
+   - `GET /api/saved` & `POST /api/saved/toggle`: Sanctuary bookmarking API.
+
+2. **Prisma Database Module (`src/lib/db.ts`)**:
+   - Automatic seeding of initial curated destinations into database tables.
+   - Resilient database client initialization with PostgreSQL driver adapter and fallback support.
+
+3. **Automated Vitest & Supertest Test Suite (`tests/`)**:
+   - `tests/server.test.ts`: Integration tests for all Express API endpoints.
+   - `tests/db.test.ts`: Unit tests for Prisma database queries and helper functions.
+   - **15 / 15 tests passing** (100% pass rate).
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How To Run Everything
 
-### Prerequisites
+### 1. Install Dependencies
 
-- Node.js (v18.0.0 or higher recommended)
-- npm or yarn
+```bash
+npm install
+```
 
-### Installation & Setup
+### 2. Generate Prisma Client
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/sadyaatra.git
-   cd sadyaatra
-   ```
+```bash
+# Run from root workspace directory
+npx prisma generate
+```
 
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+### 3. Start Development Server
 
-3. **Configure Environment Variables**:
-   Create a `.env` or `.env.local` file in the root directory and add your Gemini API key:
-   ```env
-   GEMINI_API_KEY=your_google_gemini_api_key_here
-   PORT=3000
-   ```
+```bash
+npm run dev
+```
 
-4. **Start the Development Server**:
-   ```bash
-   npm run dev
-   ```
-   Open your browser and navigate to `http://localhost:3000` or `http://localhost:5173`.
+Open your browser at **`http://localhost:3000`**.
 
 ---
 
@@ -79,47 +77,36 @@ Whether planning a sacred pilgrimage to Kedarnath, discovering ancient architect
 | Command | Description |
 | :--- | :--- |
 | `npm run dev` | Starts the Express backend server and Vite frontend dev server via `tsx` |
-| `npm run build` | Builds the production Vite bundle and bundles `server.ts` into `dist/server.cjs` |
-| `npm run start` | Runs the compiled production server (`node dist/server.cjs`) |
+| `npm test` | Runs the Vitest integration & unit test suite |
 | `npm run lint` | Runs TypeScript type checking (`tsc --noEmit`) |
-| `npm run clean` | Cleans build artifacts (`dist/`) |
+| `npm run build` | Builds production Vite bundle and bundles `server.ts` into `dist/server.cjs` |
+| `npm run start` | Runs compiled production server (`node dist/server.cjs`) |
 
 ---
 
-## 📁 Project Structure
+## 📁 Directory Structure
 
 ```
-sadyaatra/
-├── public/
-│   ├── logo.png               # Official Sadyaatra emblem logo
-│   └── favicon.png            # Brand favicon emblem
+frontend/
+├── server.ts                  # Express REST API backend & Gemini AI integration
 ├── src/
-│   ├── components/            # Reusable UI & Page components
-│   │   ├── SplitScreenDestinationDetail.tsx  # Trip details & AI chat drawer
-│   │   ├── Navigation.tsx     # Brand Navbar
-│   │   ├── HeroSection.tsx    # Immersive homepage hero
-│   │   ├── Footer.tsx         # Brand footer
-│   │   ├── Preloader.tsx      # Emblem animated loader
-│   │   └── ...
-│   ├── types.ts               # TypeScript interfaces & data models
-│   ├── data.ts                # Curated trip & destination data
-│   ├── index.css              # Global brand design tokens & utilities
-│   ├── App.tsx                # Main App entry & routing
+│   ├── lib/
+│   │   └── db.ts              # Prisma DB client, seeding & query helper
+│   ├── generated/prisma/      # Generated Prisma Client output
+│   ├── components/            # UI components (HeroSection, SplitScreen, AIChat, Quiz)
+│   ├── data/                  # Destination seed data
+│   ├── types.ts               # Shared TypeScript interfaces
+│   ├── App.tsx                # Main App entry & filter state
 │   └── main.tsx               # DOM mount point
-├── server.ts                  # Express backend & Gemini API integration
-├── sadyaatra-brand-toolkit.html # Official Sadyaatra brand guide source
+├── tests/
+│   ├── server.test.ts         # API integration test suite
+│   └── db.test.ts             # Database unit test suite
 ├── package.json
-└── README.md
+└── vite.config.ts
 ```
-
----
-
-## 🎨 Brand Toolkit Reference
-
-For visual guidelines, color HEX values, typography specs, logo usage, and component aesthetics, refer to `sadyaatra-brand-toolkit.html` included in the root directory.
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License.
