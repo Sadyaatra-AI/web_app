@@ -1,6 +1,6 @@
 # Sadyaatra (सद्यात्रा) 🌿🕉️ — Full Stack Web Application
 
-> **Mindful & Cultural Travel Companion Across India**  
+> **Mindful & Cultural Travel Companion Across India**
 > *Transforming authentic heritage, spiritual pilgrimages, and eco-conscious travel into immersive, AI-assisted journeys backed by a live Express API and Prisma database layer.*
 
 ---
@@ -12,22 +12,23 @@ The **Sadyaatra** application has been integrated from an editorial frontend int
 ### Key Changes Introduced in the Codebase
 
 1. **Prisma ORM & Database Layer (`prisma/schema.prisma` & `frontend/src/lib/db.ts`)**:
+
    - Generated Prisma Client v7 output into `./frontend/src/generated/prisma`.
    - Built a database access module (`db.ts`) that seeds default curated destinations into database tables (`Destination`, `Attraction`, `LocalExperience`, `DestinationInterest`, `DestinationMedia`) on launch, with safe driver adapter handling and fallback caching.
-
 2. **Expanded Express REST API (`frontend/server.ts`)**:
+
    - `GET /api/destinations`: Returns live sanctuaries from the database, supporting search, region, travel mood, category type, and sorting filters.
    - `GET /api/destinations/:id`: Returns detailed information for a single sanctuary.
    - `POST /api/chat`: Connects to Google Gemini 2.5 AI while persisting user messages and AI replies to `WebChatConversation` and `WebChatMessage` database tables.
    - `POST /api/quiz-match`: Logs completed sanctuary matcher quiz results into `WebPlanPreview` database records.
    - `GET /api/saved` & `POST /api/saved/toggle`: Synced sanctuary bookmark API endpoints.
-
 3. **Frontend API Connection (`frontend/src/App.tsx`, `AIChatDrawer.tsx`, `MatchQuizModal.tsx`)**:
+
    - `App.tsx` dynamically fetches destination collections from `/api/destinations` based on filter state.
    - `AIChatDrawer.tsx` sends persistent `visitorId` headers to link user sessions to database records.
    - `MatchQuizModal.tsx` records matched sanctuary previews to the backend on quiz completion.
-
 4. **Automated Unit & Integration Test Suite (`frontend/tests/`)**:
+
    - Added **Vitest** and **Supertest** test suites in `server.test.ts` and `db.test.ts` verifying all REST routes, fallback mechanisms, search logic, and database operations.
    - **15 / 15 tests passing** (100% pass rate).
 
