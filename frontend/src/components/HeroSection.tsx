@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
-import { Compass, MapPin, ArrowRight, Volume2, VolumeX } from 'lucide-react';
+import { Compass, MapPin, ArrowRight } from 'lucide-react';
 import { Region } from '../types';
 
 interface HeroSectionProps {
@@ -218,47 +218,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#2b2728]/10 text-[11px] font-mono-code text-[#8c956a] shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#8c956a] animate-pulse" />
-            <span className="font-semibold">SEASON 2026 • SANCTUARIES READY</span>
+            <span className="font-semibold">SEASON 2026 • RETREATS READY</span>
           </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 15 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-2"
-        >
-          <button
-            id="hero-ambient-audio-toggle"
-            onClick={toggleAmbientSound}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono-code transition-all border ${isAudioPlaying
-                ? 'bg-[#8c956a] text-white border-[#8c956a]'
-                : 'bg-white/90 border-[#2b2728]/15 text-[#4a4542] hover:text-[#2b2728]'
-              }`}
-            title="Toggle meditative ambient soundscape"
-          >
-            {isAudioPlaying ? <Volume2 className="w-3.5 h-3.5 text-white animate-pulse" /> : <VolumeX className="w-3.5 h-3.5" />}
-            <span className="hidden sm:inline">{isAudioPlaying ? 'Soundscape Active' : 'Soundscape'}</span>
-          </button>
         </motion.div>
       </div>
 
       {/* 3. HERO EDITORIAL HEADLINE & AI INTENT BOX */}
       <motion.div
         style={{ opacity: textOpacity }}
-        className="relative z-20 max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-6"
+        className="relative z-20 max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 -translate-y-16 sm:-translate-y-10.8 space-y-3"
       >
-        {/* Curatorial Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#8c956a]/30 bg-white/90 backdrop-blur-md text-[#8c956a] text-xs font-mono-code tracking-widest uppercase shadow-sm"
+          transition={{ duration: 0.7 }}
+          className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-[#8c956a]/30 bg-white/90 backdrop-blur-md text-[#8c956a] text-xs font-mono-code tracking-widest uppercase shadow-sm"
         >
           <Compass className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '20s' }} />
-          <span>Sadyaatra • Mindful Travel Agency</span>
+          <span>SADHYAATRA • Create Your Journey</span>
         </motion.div>
 
-        {/* User Specified Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -269,87 +248,85 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <span className="italic font-light text-[#8c956a]">Contemplative</span> Soul
         </motion.h1>
 
-        {/* Subheading */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-[#4a4542] text-lg sm:text-xl max-w-lg mx-auto font-light leading-relaxed"
         >
-          Slow travel, soulful sanctuaries, and journeys that stay with you forever.
+          Slow travel, soulful retreats, and journeys that stay with you forever.
         </motion.p>
 
-        {/* Begin My Journey CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.35 }}
-          className="pt-2 flex items-center justify-center gap-4"
+          className="pt-2 flex items-center justify-center"
         >
           <button
             id="hero-begin-journey-btn"
             onClick={onExploreClick}
             className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#2b2728] hover:bg-[#8c956a] text-white font-semibold text-sm tracking-wide transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-[#8c956a]/25 overflow-hidden"
           >
-            {/* Animated shimmer */}
             <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700" />
-            <span className="relative">Begin my journey</span>
+            <span className="relative">Get inspired</span>
             <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
-          </button>
-
-          <button
-            id="hero-scroll-explore-btn"
-            onClick={onExploreClick}
-            className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/90 hover:bg-white border border-[#2b2728]/10 hover:border-[#8c956a]/40 text-[#2b2728] font-medium text-sm tracking-wide transition-all duration-300 shadow-sm backdrop-blur-md"
-          >
-            <span>Explore sanctuaries</span>
           </button>
         </motion.div>
       </motion.div>
 
-      {/* 4. BOTTOM FILTER & MOOD CONTROLS */}
-      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-10 space-y-4">
-        {/* Territory Selector */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {REGIONS.map((r) => (
-            <button
-              key={r}
-              id={`hero-region-btn-${r.toLowerCase()}`}
-              onClick={() => onSelectRegion(r)}
-              className={`px-4 py-1.5 rounded-full text-xs font-mono-code tracking-wider uppercase transition-all ${selectedRegion === r
-                  ? 'bg-[#8c956a] text-white font-bold shadow-md'
-                  : 'bg-white/90 backdrop-blur-md border border-[#2b2728]/10 text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a]/40'
-                }`}
-            >
-              {r === 'All' ? 'All Territories' : r}
-            </button>
-          ))}
-        </div>
+{/* 4. MOOD DISCOVERY — quiet editorial navigation */}
+<div className="relative z-20 w-full px-4 sm:px-6 lg:px-8 pb-8 -mt-20">
+  <div className="mx-auto max-w-5xl">
 
-        {/* Quick Mood Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {QUICK_MOODS.map((m) => (
-            <button
-              key={m.label}
-              id={`hero-mood-btn-${m.label.toLowerCase().replace(/\s+/g, '-')}`}
-              onClick={() => onSelectMood(m.label)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-white border border-[#2b2728]/10 text-xs text-[#4a4542] hover:text-[#2b2728] transition-colors shadow-sm"
-            >
-              <span>{m.icon}</span>
-              <span>{m.label}</span>
-            </button>
-          ))}
-        </div>
+    {/* Minimal editorial label */}
+    <div className="flex items-center justify-center gap-3 mb-4">
+      <span className="h-px w-6 bg-[#2b2728]/30" />
 
-        {/* Geodetic Coordinate Ticker */}
-        <div className="flex items-center justify-between text-[10px] font-mono-code text-[#4a4542]/50 border-t border-[#2b2728]/10 pt-3">
-          <div className="flex items-center gap-2">
-            <MapPin className="w-3 h-3 text-[#8c956a]" />
-            <span>LAT 08°04′N – 37°06′N • LON 68°07′E – 97°25′E</span>
-          </div>
-          <span className="hidden sm:inline">SCROLL TO BRIGHTEN & DISCOVER SANCTUARIES ↓</span>
-        </div>
-      </div>
+      <span className="text-[10px] font-mono-code tracking-[0.24em] uppercase text-[#2b2728]/85">
+        Explore by feeling
+      </span>
+
+      <span className="h-px w-6 bg-[#2b2728]/30" />
+    </div>
+
+    {/* Mood options — no background container */}
+    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+      {QUICK_MOODS.map((m) => (
+        <button
+          key={m.label}
+          id={`hero-mood-btn-${m.label.toLowerCase().replace(/\s+/g, '-')}`}
+          onClick={() => onSelectMood(m.label)}
+          className="group inline-flex items-center gap-1.5 text-[#2b2728]/80 hover:text-[#2b2728] transition-colors duration-300"
+        >
+          <span className="text-[0.85rem] opacity-65 group-hover:opacity-100 transition-opacity duration-300">
+            {m.icon}
+          </span>
+
+          <span className="text-[11px] font-mono-code tracking-[0.08em] font-medium whitespace-nowrap">
+            {m.label}
+          </span>
+
+          {/* Tiny hover indicator, invisible at rest */}
+          <span className="w-0 group-hover:w-1 h-1 rounded-full bg-[#8c956a] transition-all duration-300" />
+        </button>
+      ))}
+    </div>
+
+    {/* Geodetic easter egg — subtle but readable */}
+    <div className="mt-5 flex items-center justify-center gap-2 text-[#2b2728]/50">
+      <MapPin
+        className="w-3 h-3 text-[#8c956a]/55"
+        strokeWidth={1.5}
+      />
+
+      <span className="text-[9px] font-mono-code tracking-[0.18em]">
+        LAT 08°04′N – 37°06′N &nbsp;•&nbsp; LON 68°07′E – 97°25′E
+      </span>
+    </div>
+
+  </div>
+</div>
     </div>
   );
 };
