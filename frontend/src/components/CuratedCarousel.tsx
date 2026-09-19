@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { Play, Pause, Compass, Sparkles, MapPin, ArrowRight, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { Sparkles, MapPin, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Destination } from '../types';
 
 interface CuratedCarouselProps {
@@ -13,7 +13,6 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
   onSelectDestination,
 }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [speed, setSpeed] = useState<'normal' | 'slow'>('normal');
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -30,7 +29,7 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    let scrollStep = speed === 'normal' ? 0.8 : 0.4;
+    const scrollStep = 0.8;
 
     const scrollLoop = () => {
       if (isPlaying && container) {
@@ -51,7 +50,7 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isPlaying, speed, filteredDestinations]);
+  }, [isPlaying, filteredDestinations]);
 
   const handleManualScroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;
@@ -92,18 +91,6 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
                 {cat}
               </button>
             ))}
-          </div>
-
-          {/* Play/Pause */}
-          <div className="flex items-center gap-1.5 bg-white p-1 rounded-full border border-[#2b2728]/10 shadow-sm">
-            <button
-              id="carousel-play-pause-btn"
-              onClick={() => setIsPlaying((p) => !p)}
-              className="w-7 h-7 rounded-full bg-[#f8f6f1] flex items-center justify-center text-[#2b2728] hover:text-[#8c956a] transition-colors"
-              title={isPlaying ? 'Pause Marquee' : 'Play Marquee'}
-            >
-              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            </button>
           </div>
 
           {/* Navigation Arrows */}
@@ -150,14 +137,14 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-              {/* Tag & Match Score */}
+              {/* Editorial label & journey fit */}
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-md border border-[#2b2728]/10 text-[10px] font-mono-code text-[#8c956a] font-semibold uppercase tracking-wider shadow-sm">
+                <span className="px-2.5 py-1 rounded-full bg-[#f8f6f1]/90 backdrop-blur-md border border-[#2b2728]/10 text-[10px] font-mono-code text-[#8c956a] font-medium uppercase tracking-[0.12em] shadow-sm">
                   {dest.tag}
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-md border border-[#8c956a]/40 text-[10px] font-mono-code text-[#2b2728] font-semibold flex items-center gap-1 shadow-sm">
+                <span className="px-2 py-0.5 rounded-full bg-[#f8f6f1]/90 backdrop-blur-md border border-[#8c956a]/35 text-[10px] font-mono-code text-[#2b2728] font-medium flex items-center gap-1 shadow-sm">
                   <Sparkles className="w-3 h-3 text-[#8c956a]" />
-                  {dest.matchScore}%
+                  {dest.matchScore}% fit
                 </span>
               </div>
 
@@ -170,24 +157,33 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
               )}
             </div>
 
-            {/* Body Info */}
-            <div className="p-5 space-y-3">
-              <div className="flex items-baseline justify-between">
-                <h3 className="font-fraunces text-2xl text-[#2b2728] group-hover:text-[#8c956a] transition-colors">
-                  {dest.name}
-                </h3>
-                <span className="text-[11px] font-mono-code text-[#4a4542] uppercase">
-                  {dest.state || dest.country}
-                </span>
+            {/* Editorial dossier details */}
+            <div className="p-5 space-y-3.5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="font-fraunces text-2xl leading-none text-[#2b2728] group-hover:text-[#8c956a] transition-colors">
+                    {dest.name}
+                  </h3>
+                  <p className="mt-2 flex items-center gap-1.5 text-[10px] font-mono-code uppercase tracking-[0.12em] text-[#4a4542]/75">
+                    <MapPin className="h-3 w-3 text-[#8c956a]" />
+                    <span className="truncate">{dest.state || dest.country}</span>
+                    <span className="text-[#8c956a]/70">·</span>
+                    <span>{dest.region}</span>
+                  </p>
+                </div>
               </div>
+
+              <p className="text-sm text-[#8c956a] font-fraunces italic leading-snug line-clamp-2">
+                “{dest.poeticTagline || dest.shortDescription}”
+              </p>
 
               <p className="text-xs text-[#4a4542] line-clamp-2 leading-relaxed font-light">
                 {dest.shortDescription}
               </p>
 
-              <div className="pt-3 border-t border-[#2b2728]/10 flex items-center justify-between text-xs font-mono-code text-[#4a4542]">
-                <span>{dest.idealDuration}</span>
-                <div className="flex items-center gap-1 text-[#8c956a] font-semibold group-hover:translate-x-1 transition-transform">
+              <div className="pt-3 border-t border-[#2b2728]/10 flex items-center justify-between gap-3 text-[10px] font-mono-code uppercase tracking-[0.1em] text-[#4a4542]">
+                <span className="truncate">{dest.idealDuration}</span>
+                <div className="flex shrink-0 items-center gap-1 text-[#8c956a] font-medium group-hover:translate-x-1 transition-transform">
                   <span>Explore Dossier</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>

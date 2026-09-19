@@ -4,13 +4,13 @@ import { Navigation } from './components/Navigation';
 import { HeroSection } from './components/HeroSection';
 import { CuratedCarousel } from './components/CuratedCarousel';
 import { JourneySection } from './components/JourneySection';
-import { FilterBar } from './components/FilterBar';
 import { DestinationCard } from './components/DestinationCard';
 import { SplitScreenDestinationDetail } from './components/SplitScreenDestinationDetail';
 import { MatchQuizModal } from './components/MatchQuizModal';
 import { AIChatDrawer } from './components/AIChatDrawer';
 import { TripIntentCard } from './components/TripIntentCard';
 import { Footer } from './components/Footer';
+import { StudioPage } from './components/StudioPage';
 import { DESTINATIONS } from './data/destinations';
 import { Destination, FilterState, Region } from './types';
 import { Heart, Sparkles, Compass, MapPin, Search } from 'lucide-react';
@@ -168,6 +168,10 @@ export function App() {
     setIsAIChatOpen(true);
   };
 
+  if (window.location.pathname === '/studio') {
+    return <StudioPage />;
+  }
+
   return (
     <div className="min-h-screen bg-[#f8f6f1] text-[#2b2728] font-jost flex flex-col selection:bg-[#8c956a] selection:text-[#ffffff]">
       {/* Atmosphere preloader */}
@@ -208,9 +212,15 @@ export function App() {
               onSelectOption={(prompt) => handleOpenAIChat(prompt)}
             />
 
-            {/* 2. AUTO-SCROLLING LUXURY DESTINATION MARQUEE (Ref: Travel-Sensations) */}
+            {/* 2. CURATED DESTINATION EXPLORATION */}
             <CuratedCarousel
-              destinations={DESTINATIONS}
+              destinations={filteredDestinations}
+              catalogRef={catalogRef}
+              filters={filters}
+              setFilters={setFilters}
+              totalCount={filteredDestinations.length}
+              isSaved={(id) => savedIds.includes(id)}
+              onToggleSave={toggleSave}
               onSelectDestination={(d) => setSelectedDestination(d)}
             />
 
@@ -220,64 +230,6 @@ export function App() {
               onOpenAI={(p) => handleOpenAIChat(p)}
             />
 
-            {/* 4. MAIN SANCTUARY CATALOGUE & FILTERS */}
-            <div ref={catalogRef} id="sanctuary-catalog-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-              <div className="mb-6">
-                <span className="font-mono-code text-xs text-[#8c956a] uppercase tracking-widest block mb-1">
-                  Full Curated Collection
-                </span>
-                <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#2b2728]">
-                  Explore Sanctuaries & Solitary Havens
-                </h2>
-              </div>
-
-              <FilterBar
-                filters={filters}
-                setFilters={setFilters}
-                totalCount={filteredDestinations.length}
-              />
-
-              {filteredDestinations.length === 0 ? (
-                <div className="text-center py-24 bg-white border border-[#2b2728]/10 rounded-3xl p-8 space-y-4 shadow-sm">
-                  <div className="w-12 h-12 rounded-full bg-[#f8f6f1] border border-[#8c956a]/30 flex items-center justify-center mx-auto text-[#8c956a]">
-                    <Search className="w-6 h-6" />
-                  </div>
-                  <h3 className="font-ebGaramond text-2xl text-[#2b2728]">No sanctuaries match your criteria</h3>
-                  <p className="text-xs sm:text-sm text-[#4a4542] max-w-md mx-auto">
-                    Try loosening your filters or resetting your mood preferences to view our catalog.
-                  </p>
-                  <button
-                    onClick={() =>
-                      setFilters({
-                        search: '',
-                        region: 'All',
-                        maxBudget: 100000,
-                        mood: 'All Moods',
-                        type: 'All Types',
-                        duration: 'all',
-                        sortBy: 'recommended',
-                      })
-                    }
-                    className="px-5 py-2 rounded-full bg-[#8c956a] hover:bg-[#7a835a] text-white font-medium text-xs uppercase tracking-wider transition-colors shadow-sm"
-                  >
-                    Reset Filters
-                  </button>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredDestinations.map((dest, idx) => (
-                    <DestinationCard
-                      key={dest.id}
-                      destination={dest}
-                      isSaved={savedIds.includes(dest.id)}
-                      onToggleSave={toggleSave}
-                      onSelect={(d) => setSelectedDestination(d)}
-                      index={idx}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
         )}
 

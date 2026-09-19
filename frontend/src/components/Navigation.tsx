@@ -102,6 +102,12 @@ export const Navigation: React.FC<NavigationProps> = ({
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href="/studio"
+            className="hidden text-[10px] font-mono-code uppercase tracking-[0.16em] text-[#4a4542] transition-colors hover:text-[#8c956a] lg:inline"
+          >
+            Studio
+          </a>
           {/* Search Trigger */}
           <div className="relative hidden sm:block w-40 md:w-48 lg:w-60">
             <Search className="w-4 h-4 text-[#4a4542]/60 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
