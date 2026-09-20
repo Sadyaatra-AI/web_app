@@ -8,33 +8,33 @@ interface TripIntentCardProps {
 const STORY_CARDS = [
   {
     number: '01',
-    label: 'THE PROBLEM',
-    title: 'When every journey starts to look the same.',
-    copy: 'Placeholder copy about crowded itineraries, hurried checklists, and the quiet parts of travel getting lost along the way.',
+    label: 'THE FRICTION',
+    title: 'Why does planning a journey feel harder than taking one?',
+    copy: 'Travelling is exciting. Preparing for it can feel like a project. Destinations, stays, transport, restaurants, activities, reviews — the information exists, but it is scattered across places. Travellers are left to connect the dots, compare endless options, coordinate with others, and keep adjusting when plans change.',
     accent: '#8c956a',
     surface: '#f8f6f1',
   },
   {
     number: '02',
-    label: 'THE BELIEF',
-    title: 'Travel can leave more room to notice.',
-    copy: 'Placeholder copy about moving with intention, meeting places with openness, and allowing a journey to unfold at its own pace.',
+    label: 'THE IDEA',
+    title: 'What if the journey was planned around you?',
+    copy: 'We started SADHYAATRA with a simple question: “What if the entire journey could be planned around the traveller, instead of the traveller planning around disconnected platforms?”',
     accent: '#526a45',
     surface: '#ded7cb',
   },
   {
     number: '03',
-    label: 'SADHYAATRA',
-    title: 'A more mindful way to find your way there.',
-    copy: 'Placeholder copy introducing SADHYAATRA as a considered collection of places, stories, and journeys shaped around how you want to feel.',
+    label: 'OUR VISION',
+    title: 'Make the journey easier to imagine, experience, and plan.',
+    copy: 'We envision a unified travel ecosystem where planning feels as natural as experiencing a journey. One connected place that understands what you want and need, helping make travel more accessible, personalised, transparent, and experience-driven.',
     accent: '#a66f5b',
     surface: '#d6cfcc',
   },
   {
     number: '04',
-    label: 'YOUR JOURNEY',
-    title: 'Begin with the feeling you want to carry home.',
-    copy: 'Placeholder copy inviting the traveller to imagine a personal route, shaped by curiosity, pace, and the places that feel meaningful.',
+    label: 'OUR MISSION',
+    title: 'Not just where to go. How you want to travel.',
+    copy: 'SADHYAATRA brings the different parts of travel into one experience — helping you discover destinations, build practical itineraries, explore stays and transport, find activities and local experiences, and shape the journey around your own preferences.',
     accent: '#9eb094',
     surface: '#c6cab2',
   },
@@ -70,9 +70,7 @@ const StoryCard: React.FC<{ card: (typeof STORY_CARDS)[number]; index: number }>
           </div>
 
           <div className="max-w-3xl py-12 sm:py-16">
-            <p className="mb-5 font-mono-code text-[10px] uppercase tracking-[0.2em]" style={{ color: card.accent }}>
-              A note from SADHYAATRA
-            </p>
+           
             <h3 className="max-w-2xl font-fraunces text-4xl font-normal leading-[1.08] text-[#2b2728] sm:text-6xl lg:text-7xl">
               {card.title}
             </h3>
@@ -101,10 +99,10 @@ export const TripIntentCard: React.FC<TripIntentCardProps> = ({ onSelectOption }
           The idea behind SADHYAATRA
         </p>
         <h2 className="font-fraunces text-4xl font-normal leading-[1.08] text-[#2b2728] sm:text-6xl lg:text-7xl">
-          Travel should feel like a story you are still becoming part of.
+          Travel should feel like a story you're becoming a part of.
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-base font-light leading-relaxed text-[#4a4542] sm:text-lg">
-          A placeholder introduction for the philosophy behind SADHYAATRA, and the slower, more meaningful journeys we hope to make possible.
+          We started SADHYAATRA with a simple belief: the journey should be shaped around the traveller, not around a collection of disconnected platforms.
         </p>
       </header>
 
