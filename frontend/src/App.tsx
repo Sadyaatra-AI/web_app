@@ -178,17 +178,19 @@ export function App() {
       {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
 
       {/* Global Header */}
-      <Navigation
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        savedCount={savedIds.length}
-        onOpenChat={() => handleOpenAIChat()}
-        searchQuery={filters.search}
-        setSearchQuery={(q) => setFilters((prev) => ({ ...prev, search: q }))}
-      />
+      {!showPreloader && (
+        <Navigation
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          savedCount={savedIds.length}
+          onOpenChat={() => handleOpenAIChat()}
+          searchQuery={filters.search}
+          setSearchQuery={(q) => setFilters((prev) => ({ ...prev, search: q }))}
+        />
+      )}
 
       {/* Main Viewports */}
-      <main className="flex-1 pt-20 md:pt-20">
+      <main className="flex-1">
         {/* TAB 1: EXPLORE / SANCTUARIES */}
         {activeTab === 'explore' && (
           <div>
