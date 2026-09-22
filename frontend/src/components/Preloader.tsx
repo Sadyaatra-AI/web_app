@@ -76,7 +76,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                   transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
                   className="absolute z-20 w-[140%] text-center pointer-events-none"
                 >
-                  <h1 className="font-ebGaramond text-4xl sm:text-5xl lg:text-6xl text-[#1a1818] leading-tight drop-shadow-[0_4px_15px_rgba(255,255,255,0.6)]">
+                  <h1 className="font-ebGaramond text-4xl sm:text-5xl lg:text-6xl text-white leading-tight drop-shadow-[0_4px_15px_rgba(0,0,0,0.6)]">
                     Find Your<br />Inner Peace
                   </h1>
                 </motion.div>

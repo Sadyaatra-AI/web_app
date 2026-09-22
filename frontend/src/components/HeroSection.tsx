@@ -245,7 +245,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="font-fraunces text-4xl sm:text-6xl md:text-7xl font-normal text-[#2b2728] tracking-tight leading-[1.08]"
         >
           Journeys Designed for the <br />
-          <span className="italic font-light text-[#8c956a]">Contemplative</span> Soul
+          <span className="relative inline-block mt-2">
+            <span className="absolute inset-0 bg-[#2b2728]/95 -skew-x-12 rounded-lg transform scale-105"></span>
+            <span className="relative italic font-light text-[#8c956a] px-3">Contemplative</span>
+          </span> Soul
         </motion.h1>
 
         <motion.p
@@ -325,6 +328,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </span>
     </div>
 
+    {/* 5. SCROLL INDICATOR */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 1.5, duration: 1 }}
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
+    >
+      <span className="text-[10px] font-mono-code uppercase tracking-[0.2em] text-[#2b2728]/60">Scroll to explore</span>
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+      >
+        <div className="w-px h-10 bg-gradient-to-b from-[#2b2728]/60 to-transparent" />
+      </motion.div>
+    </motion.div>
   </div>
 </div>
     </div>

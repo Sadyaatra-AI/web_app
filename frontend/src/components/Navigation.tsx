@@ -43,9 +43,8 @@ export const Navigation: React.FC<NavigationProps> = ({
   return (
     <header
       id="main-navigation"
-      className={`fixed top-2 sm:top-4 left-2 right-2 sm:left-4 sm:right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[95%] max-w-7xl z-50 border border-[#2b2728]/15 bg-white/30 backdrop-blur-2xl rounded-3xl overflow-hidden transition-all duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0 opacity-100 shadow-xl shadow-[#2b2728]/10' : '-translate-y-[120%] opacity-0'
-      }`}
+      className={`fixed top-2 sm:top-4 left-2 right-2 sm:left-4 sm:right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-[95%] max-w-7xl z-50 border border-[#2b2728]/15 bg-white/30 backdrop-blur-2xl rounded-3xl overflow-hidden transition-all duration-300 ease-in-out ${isVisible ? 'translate-y-0 opacity-100 shadow-xl shadow-[#2b2728]/10' : '-translate-y-[120%] opacity-0'
+        }`}
     >
       <div className="mx-auto px-3 sm:px-6 lg:px-8 h-12 sm:h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Logo with rounded cut corners and lighter background badge */}
@@ -56,7 +55,7 @@ export const Navigation: React.FC<NavigationProps> = ({
         >
           <div className="bg-white/80 backdrop-blur-sm border border-[#2b2728]/10 rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-sm flex items-center justify-center transition-all group-hover:scale-105 group-hover:shadow-md group-hover:shadow-[#8c956a]/20">
             <img
-              src="/logo.png"
+              src="/logo_justlogo.png"
               alt="Sadyaatra Logo"
               className="h-6 sm:h-9 w-auto object-contain rounded-lg"
             />
@@ -68,10 +67,9 @@ export const Navigation: React.FC<NavigationProps> = ({
           <button
             id="nav-explore-btn"
             onClick={() => setActiveTab('explore')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all ${
-              activeTab === 'explore'
-                ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
-                : 'text-[#4a4542] hover:text-[#2b2728] hover:bg-white/60'
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all ${activeTab === 'explore'
+              ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
+              : 'text-[#4a4542] hover:text-[#2b2728] hover:bg-white/60'
               }`}
           >
             Sanctuaries
@@ -80,10 +78,9 @@ export const Navigation: React.FC<NavigationProps> = ({
           <button
             id="nav-quiz-btn"
             onClick={() => setActiveTab('quiz')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${
-              activeTab === 'quiz'
-                ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
-                : 'text-[#4a4542] hover:text-[#8c956a] hover:bg-white/60'
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${activeTab === 'quiz'
+              ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
+              : 'text-[#4a4542] hover:text-[#8c956a] hover:bg-white/60'
               }`}
           >
             <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'quiz' ? 'text-white' : 'text-[#8c956a]'}`} />
@@ -93,10 +90,9 @@ export const Navigation: React.FC<NavigationProps> = ({
           <button
             id="nav-saved-btn"
             onClick={() => setActiveTab('saved')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${
-              activeTab === 'saved'
-                ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
-                : 'text-[#4a4542] hover:text-[#2b2728] hover:bg-white/60'
+            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${activeTab === 'saved'
+              ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
+              : 'text-[#4a4542] hover:text-[#2b2728] hover:bg-white/60'
               }`}
           >
             <Heart className={`w-3.5 h-3.5 ${savedCount > 0 ? 'fill-[#8c956a] text-[#8c956a]' : ''}`} />
@@ -108,9 +104,9 @@ export const Navigation: React.FC<NavigationProps> = ({
         <div className="flex items-center gap-2 sm:gap-3">
           <a
             href="/studio"
-            className="hidden lg:flex items-center justify-center px-3.5 py-1.5 rounded-full border border-[#2b2728]/15 bg-white/60 hover:bg-white text-[10px] font-semibold uppercase tracking-[0.16em] text-[#4a4542] transition-all hover:border-[#8c956a] hover:text-[#8c956a] shadow-sm hover:shadow-md"
+            className="hidden lg:flex items-center justify-center px-4 py-2 rounded-full border border-[#8c956a]/30 bg-white/90 hover:bg-white text-[11px] font-semibold uppercase tracking-[0.16em] text-[#2b2728] transition-all hover:border-[#8c956a] hover:text-[#8c956a] shadow-sm hover:shadow-md backdrop-blur-md"
           >
-            Studio
+            About
           </a>
           {/* Search Trigger */}
           <div className="relative hidden sm:block w-32 md:w-48 lg:w-56">
@@ -143,8 +139,7 @@ export const Navigation: React.FC<NavigationProps> = ({
         <button
           id="mobile-nav-explore"
           onClick={() => setActiveTab('explore')}
-          className={`px-3 py-1.5 rounded-full text-[11px] font-medium transition-all ${
-            activeTab === 'explore' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
+          className={`px-3 py-1.5 rounded-full text-[11px] font-medium transition-all ${activeTab === 'explore' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
             }`}
         >
           Sanctuaries
@@ -153,8 +148,7 @@ export const Navigation: React.FC<NavigationProps> = ({
         <button
           id="mobile-nav-quiz"
           onClick={() => setActiveTab('quiz')}
-          className={`px-3 py-1.5 rounded-full text-[11px] font-medium flex items-center gap-1 transition-all ${
-            activeTab === 'quiz' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
+          className={`px-3 py-1.5 rounded-full text-[11px] font-medium flex items-center gap-1 transition-all ${activeTab === 'quiz' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
             }`}
         >
           <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'quiz' ? 'text-white' : 'text-[#8c956a]'}`} /> Matcher
@@ -163,8 +157,7 @@ export const Navigation: React.FC<NavigationProps> = ({
         <button
           id="mobile-nav-saved"
           onClick={() => setActiveTab('saved')}
-          className={`px-3 py-1.5 rounded-full text-[11px] font-medium flex items-center gap-1.5 transition-all ${
-            activeTab === 'saved' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
+          className={`px-3 py-1.5 rounded-full text-[11px] font-medium flex items-center gap-1.5 transition-all ${activeTab === 'saved' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
             }`}
         >
           <Heart className={`w-3.5 h-3.5 ${savedCount > 0 && activeTab !== 'saved' ? 'fill-[#8c956a] text-[#8c956a]' : ''} ${activeTab === 'saved' ? 'fill-white text-white' : ''}`} /> Saved ({savedCount})

@@ -206,7 +206,7 @@ export function App() {
                 scrollToCatalog();
               }}
               onStartQuiz={() => setActiveTab('quiz')}
-              onExploreClick={scrollToCatalog}
+              onExploreClick={() => handleOpenAIChat()}
             />
 
             {/* 1.5 CLASSY TRIP INTENT CARD */}
