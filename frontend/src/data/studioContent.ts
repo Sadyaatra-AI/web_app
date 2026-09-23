@@ -32,7 +32,7 @@ export const STUDIO_CONTENT = {
 export const FEATURES = [
   { name: 'AI JOURNEY COMPANION', status: 'IN DEVELOPMENT', description: 'Interact with one connected system for discovery, bookings, and navigation.', date: 'LATE 2026', cta: 'Learn more' },
   { name: 'PERSONALISED DISCOVERY', status: 'COMING SOON', description: 'Destinations tailored to your unique travel speed and budget.', date: 'EARLY 2027', cta: 'Explore matching' },
-  { name: 'MOOD-BASED EXPLORATION', status: 'READY TO LAUNCH', description: 'Find sanctuaries that match your current emotional state.', date: 'NOW LIVE', cta: 'Try it out' },
+  { name: 'MOOD-BASED EXPLORATION', status: 'READY TO LAUNCH', description: 'Find destinations that match your current emotional state.', date: 'NOW LIVE', cta: 'Try it out' },
   { name: 'CURATED JOURNEYS', status: 'IN DEVELOPMENT', description: 'Actionable itineraries you can follow without starting from scratch.', date: 'MID 2027', cta: 'See preview' },
   { name: 'AGENCY NETWORK', status: 'COMING SOON', description: 'Connect directly with local experts and verified experience providers.', date: 'LATE 2027', cta: 'Join waitlist' },
   { name: 'GROUP PLANNING', status: 'COMING SOON', description: 'Plan together seamlessly without needing external messengers.', date: '2028', cta: 'Discover tools' },
@@ -40,7 +40,7 @@ export const FEATURES = [
 
 export const FOUNDERS = [
   { name: 'anushree balaji', role: 'co-founder & ceo', bio: 'backend developer & ai explorer. turning complex problems into simple, practical systems.', philosophy: 'technology should handle the complexity in the background, so the traveller can focus on the journey.', link: '#' },
-  { name: 'Cahak', role: 'co-founder', bio: '', philosophy: '', link: '#' },
+  { name: 'Chahak', role: 'co-founder', bio: '', philosophy: '', link: '#' },
 ] as const;
 
 export const FUTURE_PROSPECTS = [

@@ -129,7 +129,7 @@ export async function getDestinations(filters?: Partial<FilterState>): Promise<D
           state: dbItem.state || 'India',
           country: dbItem.country,
           region: 'Central' as const,
-          tag: dbItem.description?.slice(0, 30) || 'Sanctuary',
+          tag: dbItem.description?.slice(0, 30) || 'Destination',
           coordinates: { lat: dbItem.latitude, lng: dbItem.longitude, formatted: `${dbItem.latitude}° N, ${dbItem.longitude}° E` },
           shortDescription: dbItem.description?.slice(0, 120) || '',
           fullDescription: dbItem.description || '',
@@ -139,7 +139,7 @@ export async function getDestinations(filters?: Partial<FilterState>): Promise<D
           budgetFormatted: `₹${(dbItem.averageBudget || 15000).toLocaleString('en-IN')} / person`,
           idealDuration: '3–4 days',
           bestTime: 'October to March',
-          whyGo: [dbItem.description || 'Discover sanctuary beauty'],
+          whyGo: [dbItem.description || 'Discover destination beauty'],
           bestFor: ['Nature Lovers', 'Explorers'],
           attractions: dbItem.attractions.map((a) => ({
             id: a.id,

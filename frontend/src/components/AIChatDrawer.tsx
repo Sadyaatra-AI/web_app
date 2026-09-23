@@ -39,7 +39,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
       sender: 'assistant',
       text: activeDestination
         ? `Greetings. I am your **Sadhyatra Companion** for **${activeDestination.name}**. How may I refine your journey today? Ask for places to visit, hidden spots, or local food recommendations.`
-        : `Greetings traveler. I am the **Sadhyatra AI Companion**. Tell me what kind of journey you dream of, or ask me for personalized recommendations across our sanctuaries.`,
+        : `Greetings traveler. I am the **Sadhyatra AI Companion**. Tell me what kind of journey you dream of, or ask me for personalized recommendations across our destinations.`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     },
   ]);
@@ -86,10 +86,10 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
     const currentDest = destinations.find((d) => d.id === selectedDestId);
 
     const visitorId = (() => {
-      let v = localStorage.getItem('sadyaatra_visitor');
+      let v = localStorage.getItem('sadhyatra_visitor') || localStorage.getItem('sadyaatra_visitor');
       if (!v) {
         v = `v_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
-        localStorage.setItem('sadyaatra_visitor', v);
+        localStorage.setItem('sadhyatra_visitor', v);
       }
       return v;
     })();
@@ -121,7 +121,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
       const errorMsg: ChatMessage = {
         id: `error-${Date.now()}`,
         sender: 'assistant',
-        text: 'The connection to the sanctuary archives was momentarily interrupted. Please try asking again.',
+        text: 'The connection to the destination archives was momentarily interrupted. Please try asking again.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -241,7 +241,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
               onChange={(e) => setSelectedDestId(e.target.value)}
               className="bg-[#f8f6f1] border border-[#2b2728]/10 rounded-lg px-2 py-1 text-xs text-[#2b2728] outline-none focus:border-[#8c956a]"
             >
-              <option value="all">All Sanctuaries & General Advice</option>
+              <option value="all">All Destinations & General Advice</option>
               {destinations.map((d) => (
                 <option key={d.id} value={d.id}>
                   {d.name} ({d.state || d.country})
@@ -305,7 +305,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                 </div>
                 <div className="bg-white border border-[#2b2728]/10 px-4 py-3 rounded-2xl rounded-tl-none text-xs text-[#4a4542] flex items-center gap-2 shadow-2xs">
                   <span className="w-2 h-2 rounded-full bg-[#8c956a] animate-ping" />
-                  <span>Curating insights from sanctuary archives...</span>
+                  <span>Curating insights from destination archives...</span>
                 </div>
               </div>
             )}

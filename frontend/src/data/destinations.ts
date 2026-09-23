@@ -17,7 +17,7 @@ export const DESTINATIONS: Destination[] = [
     elevation: '1,067 m MSL',
 
     curatorNotes:
-      'A rare Central Indian hill station where sandstone plateaus, dense sal forests, ancient caves, cascading waterfalls, and sweeping Satpura viewpoints converge.',
+      'Pachmarhi brings together waterfalls, forest trails, viewpoints, caves, and historic sites in one compact hill-station destination.',
 
     poeticTagline: "For mornings when you don't want to rush anywhere.",
     featureTags: ['Forests', 'Waterfalls', 'Caves', 'Slow mornings'],
@@ -36,10 +36,10 @@ export const DESTINATIONS: Destination[] = [
     ],
 
     shortDescription:
-      'Misty Satpura forests, ancient sandstone caves, cascading waterfalls, and panoramic viewpoints hidden in the heart of Central India.',
+      'A forested hill station in Madhya Pradesh’s Satpura Range, Pachmarhi is known for waterfalls, caves, viewpoints, and scenic trails. Its cooler climate and relaxed pace make it a popular getaway for nature lovers, families, and weekend travellers.',
 
     fullDescription:
-      'Perched high in the Satpura Range, Pachmarhi is Madhya Pradesh’s most celebrated hill station and a sanctuary of forests, waterfalls, caves, and dramatic sandstone landscapes. Known as the Queen of the Satpuras, it offers a slower kind of mountain escape—morning mist over sal forests, ancient rock shelters, quiet colonial lanes, and sunsets stretching across the rugged Central Indian plateau.',
+      'A forested hill station in Madhya Pradesh’s Satpura Range, Pachmarhi is known for waterfalls, caves, viewpoints, and scenic trails. Its cooler climate and relaxed pace make it a popular getaway for nature lovers, families, and weekend travellers.',
 
     destinationTypes: [
       'Mountains',

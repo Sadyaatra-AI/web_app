@@ -102,13 +102,13 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
                 onClick={() => {
                   if (navigator.share) {
                     navigator.share({
-                      title: `Sadyaatra — ${destination.name}`,
+                      title: `Sadhyatra — ${destination.name}`,
                       text: destination.shortDescription,
                       url: window.location.href,
                     }).catch(() => {});
                   } else {
                     navigator.clipboard.writeText(window.location.href);
-                    alert('Sanctuary link copied to clipboard!');
+                    alert('Destination link copied to clipboard!');
                   }
                 }}
                 className="w-9 h-9 rounded-full bg-[#1e1b19] border border-[#383432] flex items-center justify-center text-[#cfc4c6] hover:text-[#e8e1de] transition-colors"
@@ -201,10 +201,10 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
               </div>
             </div>
 
-            {/* Key Sanctuaries & Attractions */}
+            {/* Places to Explore & Attractions */}
             {destination.attractions.length > 0 && (
               <div className="space-y-4">
-                <h3 className="font-ebGaramond text-2xl text-[#e8e1de]">Key Sanctuaries & Sights</h3>
+                <h3 className="font-ebGaramond text-2xl text-[#e8e1de]">Places to Explore & Sights</h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {destination.attractions.map((att) => (
                     <div
@@ -330,7 +330,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs font-mono-code text-[#9EB094] uppercase tracking-wider">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Consult Sadyaatra AI Assistant</span>
+                  <span>Consult Sadhyatra AI Assistant</span>
                 </div>
                 <span className="text-[11px] text-[#cfc4c6]/60">Click any prompt to open consultation</span>
               </div>

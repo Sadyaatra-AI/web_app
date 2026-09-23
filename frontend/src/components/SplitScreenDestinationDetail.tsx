@@ -122,7 +122,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
       const errorMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         sender: 'assistant',
-        text: 'The connection to the sanctuary intelligence network was interrupted. Please try asking again.',
+        text: 'The connection to the destination intelligence network was interrupted. Please try asking again.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -202,14 +202,14 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#2b2728]/15 text-xs font-medium text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
             >
               <Heart className={`w-4 h-4 ${isSaved ? 'fill-[#8c956a] text-[#8c956a]' : ''}`} />
-              <span>{isSaved ? 'Saved' : 'Save Sanctuary'}</span>
+              <span>{isSaved ? 'Saved' : 'Save Destination'}</span>
             </button>
 
             <button
               onClick={() => {
                 if (navigator.share) {
                   navigator.share({
-                    title: `Sadyaatra — ${destination.name}`,
+                    title: `Sadhyatra — ${destination.name}`,
                     text: destination.shortDescription,
                     url: window.location.href,
                   }).catch(() => { });
@@ -218,7 +218,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                 }
               }}
               className="w-10 h-10 rounded-full bg-white border border-[#2b2728]/15 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] transition-colors shadow-sm"
-              title="Share Sanctuary link"
+              title="Share Destination link"
             >
               <Share2 className="w-4 h-4" />
             </button>
@@ -337,10 +337,10 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 text-xs font-mono-code text-[#8c956a] uppercase tracking-widest font-semibold">
                     <Sparkles className="w-4 h-4" />
-                    <span>Signature AI Persona Match</span>
+                    <span>Travel Style Match</span>
                   </div>
                   <h3 className="font-fraunces text-2xl text-[#2b2728]">
-                    Is {destination.name} Right for You?
+                    Is {destination.name} a Good Fit?
                   </h3>
                 </div>
 
@@ -399,7 +399,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                 <div>
                   <div className="flex items-center gap-2 text-xs font-mono-code text-[#8c956a] uppercase tracking-widest font-semibold">
                     <MapPin className="w-3.5 h-3.5" />
-                    <span>Curated Sights & Sanctuaries</span>
+                    <span>Places to Explore</span>
                   </div>
                   <h3 className="font-fraunces text-3xl text-[#2b2728]">
                     Places to Visit in {destination.name}
@@ -605,7 +605,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8c956a] opacity-60" />
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#8c956a]" />
                     </span>
-                    <span className="text-[10px] font-mono-code text-[#8c956a] uppercase tracking-[0.18em] font-semibold">Journey Oracle</span>
+                    <span className="text-[10px] font-mono-code text-[#8c956a] uppercase tracking-[0.18em] font-semibold">AI Travel Companion</span>
                   </div>
                   <h2 className="font-fraunces text-xl text-[#2b2728] leading-tight font-normal">
                     Ask anything about
@@ -738,7 +738,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                   <Send className="w-3 h-3" />
                 </button>
               </form>
-              <p className="text-center text-[9px] font-mono-code text-[#4a4542]/40 mt-2 tracking-wider uppercase">Sadyaatra · Journey Intelligence</p>
+              <p className="text-center text-[9px] font-mono-code text-[#4a4542]/40 mt-2 tracking-wider uppercase">Sadhyatra · Journey Intelligence</p>
             </div>
           </aside>
 
@@ -770,7 +770,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                       <Compass className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="font-fraunces text-base text-[#2b2728] leading-tight font-medium">Journey Oracle</h3>
+                      <h3 className="font-fraunces text-base text-[#2b2728] leading-tight font-medium">AI Travel Companion</h3>
                       <span className="text-[10px] font-mono-code text-[#8c956a] font-semibold block">with you in {destination.name}</span>
                     </div>
                   </div>

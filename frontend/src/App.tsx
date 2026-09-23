@@ -22,10 +22,10 @@ export function App() {
   const [apiDestinations, setApiDestinations] = useState<Destination[]>(DESTINATIONS);
   const [savedIds, setSavedIds] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('sadyaatra_saved');
-      return saved ? JSON.parse(saved) : ['gokarna', 'udaipur'];
+      const saved = localStorage.getItem('sadhyatra_saved') || localStorage.getItem('sadyaatra_saved');
+      return saved ? JSON.parse(saved) : [];
     } catch {
-      return ['gokarna', 'udaipur'];
+      return [];
     }
   });
 
@@ -76,7 +76,7 @@ export function App() {
   // Save to LocalStorage & Backend sync
   useEffect(() => {
     try {
-      localStorage.setItem('sadyaatra_saved', JSON.stringify(savedIds));
+      localStorage.setItem('sadhyatra_saved', JSON.stringify(savedIds));
     } catch (e) {
       console.error(e);
     }
@@ -100,81 +100,58 @@ export function App() {
     }, 100);
   };
 
+  const handleOpenAIChat = (prompt?: string, dest?: Destination) => {
+    setAiInitialPrompt(prompt);
+    setAiChatContext(dest || null);
+    setIsAIChatOpen(true);
+  };
+
   // Filter and Sort logic
   const filteredDestinations = useMemo(() => {
-    return apiDestinations.filter((d) => {
-      // Tab filter
-      if (activeTab === 'saved' && !savedIds.includes(d.id)) {
+    return apiDestinations.filter((dest) => {
+      if (activeTab === 'saved' && !savedIds.includes(dest.id)) {
         return false;
       }
 
-      // Region
-      if (filters.region !== 'All' && d.region !== filters.region) {
+      if (
+        filters.search &&
+        !dest.name.toLowerCase().includes(filters.search.toLowerCase()) &&
+        !dest.state.toLowerCase().includes(filters.search.toLowerCase()) &&
+        !dest.tag.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
         return false;
       }
 
-      // Mood
+      if (filters.region !== 'All' && dest.region !== filters.region) {
+        return false;
+      }
+
+      if (filters.maxBudget < dest.estBudget) {
+        return false;
+      }
+
       if (
         filters.mood !== 'All Moods' &&
-        !d.travelMoods.some(
-          (m) =>
-            m.toLowerCase().includes(filters.mood.toLowerCase()) ||
-            filters.mood.toLowerCase().includes(m.toLowerCase())
-        )
+        !dest.vibes?.some((v) => v.toLowerCase().includes(filters.mood.toLowerCase()))
       ) {
         return false;
       }
 
-      // Type
-      if (
-        filters.type !== 'All Types' &&
-        !d.destinationTypes.some(
-          (t) =>
-            t.toLowerCase().includes(filters.type.toLowerCase()) ||
-            filters.type.toLowerCase().includes(t.toLowerCase())
-        )
-      ) {
+      if (filters.type !== 'All Types' && dest.type !== filters.type) {
         return false;
-      }
-
-      // Search
-      if (filters.search.trim()) {
-        const q = filters.search.toLowerCase();
-        const matchesName = d.name.toLowerCase().includes(q);
-        const matchesState = d.state.toLowerCase().includes(q);
-        const matchesCountry = d.country.toLowerCase().includes(q);
-        const matchesTag = d.tag.toLowerCase().includes(q);
-        const matchesDesc = d.shortDescription.toLowerCase().includes(q);
-        if (!matchesName && !matchesState && !matchesCountry && !matchesTag && !matchesDesc) {
-          return false;
-        }
       }
 
       return true;
-    }).sort((a, b) => {
-      if (filters.sortBy === 'budget-asc') {
-        return a.budgetTypical - b.budgetTypical;
-      }
-      if (filters.sortBy === 'budget-desc') {
-        return b.budgetTypical - a.budgetTypical;
-      }
-      return b.matchScore - a.matchScore;
     });
   }, [apiDestinations, filters, activeTab, savedIds]);
-
-  const handleOpenAIChat = (prompt?: string, dest?: Destination) => {
-    setAiChatContext(dest || null);
-    setAiInitialPrompt(prompt);
-    setIsAIChatOpen(true);
-  };
 
   if (window.location.pathname === '/studio') {
     return <StudioPage />;
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f6f1] text-[#2b2728] font-jost flex flex-col selection:bg-[#8c956a] selection:text-[#ffffff]">
-      {/* Atmosphere preloader */}
+    <div className="min-h-screen bg-[#f8f6f1] text-[#2b2728] font-jost selection:bg-[#8c956a]/30 selection:text-[#2b2728] flex flex-col relative">
+      {/* Atmosphere Preloader Overlay */}
       {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
 
       {/* Global Header */}
@@ -191,7 +168,7 @@ export function App() {
 
       {/* Main Viewports */}
       <main className="flex-1">
-        {/* TAB 1: EXPLORE / SANCTUARIES */}
+        {/* TAB 1: EXPLORE / DESTINATIONS */}
         {activeTab === 'explore' && (
           <div>
             {/* 1. CINEMATIC HERO SECTION WITH 3D MAP MASK */}
@@ -245,7 +222,7 @@ export function App() {
           </div>
         )}
 
-        {/* TAB 3: SAVED SANCTUARIES */}
+        {/* TAB 3: SAVED DESTINATIONS */}
         {activeTab === 'saved' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
             <div className="border-b border-[#2b2728]/10 pb-6 flex items-baseline justify-between">
@@ -254,7 +231,7 @@ export function App() {
                   Private Curations
                 </span>
                 <h2 className="font-ebGaramond text-3xl sm:text-4xl text-[#2b2728]">
-                  Your Saved Sanctuaries ({savedIds.length})
+                  Your Saved Destinations ({savedIds.length})
                 </h2>
               </div>
             </div>
@@ -264,7 +241,7 @@ export function App() {
                 <div className="w-12 h-12 rounded-full bg-[#f8f6f1] border border-[#8c956a]/30 flex items-center justify-center mx-auto text-[#8c956a]">
                   <Heart className="w-6 h-6" />
                 </div>
-                <h3 className="font-ebGaramond text-2xl text-[#2b2728]">No saved sanctuaries yet</h3>
+                <h3 className="font-ebGaramond text-2xl text-[#2b2728]">No saved destinations yet</h3>
                 <p className="text-xs sm:text-sm text-[#4a4542] max-w-md mx-auto">
                   Explore our curated catalogue and click the heart icon to save your favorite destinations for future journeys.
                 </p>
@@ -272,7 +249,7 @@ export function App() {
                   onClick={() => setActiveTab('explore')}
                   className="px-5 py-2 rounded-full bg-[#8c956a] hover:bg-[#7a835a] text-white font-medium text-xs uppercase tracking-wider transition-colors shadow-sm"
                 >
-                  Explore Sanctuaries
+                  Explore Destinations
                 </button>
               </div>
             ) : (

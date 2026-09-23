@@ -11,7 +11,7 @@ interface MatchQuizModalProps {
 
 const MOOD_OPTIONS = [
   { id: 'Slow & Peaceful', label: 'Slow & Peaceful', icon: '🍃', desc: 'Unhurried mornings, quiet shores, and calm atmosphere.' },
-  { id: 'Spiritual', label: 'Spiritual & Introspective', icon: '🪷', desc: 'Temple bells, river aartis, meditation, and ashram sanctuaries.' },
+  { id: 'Spiritual', label: 'Spiritual & Introspective', icon: '🪷', desc: 'Temple bells, river aartis, meditation, and ashram destinations.' },
   { id: 'Adventurous', label: 'Wild & Adventurous', icon: '⛰️', desc: 'High alpine passes, white water rapids, and rugged nature.' },
   { id: 'Romantic', label: 'Romantic & Timeless', icon: '✨', desc: 'Lakeside palaces, rooftop candlelight, and poetic sunsets.' },
   { id: 'Cultural', label: 'Heritage & Ancient Ruins', icon: '🏛️', desc: 'Centuries of architecture, craft workshops, and folklore.' },
@@ -117,7 +117,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
               <Compass className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-fraunces text-xl sm:text-2xl text-[#2b2728]">Intelligent Sanctuary Matcher</h2>
+              <h2 className="font-fraunces text-xl sm:text-2xl text-[#2b2728]">Intelligent Destination Matcher</h2>
               <p className="font-mono-code text-[11px] text-[#4a4542]">Step {step} of 3</p>
             </div>
           </div>
@@ -293,7 +293,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                 className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#8c956a] text-white font-medium text-xs tracking-wider uppercase shadow-sm hover:bg-[#7a835a] transition-all"
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Reveal Matched Sanctuary</span>
+                <span>Reveal Matched Destination</span>
               </button>
             </div>
           </motion.div>
@@ -312,7 +312,7 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
                   Voyage Algorithm Recommendation
                 </span>
                 <h3 className="font-fraunces text-3xl sm:text-4xl text-[#2b2728]">
-                  Your Sanctuary is <span className="text-[#8c956a]">{result.destination.name}</span>
+                  Your Destination is <span className="text-[#8c956a]">{result.destination.name}</span>
                 </h3>
               </div>
               <div className="px-4 py-2 rounded-2xl bg-[#f8f6f1] border border-[#8c956a]/30 font-mono-code text-xs text-[#8c956a] font-bold">
@@ -354,11 +354,11 @@ export const MatchQuizModal: React.FC<MatchQuizModalProps> = ({
 
                 <div className="flex items-center gap-3 pt-2">
                   <button
-                    id="quiz-view-sanctuary-btn"
+                    id="quiz-view-destination-btn"
                     onClick={() => onSelectDestination(result.destination)}
                     className="flex-1 py-2.5 px-4 rounded-xl bg-[#8c956a] hover:bg-[#7a835a] text-white font-medium text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 shadow-xs"
                   >
-                    <span>View Sanctuary Dossier</span>
+                    <span>View Destination Dossier</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <button

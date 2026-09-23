@@ -65,51 +65,34 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-mono-code text-[#8c956a] uppercase tracking-widest font-medium">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Curated Sanctuary Marquee</span>
+            <span>Curated Destination Marquee</span>
           </div>
           <h2 className="font-fraunces text-3xl sm:text-4xl text-[#2b2728] font-normal">
             Highlighted Vistas & Quiet Escapes
           </h2>
           <p className="text-xs sm:text-sm text-[#4a4542] max-w-lg font-light">
-            Continuous showcase of hand-selected retreats across the Indian subcontinent and sacred international sanctuaries.
+            Continuous showcase of hand-selected retreats across the Indian subcontinent and serene destinations.
           </p>
         </div>
 
-        {/* Carousel Control Bar */}
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Category Filter Chips */}
-          <div className="flex items-center gap-1.5 bg-white p-1 rounded-full border border-[#2b2728]/10 shadow-sm">
-            {['All', 'Mountains', 'Beach', 'Spiritual', 'Heritage'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${activeCategory === cat
-                  ? 'bg-[#8c956a] text-white font-semibold'
-                  : 'text-[#4a4542] hover:text-[#2b2728]'
-                  }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
 
-          {/* Navigation Arrows */}
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => handleManualScroll('left')}
-              className="w-8 h-8 rounded-full bg-white border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
-              title="Scroll left"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => handleManualScroll('right')}
-              className="w-8 h-8 rounded-full bg-white border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
-              title="Scroll right"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+
+        {/* Navigation Arrows */}
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => handleManualScroll('left')}
+            className="w-8 h-8 rounded-full bg-white border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
+            title="Scroll left"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => handleManualScroll('right')}
+            className="w-8 h-8 rounded-full bg-white border border-[#2b2728]/10 flex items-center justify-center text-[#4a4542] hover:text-[#2b2728] hover:border-[#8c956a] transition-colors shadow-sm"
+            title="Scroll right"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
@@ -118,7 +101,7 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
         ref={scrollContainerRef}
         onMouseEnter={() => setIsPlaying(false)}
         onMouseLeave={() => setIsPlaying(true)}
-        className="flex gap-6 overflow-x-auto no-scrollbar px-4 sm:px-8 cursor-grab active:cursor-grabbing select-none py-4"
+        className={`flex gap-6 overflow-x-auto no-scrollbar px-4 sm:px-8 cursor-grab active:cursor-grabbing select-none py-4 ${displayList.length === 1 ? 'justify-center w-full' : ''}`}
         style={{ scrollBehavior: isPlaying ? 'auto' : 'smooth' }}
       >
         {displayList.map((dest, idx) => (
@@ -192,6 +175,6 @@ export const CuratedCarousel: React.FC<CuratedCarouselProps> = ({
           </div>
         ))}
       </div>
-    </section>
+    </section >
   );
 };

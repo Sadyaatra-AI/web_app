@@ -55,7 +55,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   };
 
   return (
-    <div id="sanctuary-filter-bar" className="w-full space-y-4 mb-8">
+    <div id="destination-filter-bar" className="w-full space-y-4 mb-8">
       {/* Primary Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-3xl bg-white border border-[#2b2728]/10 shadow-sm">
         {/* Left: Region Badges */}
@@ -146,7 +146,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
       {/* Results Count Banner */}
       <div className="flex items-center justify-between px-2 text-xs font-mono-code text-[#4a4542]">
-        <span>Showing {totalCount} curated sanctuaries</span>
+        <span>Showing {totalCount} curated destinations</span>
         {filters.search && <span>Filtered by: "{filters.search}"</span>}
       </div>
     </div>

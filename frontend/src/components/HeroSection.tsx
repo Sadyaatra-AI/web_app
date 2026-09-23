@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, MotionValue } from 'motion/react';
-import { Compass, MapPin, ArrowRight } from 'lucide-react';
+import { Compass, MapPin, ArrowRight, ChevronDown } from 'lucide-react';
 import { Region } from '../types';
 
 interface HeroSectionProps {
@@ -13,14 +13,6 @@ interface HeroSectionProps {
 
 const REGIONS: Region[] = ['All', 'North', 'South', 'West', 'East', 'Central', 'International'];
 
-const QUICK_MOODS = [
-  { label: 'Slow & Peaceful', icon: '🍃' },
-  { label: 'Spiritual', icon: '🪷' },
-  { label: 'Mountains', icon: '⛰️' },
-  { label: 'Beach', icon: '🌊' },
-  { label: 'Heritage', icon: '🏛️' },
-  { label: 'Adventure', icon: '🧗' },
-];
 
 // ── Parallax sub-components (each owns its own useTransform calls) ─────────
 
@@ -108,7 +100,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const mountainY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
   const bgBrightness = useTransform(scrollYProgress, [0, 1], [1, 1.35]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0.1]);
-  
+
   // Ambient sound synthesizer
   const toggleAmbientSound = () => {
     if (isAudioPlaying) {
@@ -170,27 +162,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       className="relative min-h-[95vh] lg:min-h-[105vh] bg-[#f8f6f1] overflow-hidden flex flex-col justify-between"
     >
       {/* CINEMATIC HERO BACKGROUND */}
-<div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
 
-  {/* Main photograph */}
-  <motion.img
-    src="public/images/hero/original.jpg"
-    alt=""
-    className="absolute inset-0 w-full h-full object-cover object-[62%_center]"
-    style={{
-      y: mountainY,
-      scale: 1.04,
-    }}
-  />
+        {/* Main photograph */}
+        <motion.img
+          src="public/images/hero/original.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-[62%_center]"
+          style={{
+            y: mountainY,
+            scale: 1.04,
+          }}
+        />
 
-  {/* Soft atmospheric wash — very subtle */}
-  <div className="absolute inset-0 bg-[#8c956a]/[0.035] mix-blend-color" />
+        {/* Soft atmospheric wash — very subtle */}
+        <div className="absolute inset-0 bg-[#8c956a]/[0.035] mix-blend-color" />
 
-  {/* Readability gradient — concentrated behind the text */}
-  <div
-    className="absolute inset-0"
-    style={{
-      background: `
+        {/* Readability gradient — concentrated behind the text */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
         linear-gradient(
           90deg,
           rgba(248,246,241,0.82) 0%,
@@ -204,10 +196,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           transparent 35%
         )
       `,
-    }}
-  />
+          }}
+        />
 
-</div>
+      </div>
 
       {/* 2. TOP HUD CONTROLS */}
       <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 flex items-center justify-between">
@@ -245,9 +237,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="font-fraunces text-4xl sm:text-6xl md:text-7xl font-normal text-[#2b2728] tracking-tight leading-[1.08]"
         >
           Journeys Designed for the <br />
-<span className="relative inline-block mt-2">
-  <span className="italic font-light text-[#8c956a]">Contemplative</span>
-</span> Soul
+          <span className="relative inline-block mt-2">
+            <span className="italic font-light text-[#8c956a]">Contemplative</span>
+          </span> Soul
         </motion.h1>
 
         <motion.p
@@ -277,34 +269,37 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </motion.div>
       </motion.div>
 
-    {/* Geodetic easter egg — subtle but readable */}
-    <div className="mt-5 flex items-center justify-center gap-2 text-[#2b2728]/50">
-      <MapPin
-        className="w-3 h-3 text-[#8c956a]/55"
-        strokeWidth={1.5}
-      />
+      {/* Geodetic easter egg — subtle but readable */}
+      <div className="mt-5 flex items-center justify-center gap-2 text-[#2b2728]/50">
+        <MapPin
+          className="w-3 h-3 text-[#8c956a]/55"
+          strokeWidth={1.5}
+        />
 
-      <span className="text-[9px] font-mono-code tracking-[0.18em]">
-        LAT 08°04′N – 37°06′N &nbsp;•&nbsp; LON 68°07′E – 97°25′E
-      </span>
-    </div>
+        <span className="text-[9px] font-mono-code tracking-[0.18em]">
+          LAT 08°04′N – 37°06′N &nbsp;•&nbsp; LON 68°07′E – 97°25′E
+        </span>
+      </div>
 
-    {/* 5. SCROLL INDICATOR */}
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1.5, duration: 1 }}
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20"
-    >
-      <span className="text-[10px] font-mono-code uppercase tracking-[0.2em] text-[#2b2728]/60">Scroll to explore</span>
+      {/* 5. SCROLL INDICATOR */}
       <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="mt-8 mb-6 flex flex-col items-center justify-center gap-3 cursor-pointer group z-20"
+        onClick={onExploreClick}
       >
-        <div className="w-px h-10 bg-gradient-to-b from-[#2b2728]/60 to-transparent" />
+        <span className="text-xs font-mono-code uppercase tracking-[0.3em] text-[#2b2728]/70 font-semibold group-hover:text-[#8c956a] transition-colors">
+          Scroll to Explore
+        </span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+          className="flex items-center justify-center w-11 h-11 rounded-full border border-[#2b2728]/20 bg-white/70 backdrop-blur-md shadow-md text-[#2b2728] group-hover:border-[#8c956a] group-hover:text-[#8c956a] group-hover:bg-white group-hover:shadow-lg transition-all"
+        >
+          <ChevronDown className="w-5 h-5" strokeWidth={1.5} />
+        </motion.div>
       </motion.div>
-    </motion.div>
-  </div>
-    
+    </div>
   );
 };

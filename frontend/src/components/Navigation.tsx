@@ -56,7 +56,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           <div className="bg-white/80 backdrop-blur-sm border border-[#2b2728]/10 rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-sm flex items-center justify-center transition-all group-hover:scale-105 group-hover:shadow-md group-hover:shadow-[#8c956a]/20">
             <img
               src="/logo_justlogo.png"
-              alt="Sadyaatra Logo"
+              alt="Sadhyatra Logo"
               className="h-6 sm:h-9 w-auto object-contain rounded-lg"
             />
           </div>
@@ -72,7 +72,7 @@ export const Navigation: React.FC<NavigationProps> = ({
               : 'text-[#4a4542] hover:text-[#2b2728] hover:bg-white/60'
               }`}
           >
-            Sanctuaries
+            Destinations
           </button>
 
           <button
@@ -114,7 +114,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             <input
               id="global-search-input"
               type="text"
-              placeholder="Search sanctuaries..."
+              placeholder="Search destinations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-white/80 backdrop-blur-sm border border-[#2b2728]/15 focus:border-[#8c956a] text-xs text-[#2b2728] placeholder-[#4a4542]/50 rounded-full pl-9 pr-3 py-2 outline-none transition-all shadow-sm focus:shadow-md focus:bg-white"
@@ -142,7 +142,7 @@ export const Navigation: React.FC<NavigationProps> = ({
           className={`px-3 py-1.5 rounded-full text-[11px] font-medium transition-all ${activeTab === 'explore' ? 'bg-[#8c956a] text-white font-semibold shadow-sm' : 'text-[#4a4542]'
             }`}
         >
-          Sanctuaries
+          Destinations
         </button>
 
         <button
