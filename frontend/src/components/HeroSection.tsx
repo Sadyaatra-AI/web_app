@@ -245,10 +245,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="font-fraunces text-4xl sm:text-6xl md:text-7xl font-normal text-[#2b2728] tracking-tight leading-[1.08]"
         >
           Journeys Designed for the <br />
-          <span className="relative inline-block mt-2">
-            <span className="absolute inset-0 bg-[#2b2728]/95 -skew-x-12 rounded-lg transform scale-105"></span>
-            <span className="relative italic font-light text-[#8c956a] px-3">Contemplative</span>
-          </span> Soul
+<span className="relative inline-block mt-2">
+  <span className="italic font-light text-[#8c956a]">Contemplative</span>
+</span> Soul
         </motion.h1>
 
         <motion.p
@@ -278,44 +277,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </motion.div>
       </motion.div>
 
-{/* 4. MOOD DISCOVERY — quiet editorial navigation */}
-<div className="relative z-20 w-full px-4 sm:px-6 lg:px-8 pb-8 -mt-20">
-  <div className="mx-auto max-w-5xl">
-
-    {/* Minimal editorial label */}
-    <div className="flex items-center justify-center gap-3 mb-4">
-      <span className="h-px w-6 bg-[#2b2728]/30" />
-
-      <span className="text-[10px] font-mono-code tracking-[0.24em] uppercase text-[#2b2728]/85">
-        Explore by feeling
-      </span>
-
-      <span className="h-px w-6 bg-[#2b2728]/30" />
-    </div>
-
-    {/* Mood options — no background container */}
-    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
-      {QUICK_MOODS.map((m) => (
-        <button
-          key={m.label}
-          id={`hero-mood-btn-${m.label.toLowerCase().replace(/\s+/g, '-')}`}
-          onClick={() => onSelectMood(m.label)}
-          className="group inline-flex items-center gap-1.5 text-[#2b2728]/80 hover:text-[#2b2728] transition-colors duration-300"
-        >
-          <span className="text-[0.85rem] opacity-65 group-hover:opacity-100 transition-opacity duration-300">
-            {m.icon}
-          </span>
-
-          <span className="text-[11px] font-mono-code tracking-[0.08em] font-medium whitespace-nowrap">
-            {m.label}
-          </span>
-
-          {/* Tiny hover indicator, invisible at rest */}
-          <span className="w-0 group-hover:w-1 h-1 rounded-full bg-[#8c956a] transition-all duration-300" />
-        </button>
-      ))}
-    </div>
-
     {/* Geodetic easter egg — subtle but readable */}
     <div className="mt-5 flex items-center justify-center gap-2 text-[#2b2728]/50">
       <MapPin
@@ -344,7 +305,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </motion.div>
     </motion.div>
   </div>
-</div>
-    </div>
+    
   );
 };
