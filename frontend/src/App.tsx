@@ -145,6 +145,10 @@ export function App() {
     });
   }, [apiDestinations, filters, activeTab, savedIds]);
 
+  const validSavedCount = useMemo(() => {
+    return savedIds.filter((id) => apiDestinations.some((d) => d.id === id)).length;
+  }, [savedIds, apiDestinations]);
+
   if (window.location.pathname === '/studio') {
     return <StudioPage />;
   }
@@ -159,7 +163,7 @@ export function App() {
         <Navigation
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          savedCount={savedIds.length}
+          savedCount={validSavedCount}
           onOpenChat={() => handleOpenAIChat()}
           searchQuery={filters.search}
           setSearchQuery={(q) => setFilters((prev) => ({ ...prev, search: q }))}

@@ -218,7 +218,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {/* 3. HERO EDITORIAL HEADLINE & AI INTENT BOX */}
       <motion.div
         style={{ opacity: textOpacity }}
-        className="relative z-20 max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 -translate-y-16 sm:-translate-y-10.8 space-y-3"
+        className="relative z-20 max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 my-auto py-8 space-y-4"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
