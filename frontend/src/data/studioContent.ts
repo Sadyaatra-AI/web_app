@@ -39,8 +39,8 @@ export const FEATURES = [
 ] as const;
 
 export const FOUNDERS = [
-  { name: 'anushree balaji', role: 'co-founder & ceo', bio: 'backend developer & ai explorer. turning complex problems into simple, practical systems.', philosophy: 'technology should handle the complexity in the background, so the traveller can focus on the journey.', link: '#' },
-  { name: 'Chahak', role: 'co-founder', bio: '', philosophy: '', link: '#' },
+  { name: 'anushree balaji', role: 'co-founder & ceo', bio: 'backend developer, cybersecurity enthusiast & ai explorer. turning complex problems into systems that are simple, practical, and scalable.', philosophy: 'technology should take care of the complexity in the background, so that the traveller can focus on the journey itself.', link: '#' },
+  { name: 'chahak adwani', role: 'co-founder & chairperson', bio: 'decision scientist & ai explorer. using data to solve real-world problems and build data-driven solutions.', philosophy: 'solve real world problems and create insightful stories through data.', link: '#' },
 ] as const;
 
 export const FUTURE_PROSPECTS = [

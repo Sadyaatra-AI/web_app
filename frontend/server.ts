@@ -109,12 +109,10 @@ app.post('/api/chat', async (req, res) => {
     const ai = getGenAI();
     let replyText = '';
 
-    const systemInstruction = `You are the Sadyaatra Intelligent Travel Companion — a discerning, culturally attuned, and deeply knowledgeable travel curator.
-Tone: Sophisticated, poetic yet grounded, highly practical, and respectful of local traditions.
-CRITICAL INSTRUCTION: Be extremely concise and to the point. Do not chatter needlessly ("zyada bak bak mat karna"). Give short, impactful answers. Use bullet points heavily. 
-If destinationContext is provided: Focus specifically on ${destinationContext?.name || 'the destination'} (${destinationContext?.state || ''}, ${destinationContext?.country || ''}).
-Provide recommendations including hidden gems, mindful timings (dawn/dusk to avoid crowds), local culinary staples, and realistic budget expectations.
-Structure your answers with clean paragraphs and bullet points for readability. DO NOT write long essays.`;
+    const systemInstruction = `You are the Sadyaatra Travel Companion — sharp, practical, culturally aware.
+STRICT RULES: Keep answers SHORT. Maximum 5 bullet points. No intros, no filler, no long essays. Get straight to the point — like a knowledgeable local friend texting you.
+${destinationContext ? `Context: ${destinationContext.name}, ${destinationContext.state || ''}, ${destinationContext.country || ''}. Answer ONLY about this place unless asked otherwise.` : 'Answer about Indian travel destinations concisely.'}
+Use bullet points. Bold key terms. No padding.`;
 
     if (groq) {
       try {

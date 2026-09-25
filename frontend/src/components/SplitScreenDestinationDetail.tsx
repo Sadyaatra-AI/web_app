@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   X,
   Heart,
@@ -673,16 +675,34 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                       }`}
                   >
                     <div className="space-y-0.5">
-                      {msg.text.split('\n').map((line, idx) => {
-                        const formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>');
-                        return (
-                          <p
-                            key={idx}
-                            className="leading-relaxed"
-                            dangerouslySetInnerHTML={{ __html: formatted }}
-                          />
-                        );
-                      })}
+                      {msg.sender === 'user' ? (
+                        <p className="leading-relaxed">{msg.text}</p>
+                      ) : (
+                        <div className="markdown-chat-inline">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              h1: ({node, ...props}) => <h2 className="text-sm font-fraunces font-bold text-[#8c956a] mt-3 mb-1" {...props} />,
+                              h2: ({node, ...props}) => <h3 className="text-xs font-fraunces font-bold text-[#8c956a] mt-3 mb-1 border-b border-[#8c956a]/20 pb-0.5" {...props} />,
+                              h3: ({node, ...props}) => <h4 className="text-xs font-fraunces font-bold text-[#2b2728] mt-2 mb-0.5" {...props} />,
+                              p: ({node, ...props}) => <p className="text-[11px] my-1 leading-relaxed" {...props} />,
+                              ul: ({node, ...props}) => <ul className="my-1.5 space-y-1 pl-0" {...props} />,
+                              ol: ({node, ...props}) => <ol className="my-1.5 space-y-1 pl-4 list-decimal" {...props} />,
+                              li: ({node, ...props}) => (
+                                <li className="flex gap-1.5 items-start text-[11px] leading-relaxed">
+                                  <span className="text-[#8c956a] mt-0.5 text-[9px] shrink-0">✦</span>
+                                  <span className="flex-1">{(props as any).children}</span>
+                                </li>
+                              ),
+                              strong: ({node, ...props}) => <strong className="font-semibold text-[#8c956a]" {...props} />,
+                              em: ({node, ...props}) => <em className="italic text-[#4a4542]" {...props} />,
+                              a: ({node, ...props}) => <a className="text-[#8c956a] hover:underline" {...props} />,
+                            }}
+                          >
+                            {msg.text}
+                          </ReactMarkdown>
+                        </div>
+                      )}
                     </div>
 
                     <div className={`flex items-center justify-between mt-1.5 text-[9px] font-mono-code opacity-40 ${msg.sender === 'user' ? 'text-white' : 'text-[#2b2728]'

@@ -30,9 +30,53 @@ const StudioNav = () => (
 
 const GapSection = () => {
   const [active, setActive] = useState<'traveller' | 'agency' | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
+
   const sides = [
-    { key: 'traveller' as const, label: 'TRAVELLER', title: 'Finding the right journey should feel personal.', items: ['[Traveller problem 01]', '[Traveller problem 02]', '[Traveller problem 03]'] },
-    { key: 'agency' as const, label: 'AGENCY', title: 'Great experiences need better ways to reach the right traveller.', items: ['[Agency problem 01]', '[Agency problem 02]', '[Agency problem 03]'] },
+    {
+      key: 'traveller' as const,
+      label: 'TRAVELLER',
+      title: 'Finding the right journey should feel personal.',
+      items: [
+        {
+          short: 'Information overload, decision fatigue',
+          heading: 'Too much information, too little direction.',
+          detail: 'Travellers have endless destinations, stays, activities, and recommendations — but no simple way to turn them into a journey that actually fits them.',
+        },
+        {
+          short: 'Planning scattered across platforms',
+          heading: 'Planning is scattered across platforms.',
+          detail: 'Research, transport, stays, activities, budgets, and bookings live in different places, forcing travellers to constantly switch, compare, coordinate, and compromise.',
+        },
+        {
+          short: 'One-size-fits-all itineraries',
+          heading: 'The itinerary rarely adapts to the traveller.',
+          detail: 'Most planning is built around fixed options rather than changing preferences, time, budget, pace, and what the traveller actually wants from the journey.',
+        },
+      ],
+    },
+    {
+      key: 'agency' as const,
+      label: 'AGENCY',
+      title: 'Great experiences need better ways to reach the right traveller.',
+      items: [
+        {
+          short: 'Hard to reach the right traveller',
+          heading: 'Discovery is dominated by visibility, not fit.',
+          detail: 'Local experiences can struggle to reach travellers who would genuinely value them, while travellers are often shown the same mainstream options.',
+        },
+        {
+          short: 'Fragmented demand and limited insight',
+          heading: 'Demand is fragmented and difficult to understand.',
+          detail: 'Agencies and experience providers have limited visibility into what travellers actually want, when they want it, and how those preferences translate into bookings.',
+        },
+        {
+          short: 'Experiences disconnected from the journey',
+          heading: 'The journey is disconnected from the local experience.',
+          detail: 'Hotels, guides, activities, transport providers, and local businesses operate across separate touchpoints, making it difficult to become part of one coherent traveller journey.',
+        },
+      ],
+    },
   ];
 
   return (
@@ -56,8 +100,34 @@ const GapSection = () => {
               <span className="h-2 w-2 rounded-full bg-[#8c956a] transition-transform group-hover:scale-150" />
             </div>
             <h3 className="mt-16 max-w-sm font-fraunces text-4xl leading-[1.05] text-[#2b2728] sm:text-5xl">{side.title}</h3>
-            <ul className="mt-12 space-y-3 border-t border-[#2b2728]/12 pt-5 text-base font-normal text-[#2b2728]">
-              {side.items.map((item) => <li key={item} className="flex gap-3"><span className="text-[#8c956a]">/</span>{item}</li>)}
+            <ul className="mt-12 space-y-0 border-t border-[#2b2728]/12 pt-2">
+              {side.items.map((item, idx) => {
+                const itemKey = `${side.key}-${idx}`;
+                const isOpen = expanded === itemKey;
+                return (
+                  <li key={idx}>
+                    <button
+                      onClick={() => setExpanded(isOpen ? null : itemKey)}
+                      className="w-full flex items-start gap-3 py-3 text-left border-b border-[#2b2728]/08 group/item hover:text-[#8c956a] transition-colors"
+                    >
+                      <span className="text-[#8c956a] mt-0.5 text-xs shrink-0">/</span>
+                      <span className="flex-1 text-sm font-normal text-[#2b2728] group-hover/item:text-[#8c956a] transition-colors leading-snug">{item.short}</span>
+                      <span className={`text-[#8c956a] text-xs shrink-0 mt-0.5 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}>+</span>
+                    </button>
+                    <motion.div
+                      initial={false}
+                      animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 py-4 bg-[#f8f6f1]/60 border-b border-[#2b2728]/08">
+                        <p className="font-fraunces text-base italic text-[#2b2728] mb-2">{item.heading}</p>
+                        <p className="text-sm font-normal leading-relaxed text-[#4a4542]">{item.detail}</p>
+                      </div>
+                    </motion.div>
+                  </li>
+                );
+              })}
             </ul>
           </motion.article>
         ))}
@@ -167,7 +237,7 @@ const FeatureConstellation = () => {
 
 const FoundersSection = () => (
   <section className="border-y border-[#2b2728]/10 bg-[#f8f6f1] py-24 sm:py-36">
-    <div className="mx-auto max-w-7xl px-5 sm:px-8"><motion.div {...reveal} className="mb-16"><p className="eyebrow">THE PEOPLE</p><h2 className="mt-4 max-w-2xl font-fraunces text-4xl text-[#2b2728] sm:text-6xl">The people building sadhyaatra.</h2></motion.div><div className="grid gap-10 md:grid-cols-2 md:items-start">{FOUNDERS.map((founder, index) => <motion.article key={`${founder.name}-${index}`} {...reveal} transition={{ delay: index * 0.12, duration: 0.8 }} className={`${index === 1 ? 'md:mt-16' : ''}`}><div className="overflow-hidden border border-[#2b2728]/12 bg-[#ded7cb]/45"><div className="p-8 sm:p-12"><p className="font-mono-code text-[10px] uppercase tracking-[0.16em] text-[#8c956a]">{founder.role}</p><h3 className="mt-4 font-fraunces text-4xl text-[#2b2728]">{founder.name}</h3>{founder.bio && <p className="mt-6 text-base font-normal leading-relaxed text-[#2b2728]">{founder.bio}</p>}{founder.philosophy && <p className="mt-8 border-t border-[#2b2728]/12 pt-6 font-fraunces text-lg italic text-[#2b2728]">{founder.philosophy}</p>}<a href={founder.link} className="mt-8 inline-flex text-xs font-mono-code tracking-[0.1em] text-[#8c956a] uppercase">Connect <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></a></div></div></motion.article>)}</div></div>
+    <div className="mx-auto max-w-7xl px-5 sm:px-8"><motion.div {...reveal} className="mb-16"><p className="eyebrow">THE PEOPLE</p><h2 className="mt-4 max-w-2xl font-fraunces text-4xl text-[#2b2728] sm:text-6xl">The people building sadhyaatra.</h2></motion.div><div className="grid gap-10 md:grid-cols-2 md:items-start">{FOUNDERS.map((founder, index) => <motion.article key={`${founder.name}-${index}`} {...reveal} transition={{ delay: index * 0.12, duration: 0.8 }}><div className="overflow-hidden border border-[#2b2728]/12 bg-[#ded7cb]/45"><div className="p-8 sm:p-12"><p className="font-mono-code text-[10px] uppercase tracking-[0.16em] text-[#8c956a]">{founder.role}</p><h3 className="mt-4 font-fraunces text-4xl text-[#2b2728]">{founder.name}</h3>{founder.bio && <p className="mt-6 text-base font-normal leading-relaxed text-[#2b2728]">{founder.bio}</p>}{founder.philosophy && <p className="mt-8 border-t border-[#2b2728]/12 pt-6 font-fraunces text-lg italic text-[#2b2728]">{founder.philosophy}</p>}<a href={founder.link} className="mt-8 inline-flex text-xs font-mono-code tracking-[0.1em] text-[#8c956a] uppercase">Connect <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></a></div></div></motion.article>)}</div></div>
   </section>
 );
 
