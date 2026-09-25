@@ -1,35 +1,170 @@
 import React, { useState } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'motion/react';
-import { ArrowDown, ArrowUpRight, ChevronDown, Compass, ExternalLink, Plus } from 'lucide-react';
-import { CAREER_ROLES, FEATURES, FOUNDERS, FUTURE_PROSPECTS, STUDIO_CONTENT } from '../data/studioContent';
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
+} from 'motion/react';
+import {
+  ArrowDown,
+  ArrowUpRight,
+  ChevronDown,
+} from 'lucide-react';
 
-const reveal = { initial: { opacity: 0, y: 28 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, amount: 0.25 }, transition: { duration: 0.8 } };
+import {
+  CAREER_ROLES,
+  FEATURES,
+  FOUNDERS,
+  FUTURE_PROSPECTS,
+  STUDIO_CONTENT,
+} from '../data/studioContent';
 
-const RouteLines = () => (
-  <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-40" viewBox="0 0 1200 800" fill="none" preserveAspectRatio="none" aria-hidden="true">
-    <motion.path d="M-40 580C170 560 130 300 370 340S530 630 700 500 860 110 1250 220" stroke="#8c956a" strokeWidth="1" strokeDasharray="3 12" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.65 }} transition={{ duration: 3, ease: 'easeInOut' }} />
-    <motion.path d="M-40 260C180 160 250 520 470 420S690 180 900 300 1060 650 1250 560" stroke="#2b2728" strokeWidth="0.8" strokeDasharray="1 16" initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.3 }} transition={{ duration: 4, delay: 0.4, ease: 'easeInOut' }} />
-    <path d="M80 0V800M340 0V800M920 0V800" stroke="#2b2728" strokeOpacity="0.06" strokeWidth="1" />
-  </svg>
-);
+const reveal = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+};
+
+const lineReveal = {
+  initial: { scaleX: 0, opacity: 0 },
+  whileInView: { scaleX: 1, opacity: 1 },
+  viewport: { once: true, amount: 0.5 },
+  transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+};
+
+
+/* NAVIGATION                                                                  */
+
 
 const StudioNav = () => (
-  <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#2b2728]/10 bg-[#f8f6f1]/85 backdrop-blur-xl">
-    <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-      <a href="/" className="flex items-center gap-3 text-[#2b2728]">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#2b2728]/15 bg-white text-[#8c956a]"><Compass className="h-4 w-4" /></span>
-        <span className="font-mono-code text-[11px] tracking-[0.2em]">SADHYAATRA</span>
+  <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#2b2728]/10 bg-[#f8f6f1]/90 backdrop-blur-xl">
+    <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:px-12">
+      <a href="/" className="font-mono-code text-[10px] tracking-[0.24em] text-[#2b2728]">
+        SADHYAATRA
       </a>
-      <div className="flex items-center gap-5 text-[10px] font-mono-code uppercase tracking-[0.16em] text-[#4a4542]">
-        <span className="hidden text-[#8c956a] sm:inline">The Studio</span>
-        <a href="/" className="transition-colors hover:text-[#8c956a]">Return to journeys <ArrowUpRight className="ml-1 inline h-3 w-3" /></a>
+
+      <div className="flex items-center gap-6 font-mono-code text-[9px] uppercase tracking-[0.18em] text-[#4a4542]">
+        <span className="hidden text-[#8c956a] sm:inline">
+          The Studio
+        </span>
+
+        <span className="hidden h-px w-8 bg-[#2b2728]/20 sm:block" />
+
+        <a
+          href="/"
+          className="transition-colors duration-300 hover:text-[#8c956a]"
+        >
+          Return to journeys <ArrowUpRight className="ml-1 inline h-3 w-3" />
+        </a>
       </div>
     </div>
   </header>
 );
 
+
+/* HERO                                                                        */
+
+
+const HeroSection = () => {
+  const { scrollYProgress } = useScroll();
+  const heroY = useTransform(scrollYProgress, [0, 0.2], ['0%', '12%']);
+  const dialRotate = useTransform(scrollYProgress, [0, 0.2], [0, 16]);
+
+  return (
+    <section className="relative min-h-screen overflow-hidden border-b border-[#2b2728]/10 bg-[#f8f6f1] pt-[72px]">
+      {/* Quiet cartographic construction lines */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute left-[9%] top-0 h-full w-px bg-[#2b2728]/[0.055]" />
+        <div className="absolute right-[16%] top-0 h-full w-px bg-[#2b2728]/[0.045]" />
+        <div className="absolute left-0 right-0 top-[31%] h-px bg-[#2b2728]/[0.05]" />
+
+        <motion.div
+          style={{ rotate: dialRotate }}
+          className="absolute -right-[26vw] top-[7%] h-[72vw] w-[72vw] max-h-[1050px] max-w-[1050px] rounded-full border border-[#8c956a]/25"
+        >
+          <div className="absolute inset-[5%] rounded-full border border-[#2b2728]/10" />
+          <div className="absolute inset-[12%] rounded-full border-[12px] border-[#8c956a]/10" />
+          <div className="absolute inset-[22%] rounded-full border border-[#2b2728]/10" />
+
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+            <span
+              key={angle}
+              className="absolute left-1/2 top-1/2 h-px w-[46%] origin-left bg-[#2b2728]/10"
+              style={{ transform: `rotate(${angle}deg)` }}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      <motion.div
+        style={{ y: heroY }}
+        className="relative z-10 mx-auto flex min-h-[calc(100vh-72px)] max-w-[1440px] flex-col justify-between px-5 pb-10 pt-16 sm:px-8 sm:pb-12 sm:pt-20 lg:px-12"
+      >
+        <div className="grid gap-14 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
+          <motion.div {...reveal} className="pt-2 lg:pt-4">
+            <p className="eyebrow">{STUDIO_CONTENT.hero.eyebrow}</p>
+
+            <div className="mt-7 h-px w-12 bg-[#8c956a]/70" />
+
+            <p className="mt-6 max-w-xs font-fraunces text-lg leading-[1.35] text-[#4a4542] sm:text-xl">
+              The studio behind the journey.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:pl-8"
+          >
+            <h1 className="max-w-5xl font-fraunces text-[clamp(3.35rem,6.7vw,7.5rem)] font-medium leading-[0.91] tracking-[-0.035em] text-[#2b2728]">
+              {STUDIO_CONTENT.hero.title}
+            </h1>
+          </motion.div>
+        </div>
+
+        <motion.div
+          {...reveal}
+          transition={{ delay: 0.35, duration: 0.8 }}
+          className="mt-16 max-w-xl border-t border-[#2b2728]/10 pt-7 lg:ml-[23%] lg:max-w-[590px]"
+        >
+          <p className="text-[15px] leading-[1.8] text-[#4a4542] sm:text-[17px]">
+            {STUDIO_CONTENT.hero.intro}
+          </p>
+        </motion.div>
+
+        <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
+          <motion.div
+            {...reveal}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="flex items-center gap-4"
+          >
+            <span className="font-mono-code text-[9px] uppercase tracking-[0.2em] text-[#4a4542]/70">
+              {STUDIO_CONTENT.hero.scrollLabel}
+            </span>
+            <span className="h-px w-14 bg-[#2b2728]/20" />
+            <ArrowDown className="h-3.5 w-3.5 text-[#8c956a]" />
+          </motion.div>
+
+          <div className="hidden text-right font-mono-code text-[8px] uppercase tracking-[0.18em] text-[#4a4542]/45 lg:block">
+            <span>THE STUDIO</span>
+            <br />
+            <span>01 / 07</span>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+
+/* THE GAP                                                                     */
+
+
 const GapSection = () => {
-  const [active, setActive] = useState<'traveller' | 'agency' | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const sides = [
@@ -41,17 +176,20 @@ const GapSection = () => {
         {
           short: 'Information overload, decision fatigue',
           heading: 'Too much information, too little direction.',
-          detail: 'Travellers have endless destinations, stays, activities, and recommendations — but no simple way to turn them into a journey that actually fits them.',
+          detail:
+            'Travellers have endless destinations, stays, activities, and recommendations — but no simple way to turn them into a journey that actually fits them.',
         },
         {
           short: 'Planning scattered across platforms',
           heading: 'Planning is scattered across platforms.',
-          detail: 'Research, transport, stays, activities, budgets, and bookings live in different places, forcing travellers to constantly switch, compare, coordinate, and compromise.',
+          detail:
+            'Research, transport, stays, activities, budgets, and bookings live in different places, forcing travellers to constantly switch, compare, coordinate, and compromise.',
         },
         {
           short: 'One-size-fits-all itineraries',
           heading: 'The itinerary rarely adapts to the traveller.',
-          detail: 'Most planning is built around fixed options rather than changing preferences, time, budget, pace, and what the traveller actually wants from the journey.',
+          detail:
+            'Most planning is built around fixed options rather than changing preferences, time, budget, pace, and what the traveller actually wants from the journey.',
         },
       ],
     },
@@ -63,171 +201,133 @@ const GapSection = () => {
         {
           short: 'Hard to reach the right traveller',
           heading: 'Discovery is dominated by visibility, not fit.',
-          detail: 'Local experiences can struggle to reach travellers who would genuinely value them, while travellers are often shown the same mainstream options.',
+          detail:
+            'Local experiences can struggle to reach travellers who would genuinely value them, while travellers are often shown the same mainstream options.',
         },
         {
           short: 'Fragmented demand and limited insight',
           heading: 'Demand is fragmented and difficult to understand.',
-          detail: 'Agencies and experience providers have limited visibility into what travellers actually want, when they want it, and how those preferences translate into bookings.',
+          detail:
+            'Agencies and experience providers have limited visibility into what travellers actually want, when they want it, and how those preferences translate into bookings.',
         },
         {
           short: 'Experiences disconnected from the journey',
           heading: 'The journey is disconnected from the local experience.',
-          detail: 'Hotels, guides, activities, transport providers, and local businesses operate across separate touchpoints, making it difficult to become part of one coherent traveller journey.',
+          detail:
+            'Hotels, guides, activities, transport providers, and local businesses operate across separate touchpoints, making it difficult to become part of one coherent traveller journey.',
         },
       ],
     },
   ];
 
   return (
-    <section className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-36">
-      <motion.div {...reveal} className="mb-12 max-w-xl">
-        <p className="eyebrow">{STUDIO_CONTENT.gap.eyebrow}</p>
-        <p className="mt-5 text-lg font-normal leading-relaxed text-[#2b2728]">{STUDIO_CONTENT.gap.subheading}</p>
-      </motion.div>
-      <div className="relative flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 lg:grid lg:grid-cols-2 lg:items-stretch lg:overflow-visible lg:pb-0">
-        {sides.map((side) => (
-          <motion.article
-            key={side.key}
-            onMouseEnter={() => setActive(side.key)}
-            onMouseLeave={() => setActive(null)}
-            animate={{ flex: active === side.key ? 1.08 : active ? 0.92 : 1 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="group relative min-w-[85vw] snap-center sm:min-w-0 min-h-[420px] overflow-hidden border border-[#2b2728]/15 bg-white/35 p-7 transition-colors hover:bg-[#ded7cb]/45 sm:p-10"
-          >
-            <div className="flex items-center justify-between border-b border-[#2b2728]/12 pb-5">
-              <span className="font-mono-code text-[10px] tracking-[0.2em] text-[#8c956a]">{side.label}</span>
-              <span className="h-2 w-2 rounded-full bg-[#8c956a] transition-transform group-hover:scale-150" />
-            </div>
-            <h3 className="mt-16 max-w-sm font-fraunces text-4xl leading-[1.05] text-[#2b2728] sm:text-5xl">{side.title}</h3>
-            <ul className="mt-12 space-y-0 border-t border-[#2b2728]/12 pt-2">
-              {side.items.map((item, idx) => {
-                const itemKey = `${side.key}-${idx}`;
-                const isOpen = expanded === itemKey;
-                return (
-                  <li key={idx}>
-                    <button
-                      onClick={() => setExpanded(isOpen ? null : itemKey)}
-                      className="w-full flex items-start gap-3 py-3 text-left border-b border-[#2b2728]/08 group/item hover:text-[#8c956a] transition-colors"
-                    >
-                      <span className="text-[#8c956a] mt-0.5 text-xs shrink-0">/</span>
-                      <span className="flex-1 text-sm font-normal text-[#2b2728] group-hover/item:text-[#8c956a] transition-colors leading-snug">{item.short}</span>
-                      <span className={`text-[#8c956a] text-xs shrink-0 mt-0.5 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}>+</span>
-                    </button>
-                    <motion.div
-                      initial={false}
-                      animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 py-4 bg-[#f8f6f1]/60 border-b border-[#2b2728]/08">
-                        <p className="font-fraunces text-base italic text-[#2b2728] mb-2">{item.heading}</p>
-                        <p className="text-sm font-normal leading-relaxed text-[#4a4542]">{item.detail}</p>
-                      </div>
-                    </motion.div>
-                  </li>
-                );
-              })}
-            </ul>
-          </motion.article>
-        ))}
-      </div>
-    </section>
-  );
-};
+    <section className="relative overflow-hidden border-b border-[#2b2728]/10 bg-[#eeeae1]">
+      <div className="pointer-events-none absolute right-[-14vw] top-[-12vw] h-[38vw] w-[38vw] rounded-full border border-[#8c956a]/15" />
+      <div className="pointer-events-none absolute right-[-7vw] top-[-5vw] h-[24vw] w-[24vw] rounded-full border border-[#2b2728]/[0.06]" />
+      <div className="relative mx-auto max-w-[1440px] px-5 py-24 sm:px-8 sm:py-32 lg:px-12">
+        <motion.div
+          {...reveal}
+          className="grid gap-7 lg:grid-cols-[0.32fr_1fr] lg:items-start"
+        >
+          <p className="eyebrow">{STUDIO_CONTENT.gap.eyebrow}</p>
 
-const BuildingSection = () => {
-  const [active, setActive] = useState(0);
-  const stage = STUDIO_CONTENT.building.stages[active];
-  return (
-    <section className="border-y border-[#2b2728]/10 bg-[#ded7cb]/35 py-24 sm:py-36">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <motion.div {...reveal} className="mb-14 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div><p className="eyebrow">{STUDIO_CONTENT.building.eyebrow}</p><h2 className="mt-4 max-w-2xl font-fraunces text-4xl text-[#2b2728] sm:text-6xl">A journey in four movements.</h2></div>
-          <span className="hidden lg:block font-mono-code text-[10px] tracking-[0.16em] text-[#4a4542]/60">SELECT A STAGE</span>
-          <span className="block lg:hidden font-mono-code text-[10px] tracking-[0.16em] text-[#4a4542]/60">SWIPE TO EXPLORE</span>
+          <p className="max-w-2xl text-[15px] leading-[1.75] text-[#4a4542] sm:text-[17px]">
+            {STUDIO_CONTENT.gap.subheading}
+          </p>
         </motion.div>
-        
-        {/* Desktop Layout */}
-        <div className="hidden lg:grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="space-y-2">
-            {STUDIO_CONTENT.building.stages.map((item, index) => (
-              <button key={item.number} onClick={() => setActive(index)} className={`w-full border-b px-3 py-4 text-left transition-all ${active === index ? 'border-[#8c956a] bg-[#f8f6f1]/55 text-[#2b2728]' : 'border-[#2b2728]/12 text-[#4a4542] hover:text-[#2b2728]'}`}>
-                <span className="font-mono-code text-[10px] text-[#8c956a]">{item.number}</span><span className="ml-5 font-fraunces text-2xl">{item.title}</span>
-              </button>
-            ))}
-          </div>
-          <motion.article key={stage.number} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.45 }} className="min-h-[340px] border-l border-[#2b2728]/15 pl-12">
-            <span className="font-mono-code text-[10px] uppercase tracking-[0.18em] text-[#8c956a]">{stage.tag}</span>
-            <h3 className="mt-12 max-w-xl font-fraunces text-5xl text-[#2b2728] sm:text-7xl">{stage.title}</h3>
-            <p className="mt-6 max-w-md text-xl font-normal leading-relaxed text-[#2b2728]">{stage.short}</p>
-            <p className="mt-8 max-w-lg border-t border-[#2b2728]/12 pt-5 text-base font-normal leading-relaxed text-[#2b2728]">{stage.long}</p>
-          </motion.article>
-        </div>
 
-        {/* Mobile Auto-Scrolling Cards Layout */}
-        <div className="block lg:hidden overflow-hidden mt-10 w-full relative -mx-5 px-5 sm:-mx-8 sm:px-8 max-w-[100vw]">
-          <motion.div
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-            className="flex gap-5 w-max pb-8"
-          >
-            {[...STUDIO_CONTENT.building.stages, ...STUDIO_CONTENT.building.stages].map((item, idx) => (
-              <article key={`${item.number}-${idx}`} className="w-[85vw] sm:w-[350px] shrink-0 bg-[#f8f6f1]/60 border border-[#2b2728]/10 p-7 flex flex-col">
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-mono-code text-[10px] text-[#8c956a]">{item.number}</span>
-                  <span className="font-mono-code text-[9px] uppercase tracking-[0.18em] text-[#4a4542]">{item.tag}</span>
-                </div>
-                <h3 className="font-fraunces text-3xl sm:text-4xl text-[#2b2728] mb-4">{item.title}</h3>
-                <p className="text-base sm:text-lg font-normal leading-relaxed text-[#2b2728] mb-6">{item.short}</p>
-                <p className="border-t border-[#2b2728]/12 pt-5 mt-auto text-sm sm:text-base font-normal leading-relaxed text-[#4a4542]">{item.long}</p>
-              </article>
-            ))}
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
+        <motion.div
+          {...lineReveal}
+          className="mt-12 origin-left border-t border-[#2b2728]/15"
+        />
 
-const FeatureConstellation = () => {
-  const [active, setActive] = useState(0);
-  const feature = FEATURES[active];
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-36">
-      <motion.div {...reveal} className="mb-16 max-w-2xl"><p className="eyebrow">THE PRODUCT</p><h2 className="mt-4 font-fraunces text-4xl text-[#2b2728] sm:text-6xl">A constellation of better ways to travel.</h2></motion.div>
-      {/* Desktop Graph Layout */}
-      <div className="hidden lg:block">
-        <div className="w-full overflow-hidden border-y border-[#2b2728]/10 py-16 flex justify-center items-center h-[660px]">
-          <div className="relative w-full max-w-7xl mx-auto h-[660px] flex items-center justify-center">
-            <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true"><circle cx="500" cy="300" r="145" stroke="#2b2728" strokeOpacity=".1" strokeDasharray="2 9" fill="none" /><circle cx="500" cy="300" r="240" stroke="#8c956a" strokeOpacity=".16" strokeDasharray="1 14" fill="none" />{FEATURES.map((_, i) => <line key={i} x1="500" y1="300" x2={170 + (i % 3) * 330} y2={120 + Math.floor(i / 3) * 360} stroke={active === i ? '#8c956a' : '#2b2728'} strokeOpacity={active === i ? '.75' : '.1'} strokeWidth={active === i ? '2' : '1'} />)}</svg>
-            <motion.div layout className="relative z-10 flex h-36 w-36 shrink-0 items-center justify-center rounded-full border border-[#8c956a]/50 bg-[#f8f6f1] text-center shadow-[0_12px_40px_rgba(43,39,40,0.08)]"><span className="font-mono-code text-[10px] tracking-[0.18em]">SADHYAATRA</span></motion.div>
-            <div className="absolute inset-0">
-              {FEATURES.map((item, index) => {
-                const positions = ['left-[4%] top-[10%]', 'left-1/2 -translate-x-1/2 top-[2%]', 'right-[4%] top-[10%]', 'left-[4%] bottom-[8%]', 'left-1/2 -translate-x-1/2 bottom-[2%]', 'right-[4%] bottom-[8%]'];
-                return <button key={item.name} onClick={() => setActive(index)} onMouseEnter={() => setActive(index)} className={`absolute ${positions[index]} z-20 w-[260px] border p-4 text-left transition-all duration-500 ${active === index ? 'border-[#8c956a] bg-[#f8f6f1] shadow-lg' : 'border-[#2b2728]/12 bg-[#f8f6f1]/65 hover:border-[#8c956a]/60'}`}><span className="font-mono-code text-[9px] text-[#8c956a]">{item.status}</span><span className="mt-2 block font-fraunces text-xl leading-none text-[#2b2728]">{item.name}</span></button>;
-              })}
-            </div>
-          </div>
-        </div>
-        <motion.div key={feature.name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mx-auto mt-10 max-w-2xl text-center"><p className="font-mono-code text-[10px] uppercase tracking-[0.18em] text-[#8c956a]">{feature.date}</p><p className="mt-4 text-lg font-normal leading-relaxed text-[#2b2728]">{feature.description}</p><span className="mt-5 inline-flex items-center gap-2 text-xs text-[#2b2728]">{feature.cta} <ArrowUpRight className="h-3.5 w-3.5" /></span></motion.div>
-      </div>
+        <div className="mt-8 grid lg:grid-cols-2">
+          {sides.map((side, sideIndex) => (
+            <motion.article
+              key={side.key}
+              {...reveal}
+              transition={{
+                delay: sideIndex * 0.12,
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className={`relative ${
+                sideIndex === 0
+                  ? 'lg:border-r lg:border-[#2b2728]/15 lg:pr-14'
+                  : 'pt-16 lg:pl-14 lg:pt-0'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-mono-code text-[9px] tracking-[0.22em] text-[#8c956a]">
+                  {side.label}
+                </span>
 
-      {/* Mobile Vertical Timeline Layout */}
-      <div className="block lg:hidden relative border-t border-[#2b2728]/10 pt-16 mt-8">
-        <div className="absolute left-9 sm:left-12 top-16 bottom-0 w-px bg-[#8c956a]/30" />
-        <div className="space-y-16 pl-16 sm:pl-20 pr-4">
-          {FEATURES.map((item) => (
-             <div key={item.name} className="relative">
-                <div className="absolute -left-[33px] sm:-left-[37px] top-1.5 w-2.5 h-2.5 rounded-full bg-[#8c956a] ring-4 ring-[#f8f6f1]" />
-                <span className="font-mono-code text-[10px] text-[#8c956a] tracking-widest">{item.status}</span>
-                <h3 className="mt-2 font-fraunces text-3xl sm:text-4xl text-[#2b2728] leading-[1.1]">{item.name}</h3>
-                <p className="mt-4 text-base sm:text-lg text-[#4a4542] leading-relaxed">{item.description}</p>
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="font-mono-code text-[9px] uppercase tracking-[0.18em] text-[#8c956a]">{item.date}</span>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2b2728]">{item.cta} <ArrowUpRight className="h-3.5 w-3.5 text-[#8c956a]" /></span>
-                </div>
-             </div>
+                <span className="font-mono-code text-[9px] tracking-[0.18em] text-[#4a4542]/45">
+                  0{sideIndex + 1}
+                </span>
+              </div>
+
+              <h2 className="mt-7 max-w-lg font-fraunces text-[clamp(1.65rem,2.45vw,2.55rem)] font-medium leading-[1.08] tracking-[-0.012em] text-[#2b2728]">
+                {side.title}
+              </h2>
+
+              <div className="mt-9 border-t border-[#2b2728]/12">
+                {side.items.map((item, idx) => {
+                  const itemKey = `${side.key}-${idx}`;
+                  const isOpen = expanded === itemKey;
+
+                  return (
+                    <div key={itemKey} className="border-b border-[#2b2728]/12">
+                      <button
+                        type="button"
+                        onClick={() => setExpanded(isOpen ? null : itemKey)}
+                        className="group flex w-full items-center gap-4 py-5 text-left"
+                        aria-expanded={isOpen}
+                      >
+                        <span className="font-mono-code text-[9px] text-[#8c956a]">
+                          0{idx + 1}
+                        </span>
+
+                        <span className="flex-1 text-sm leading-relaxed text-[#2b2728] transition-colors duration-300 group-hover:text-[#8c956a] sm:text-base">
+                          {item.short}
+                        </span>
+
+                        <span
+                          className={`font-mono-code text-sm text-[#8c956a] transition-transform duration-300 ${
+                            isOpen ? 'rotate-45' : ''
+                          }`}
+                        >
+                          +
+                        </span>
+                      </button>
+
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          height: isOpen ? 'auto' : 0,
+                          opacity: isOpen ? 1 : 0,
+                        }}
+                        transition={{
+                          duration: 0.4,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <div className="grid gap-4 pb-6 pl-8 sm:grid-cols-[0.75fr_1.25fr] sm:pl-9">
+                          <p className="font-fraunces text-lg italic text-[#2b2728]">
+                            {item.heading}
+                          </p>
+
+                          <p className="max-w-lg text-sm leading-[1.7] text-[#4a4542]">
+                            {item.detail}
+                          </p>
+                        </div>
+                      </motion.div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>
@@ -235,24 +335,652 @@ const FeatureConstellation = () => {
   );
 };
 
+
+/* WHAT WE'RE BUILDING                                                         */
+
+
+const BuildingSection = () => {
+  const [active, setActive] = useState(0);
+  const stage = STUDIO_CONTENT.building.stages[active];
+
+  return (
+    <section className="relative overflow-hidden border-b border-[#2b2728]/10 bg-[#dfe4d6]/55">
+      <div className="pointer-events-none absolute bottom-[-16vw] left-[-10vw] h-[42vw] w-[42vw] rounded-full border border-[#8c956a]/15" />
+      <div className="relative mx-auto max-w-[1440px] px-5 py-28 sm:px-8 sm:py-40 lg:px-12">
+        <motion.div
+          {...reveal}
+          className="grid items-end gap-7 border-b border-[#2b2728]/12 pb-8 lg:grid-cols-[1fr_auto_1fr]"
+        >
+          <p className="eyebrow lg:self-start">{STUDIO_CONTENT.building.eyebrow}</p>
+
+          <h2 className="max-w-2xl text-left font-fraunces text-[clamp(2.6rem,4.8vw,5.8rem)] leading-[0.93] tracking-[-0.028em] text-[#2b2728] lg:text-center">
+            A journey in four movements.
+          </h2>
+
+          <p className="font-mono-code text-[8px] uppercase tracking-[0.18em] text-[#4a4542]/50 lg:self-end lg:text-right">
+            SELECT A STAGE
+          </p>
+        </motion.div>
+
+        <div className="mt-16 grid lg:grid-cols-[0.65fr_1.35fr]">
+          <div className="border-t border-[#2b2728]/15">
+            {STUDIO_CONTENT.building.stages.map((item, index) => (
+              <button
+                key={item.number}
+                type="button"
+                onClick={() => setActive(index)}
+                className={`group flex w-full items-baseline gap-5 border-b py-5 text-left transition-colors duration-300 ${
+                  active === index
+                    ? 'border-[#8c956a] text-[#2b2728]'
+                    : 'border-[#2b2728]/12 text-[#4a4542]'
+                }`}
+              >
+                <span className="font-mono-code text-[9px] text-[#8c956a]">
+                  {item.number}
+                </span>
+
+                <span className="font-fraunces text-3xl transition-transform duration-300 group-hover:translate-x-2 sm:text-4xl">
+                  {item.title}
+                </span>
+
+                <span
+                  className={`ml-auto h-1.5 w-1.5 rounded-full transition-opacity ${
+                    active === index ? 'bg-[#8c956a] opacity-100' : 'opacity-0'
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+
+          <motion.article
+            key={stage.number}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="relative border-l border-[#2b2728]/15 px-0 pt-10 lg:min-h-[420px] lg:pl-16 lg:pt-0"
+          >
+            <div className="flex items-center justify-between border-b border-[#2b2728]/12 pb-5">
+              <span className="font-mono-code text-[9px] uppercase tracking-[0.2em] text-[#8c956a]">
+                {stage.tag}
+              </span>
+
+              <span className="font-mono-code text-[9px] text-[#4a4542]/45">
+                {stage.number} / 04
+              </span>
+            </div>
+
+            <h3 className="mt-10 font-fraunces text-6xl leading-[0.9] tracking-[-0.025em] text-[#2b2728] sm:text-8xl">
+              {stage.title}
+            </h3>
+
+            <p className="mt-8 max-w-xl font-fraunces text-2xl leading-[1.2] text-[#2b2728] sm:text-3xl">
+              {stage.short}
+            </p>
+
+            <p className="mt-10 max-w-2xl border-t border-[#2b2728]/12 pt-6 text-base leading-[1.75] text-[#4a4542]">
+              {stage.long}
+            </p>
+          </motion.article>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+/* PRODUCT                                                     */
+
+
+const FeatureConstellation = () => {
+  const [active, setActive] = useState(0);
+  const feature = FEATURES[active];
+
+  const positions = [
+    { x: 15, y: 18 },
+    { x: 50, y: 7 },
+    { x: 85, y: 18 },
+    { x: 15, y: 82 },
+    { x: 50, y: 93 },
+    { x: 85, y: 82 },
+  ];
+
+  const selectFeature = (index: number) => setActive(index);
+
+  return (
+    <section className="relative overflow-hidden border-b border-[#2b2728]/10 bg-[#f8f6f1]">
+      <div className="relative mx-auto max-w-[1440px] px-5 py-28 sm:px-8 sm:py-36 lg:px-12">
+        <motion.div
+          {...reveal}
+          className="grid gap-8 lg:grid-cols-[0.28fr_1fr] lg:items-end"
+        >
+          <p className="eyebrow">THE PRODUCT</p>
+
+          <h2 className="max-w-4xl font-fraunces text-[clamp(2.8rem,5.3vw,6rem)] leading-[0.92] tracking-[-0.025em] text-[#2b2728]">
+            A constellation of better ways to travel.
+          </h2>
+        </motion.div>
+
+        {/* Desktop constellation + details, visible together */}
+        <div className="mt-16 hidden lg:grid lg:grid-cols-[1.45fr_0.55fr] lg:items-stretch">
+          {/* Graph */}
+          <div className="relative h-[640px] overflow-visible">
+            {/* All six connection lines remain visible */}
+            <svg
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              viewBox="0 0 1000 640"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              {positions.map((position, index) => (
+                <motion.line
+                  key={index}
+                  x1="500"
+                  y1="320"
+                  x2={position.x * 10}
+                  y2={position.y * 6.4}
+                  animate={{
+                    stroke: active === index ? '#8c956a' : '#2b2728',
+                    strokeOpacity: active === index ? 0.82 : 0.30,
+                    strokeWidth: active === index ? 1.8 : 1.15,
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              ))}
+
+              <circle
+                cx="500"
+                cy="305"
+                r="4"
+                fill="#8c956a"
+                fillOpacity=".65"
+              />
+            </svg>
+
+            {/* Centre */}
+            <div className="absolute left-1/2 top-1/2 z-10 flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#8c956a]/45 bg-[#f8f6f1]">
+              <div className="relative text-center">
+                <span className="font-mono-code text-[8px] tracking-[0.24em] text-[#2b2728]">
+                  SADHYAATRA
+                </span>
+                <span className="mt-3 block font-mono-code text-[7px] uppercase tracking-[0.18em] text-[#8c956a]">
+                  {String(active + 1).padStart(2, '0')} / 06
+                </span>
+              </div>
+            </div>
+
+            {/* Feature stations */}
+            {FEATURES.map((item, index) => {
+              const position = positions[index];
+              const isActive = active === index;
+
+              return (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() => selectFeature(index)}
+                  onMouseEnter={() => setActive(index)}
+                  className="group absolute z-20 -translate-x-1/2 -translate-y-1/2 text-left outline-none"
+                  style={{
+                    left: `${position.x}%`,
+                    top: `${position.y}%`,
+                  }}
+                  aria-label={`Show ${item.name}`}
+                >
+                  <motion.div
+                    animate={{
+                      opacity: isActive ? 1 : 0.92,
+                    }}
+                    transition={{ duration: 0.25 }}
+                    className={`w-[235px] border px-5 py-4 transition-colors duration-300 ${
+                      isActive
+                        ? 'border-[#8c956a] bg-[#f8f6f1]'
+                        : 'border-[#2b2728]/14 bg-[#f8f6f1] hover:border-[#8c956a]/60'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="font-mono-code text-[8px] tracking-[0.16em] text-[#8c956a]">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+
+                      <span className="font-mono-code text-[7px] uppercase tracking-[0.15em] text-[#4a4542]/50">
+                        {item.status}
+                      </span>
+                    </div>
+
+                    <span className="mt-3 block font-fraunces text-[21px] leading-[0.95] text-[#2b2728]">
+                      {item.name}
+                    </span>
+
+                    <span className="mt-3 block font-mono-code text-[7px] uppercase tracking-[0.14em] text-[#4a4542]/45">
+                      {item.date}
+                    </span>
+                  </motion.div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active feature details — always visible beside graph */}
+          <motion.aside
+            key={feature.name}
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            className="flex min-h-[640px] flex-col justify-between border-y border-r border-[#2b2728]/10 bg-[#ded7cb]/20 px-7 py-8 xl:px-9"
+          >
+            <div>
+              <div className="flex items-center justify-between border-b border-[#2b2728]/12 pb-5">
+                <span className="font-mono-code text-[8px] uppercase tracking-[0.18em] text-[#8c956a]">
+                  {String(active + 1).padStart(2, '0')} / 06
+                </span>
+
+                <span className="font-mono-code text-[8px] uppercase tracking-[0.16em] text-[#4a4542]/50">
+                  {feature.status}
+                </span>
+              </div>
+
+              <p className="mt-10 font-mono-code text-[8px] uppercase tracking-[0.18em] text-[#8c956a]">
+                {feature.date}
+              </p>
+
+              <h3 className="mt-4 font-fraunces text-4xl leading-[0.92] tracking-[-0.02em] text-[#2b2728] xl:text-5xl">
+                {feature.name}
+              </h3>
+
+              <p className="mt-8 border-t border-[#2b2728]/12 pt-7 text-sm leading-[1.75] text-[#4a4542] xl:text-base">
+                {feature.description}
+              </p>
+            </div>
+
+            <div>
+              <div className="mb-7 flex gap-1.5">
+                {FEATURES.map((item, index) => (
+                  <button
+                    key={item.name}
+                    type="button"
+                    onClick={() => selectFeature(index)}
+                    aria-label={`Show ${item.name}`}
+                    className={`h-1 transition-all duration-300 ${
+                      active === index
+                        ? 'w-8 bg-[#8c956a]'
+                        : 'w-3 bg-[#2b2728]/15 hover:bg-[#8c956a]/50'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => selectFeature((active + 1) % FEATURES.length)}
+                className="flex w-full items-center justify-between border-t border-[#2b2728]/15 pt-5 text-left"
+              >
+                <span className="font-mono-code text-[8px] uppercase tracking-[0.16em] text-[#2b2728]">
+                  {feature.cta}
+                </span>
+
+                <ArrowUpRight className="h-4 w-4 text-[#8c956a]" />
+              </button>
+            </div>
+          </motion.aside>
+        </div>
+
+        {/* Mobile editorial timeline */}
+        <div className="mt-14 block lg:hidden">
+          <div className="relative border-t border-[#2b2728]/10 pt-10">
+            <div className="absolute bottom-0 left-5 top-10 w-px bg-[#8c956a]/25" />
+
+            <div className="space-y-12 pl-14">
+              {FEATURES.map((item, index) => (
+                <article key={item.name} className="relative">
+                  <span className="absolute -left-[33px] top-1 flex h-4 w-4 items-center justify-center rounded-full border border-[#8c956a] bg-[#f8f6f1]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#8c956a]" />
+                  </span>
+
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span className="font-mono-code text-[8px] uppercase tracking-[0.16em] text-[#8c956a]">
+                      {String(index + 1).padStart(2, '0')} · {item.status}
+                    </span>
+
+                    <span className="font-mono-code text-[8px] uppercase tracking-[0.14em] text-[#4a4542]/40">
+                      {item.date}
+                    </span>
+                  </div>
+
+                  <h3 className="mt-3 font-fraunces text-3xl leading-[1] text-[#2b2728]">
+                    {item.name}
+                  </h3>
+
+                  <p className="mt-4 max-w-xl text-sm leading-[1.7] text-[#4a4542]">
+                    {item.description}
+                  </p>
+
+                  <span className="mt-4 inline-flex items-center gap-1.5 font-mono-code text-[8px] uppercase tracking-[0.15em] text-[#2b2728]">
+                    {item.cta}
+                    <ArrowUpRight className="h-3.5 w-3.5 text-[#8c956a]" />
+                  </span>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/* FOUNDERS                                                                    */
+/* -------------------------------------------------------------------------- */
+
 const FoundersSection = () => (
-  <section className="border-y border-[#2b2728]/10 bg-[#f8f6f1] py-24 sm:py-36">
-    <div className="mx-auto max-w-7xl px-5 sm:px-8"><motion.div {...reveal} className="mb-16"><p className="eyebrow">THE PEOPLE</p><h2 className="mt-4 max-w-2xl font-fraunces text-4xl text-[#2b2728] sm:text-6xl">The people building sadhyaatra.</h2></motion.div><div className="grid gap-10 md:grid-cols-2 md:items-start">{FOUNDERS.map((founder, index) => <motion.article key={`${founder.name}-${index}`} {...reveal} transition={{ delay: index * 0.12, duration: 0.8 }}><div className="overflow-hidden border border-[#2b2728]/12 bg-[#ded7cb]/45"><div className="p-8 sm:p-12"><p className="font-mono-code text-[10px] uppercase tracking-[0.16em] text-[#8c956a]">{founder.role}</p><h3 className="mt-4 font-fraunces text-4xl text-[#2b2728]">{founder.name}</h3>{founder.bio && <p className="mt-6 text-base font-normal leading-relaxed text-[#2b2728]">{founder.bio}</p>}{founder.philosophy && <p className="mt-8 border-t border-[#2b2728]/12 pt-6 font-fraunces text-lg italic text-[#2b2728]">{founder.philosophy}</p>}<a href={founder.link} className="mt-8 inline-flex text-xs font-mono-code tracking-[0.1em] text-[#8c956a] uppercase">Connect <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></a></div></div></motion.article>)}</div></div>
+  <section className="border-b border-[#2b2728]/10 bg-[#f8f6f1]">
+    <div className="relative mx-auto max-w-[1440px] px-5 py-28 sm:px-8 sm:py-40 lg:px-12">
+      <motion.div {...reveal} className="grid gap-8 lg:grid-cols-[0.45fr_1fr]">
+        <p className="eyebrow">THE PEOPLE</p>
+
+        <h2 className="max-w-4xl font-fraunces text-5xl leading-[0.94] tracking-[-0.025em] text-[#2b2728] sm:text-7xl lg:text-8xl">
+          The people building sadhyaatra.
+        </h2>
+      </motion.div>
+
+      <div className="mt-24">
+        {FOUNDERS.map((founder, index) => (
+          <motion.article
+            key={`${founder.name}-${index}`}
+            {...reveal}
+            transition={{
+              delay: index * 0.12,
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="border-t border-[#2b2728]/15 py-10 sm:py-14"
+          >
+            <div className="grid gap-8 lg:grid-cols-[0.18fr_0.75fr_1fr] lg:items-start lg:gap-12">
+              <span className="font-mono-code text-[9px] tracking-[0.18em] text-[#8c956a]">
+                0{index + 1}
+              </span>
+
+              <div>
+                <p className="font-mono-code text-[9px] uppercase tracking-[0.18em] text-[#8c956a]">
+                  {founder.role}
+                </p>
+
+                <h3 className="mt-4 font-fraunces text-5xl lowercase leading-[0.9] tracking-[-0.02em] text-[#2b2728] sm:text-7xl">
+                  {founder.name}
+                </h3>
+
+                <a
+                  href={founder.link}
+                  className="mt-7 inline-flex items-center font-mono-code text-[9px] uppercase tracking-[0.15em] text-[#4a4542] transition-colors hover:text-[#8c956a]"
+                >
+                  Connect <ArrowUpRight className="ml-1 h-3.5 w-3.5" />
+                </a>
+              </div>
+
+              <div className="max-w-xl">
+                {founder.bio && (
+                  <p className="text-base leading-[1.75] text-[#4a4542] sm:text-lg">
+                    {founder.bio}
+                  </p>
+                )}
+
+                {founder.philosophy && (
+                  <p className="mt-8 border-t border-[#2b2728]/12 pt-7 font-fraunces text-xl italic leading-[1.35] text-[#2b2728] sm:text-2xl">
+                    {founder.philosophy}
+                  </p>
+                )}
+              </div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </div>
   </section>
 );
 
-const FutureProspectsSection = () => (
-  <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 sm:py-36"><motion.div {...reveal} className="mb-14 max-w-2xl"><p className="eyebrow">THE JOURNEY AHEAD</p><h2 className="mt-4 font-fraunces text-4xl text-[#2b2728] sm:text-6xl">Future prospects / coming soon</h2><p className="mt-5 text-xl font-normal text-[#2b2728]">The journey doesn't end with planning.</p></motion.div><div className="relative ml-3 border-l border-[#8c956a]/45">{FUTURE_PROSPECTS.map((item, index) => <motion.article key={`${item.name}-${index}`} {...reveal} className="relative pb-14 pl-8 last:pb-0 sm:grid sm:grid-cols-[150px_1fr] sm:gap-8"><span className="absolute -left-[5px] top-1 h-2.5 w-2.5 rounded-full bg-[#8c956a] ring-4 ring-[#f8f6f1]" /><span className="font-mono-code text-[10px] tracking-[0.18em] text-[#8c956a]">0{index + 1}</span><div><h3 className="font-fraunces text-3xl text-[#2b2728]">{item.name}</h3><span className="mt-2 block font-mono-code text-[10px] tracking-[0.1em] text-[#8c956a] uppercase">{item.tag}</span><p className="mt-4 max-w-3xl text-lg font-normal leading-relaxed text-[#2b2728]">{item.description}</p></div></motion.article>)}</div></section>
-);
+/* -------------------------------------------------------------------------- */
+/* FUTURE PROSPECTS                                                            */
+/* -------------------------------------------------------------------------- */
+
+const FutureProspectsSection = () => {
+  const [active, setActive] = useState<number | null>(null);
+
+  return (
+    <section className="relative overflow-hidden border-b border-[#2b2728]/10 bg-[#dfe4d6]/55">
+      <div className="pointer-events-none absolute bottom-[-16vw] left-[-10vw] h-[42vw] w-[42vw] rounded-full border border-[#8c956a]/15" />
+      <div className="relative mx-auto max-w-[1440px] px-5 py-28 sm:px-8 sm:py-40 lg:px-12">
+        <motion.div
+          {...reveal}
+          className="grid gap-8 lg:grid-cols-[0.45fr_1fr]"
+        >
+          <p className="eyebrow">THE JOURNEY AHEAD</p>
+
+          <div>
+            <h2 className="max-w-5xl font-fraunces text-5xl leading-[0.94] tracking-[-0.025em] text-[#2b2728] sm:text-7xl lg:text-8xl">
+              Future prospects / coming soon
+            </h2>
+
+            <p className="mt-6 font-fraunces text-2xl italic text-[#4a4542]">
+              The journey doesn't end with planning.
+            </p>
+          </div>
+        </motion.div>
+
+        <div className="mt-20 border-t border-[#2b2728]/15">
+          {FUTURE_PROSPECTS.map((item, index) => {
+            const isActive = active === index;
+
+            return (
+              <motion.article
+                key={`${item.name}-${index}`}
+                onMouseEnter={() => setActive(index)}
+                onMouseLeave={() => setActive(null)}
+                className={`group grid border-b border-[#2b2728]/15 py-7 transition-all duration-500 sm:grid-cols-[70px_1fr_auto] sm:items-center sm:gap-8 ${
+                  isActive ? 'px-3 sm:px-5' : 'px-0'
+                }`}
+              >
+                <span className="font-mono-code text-[9px] tracking-[0.18em] text-[#8c956a]">
+                  0{index + 1}
+                </span>
+
+                <div>
+                  <h3 className="font-fraunces text-3xl leading-none text-[#2b2728] transition-transform duration-500 group-hover:translate-x-1 sm:text-4xl">
+                    {item.name}
+                  </h3>
+
+                  <span className="mt-2 block font-mono-code text-[8px] uppercase tracking-[0.14em] text-[#8c956a]">
+                    {item.tag}
+                  </span>
+
+                  <motion.p
+                    initial={false}
+                    animate={{
+                      height: isActive ? 'auto' : 0,
+                      opacity: isActive ? 1 : 0,
+                      marginTop: isActive ? 12 : 0,
+                    }}
+                    transition={{
+                      duration: 0.35,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className="max-w-2xl overflow-hidden text-sm leading-[1.7] text-[#4a4542] sm:text-base"
+                  >
+                    {item.description}
+                  </motion.p>
+                </div>
+
+                <ArrowUpRight
+                  className={`mt-2 h-5 w-5 shrink-0 text-[#8c956a] transition-transform duration-500 sm:mt-0 ${
+                    isActive ? 'translate-x-1 -translate-y-1' : ''
+                  }`}
+                />
+              </motion.article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* -------------------------------------------------------------------------- */
+/* CAREERS                                                                     */
+/* -------------------------------------------------------------------------- */
 
 const CareersSection = () => {
   const [open, setOpen] = useState<number | null>(null);
-  return <section className="border-y border-[#2b2728]/10 bg-[#ded7cb]/35 py-24 sm:py-36"><div className="mx-auto max-w-7xl px-5 sm:px-8"><motion.div {...reveal} className="max-w-3xl"><p className="eyebrow">{STUDIO_CONTENT.careers.eyebrow}</p><h2 className="mt-4 font-fraunces text-5xl text-[#2b2728] sm:text-7xl">{STUDIO_CONTENT.careers.title}</h2><p className="mt-6 max-w-xl text-lg font-normal leading-relaxed text-[#2b2728]">{STUDIO_CONTENT.careers.intro}</p></motion.div><div className="mt-14 flex flex-wrap gap-x-6 gap-y-3 border-y border-[#2b2728]/12 py-5 font-mono-code text-[10px] tracking-[0.16em] text-[#8c956a]">{['DESIGN', 'ENGINEERING', 'TRAVEL', 'PRODUCT', 'STORYTELLING', 'CURATION', 'OPERATIONS'].map((item) => <span key={item}>{item}</span>)}</div><div className="mt-10">{CAREER_ROLES.length === 0 ? <p className="text-lg font-normal text-[#2b2728]">No careers available at the moment. Please check back later.</p> : CAREER_ROLES.map((role, index) => <div key={`${role.title}-${index}`} className="border-b border-[#2b2728]/15"><button onClick={() => setOpen(open === index ? null : index)} className="flex w-full items-center justify-between py-6 text-left"><span className="font-fraunces text-2xl text-[#2b2728] sm:text-4xl">{role.title} <ArrowUpRight className="ml-2 inline h-5 w-5 text-[#8c956a]" /></span><ChevronDown className={`h-5 w-5 text-[#8c956a] transition-transform ${open === index ? 'rotate-180' : ''}`} /></button>{open === index && <div className="grid gap-5 pb-7 text-base font-normal leading-relaxed text-[#2b2728] sm:grid-cols-3"><span>{role.location} / {role.type}</span><span>{role.description}</span><span>{role.requirements} <a href={role.link} className="mt-2 block text-[#8c956a]">Apply <ArrowUpRight className="inline h-3.5 w-3.5" /></a></span></div>}</div>)}</div></div></section>;
+
+  return (
+    <section id="careers" className="border-b border-[#2b2728]/10 bg-[#f8f6f1]">
+      <div className="mx-auto max-w-[1440px] px-5 py-28 sm:px-8 sm:py-40 lg:px-12">
+        <motion.div {...reveal} className="max-w-5xl">
+          <p className="eyebrow">{STUDIO_CONTENT.careers.eyebrow}</p>
+
+          <h2 className="mt-7 font-fraunces text-6xl leading-[0.9] tracking-[-0.03em] text-[#2b2728] sm:text-8xl lg:text-[9rem]">
+            {STUDIO_CONTENT.careers.title}
+          </h2>
+
+          <p className="mt-8 max-w-xl text-base leading-[1.75] text-[#4a4542] sm:text-lg">
+            {STUDIO_CONTENT.careers.intro}
+          </p>
+        </motion.div>
+
+        <div className="mt-16 flex flex-wrap gap-x-6 gap-y-3 border-y border-[#2b2728]/12 py-5 font-mono-code text-[8px] uppercase tracking-[0.18em] text-[#8c956a]">
+          {[
+            'DESIGN',
+            'ENGINEERING',
+            'TRAVEL',
+            'PRODUCT',
+            'STORYTELLING',
+            'CURATION',
+            'OPERATIONS',
+          ].map((item) => (
+            <span key={item}>{item}</span>
+          ))}
+        </div>
+
+        <div className="mt-8">
+          {CAREER_ROLES.length === 0 ? (
+            <div className="flex flex-col gap-4 border-b border-[#2b2728]/15 py-8 sm:flex-row sm:items-center sm:justify-between">
+              <p className="font-fraunces text-2xl text-[#2b2728]">
+                No careers available at the moment. Please check back later.
+              </p>
+
+              <span className="font-mono-code text-[8px] uppercase tracking-[0.16em] text-[#8c956a]">
+                CHECK BACK LATER
+              </span>
+            </div>
+          ) : (
+            CAREER_ROLES.map((role, index) => (
+              <div key={`${role.title}-${index}`} className="border-b border-[#2b2728]/15">
+                <button
+                  type="button"
+                  onClick={() => setOpen(open === index ? null : index)}
+                  className="flex w-full items-center justify-between py-6 text-left"
+                  aria-expanded={open === index}
+                >
+                  <span className="font-fraunces text-2xl text-[#2b2728] sm:text-4xl">
+                    {role.title}
+                    <ArrowUpRight className="ml-2 inline h-4 w-4 text-[#8c956a]" />
+                  </span>
+
+                  <ChevronDown
+                    className={`h-5 w-5 text-[#8c956a] transition-transform ${
+                      open === index ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {open === index && (
+                  <div className="grid gap-5 pb-7 text-sm leading-[1.7] text-[#4a4542] sm:grid-cols-3">
+                    <span>
+                      {role.location} / {role.type}
+                    </span>
+                    <span>{role.description}</span>
+                    <span>
+                      {role.requirements}
+                      <a href={role.link} className="mt-2 block text-[#8c956a]">
+                        Apply <ArrowUpRight className="inline h-3.5 w-3.5" />
+                      </a>
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </section>
+  );
 };
+
+/* -------------------------------------------------------------------------- */
+/* FINAL                                                                       */
+/* -------------------------------------------------------------------------- */
+
+const FinalSection = () => (
+  <section className="relative overflow-hidden bg-[#e9eee5] px-5 py-36 sm:px-8 sm:py-56">
+    <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70vw] w-[70vw] max-h-[900px] max-w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8c956a]/10" />
+
+    <motion.div
+      {...reveal}
+      className="relative mx-auto max-w-6xl text-center"
+    >
+      <p className="eyebrow">SADHYAATRA / THE STUDIO</p>
+
+      <h2 className="mt-10 font-fraunces text-6xl leading-[0.92] tracking-[-0.035em] text-[#2b2728] sm:text-8xl lg:text-[9rem]">
+        {STUDIO_CONTENT.final.statement}
+      </h2>
+
+      <div className="mt-14 flex flex-wrap justify-center gap-8 font-mono-code text-[9px] uppercase tracking-[0.18em]">
+        <a
+          href="/"
+          className="text-[#8c956a] transition-colors hover:text-[#2b2728]"
+        >
+          Explore SADHYAATRA <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" />
+        </a>
+
+        <a
+          href="#careers"
+          className="text-[#4a4542] transition-colors hover:text-[#2b2728]"
+        >
+          Work with us <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" />
+        </a>
+      </div>
+    </motion.div>
+  </section>
+);
+
+/* -------------------------------------------------------------------------- */
+/* PAGE                                                                        */
+/* -------------------------------------------------------------------------- */
 
 export const StudioPage: React.FC = () => {
   const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const heroY = useTransform(scrollYProgress, [0, 0.25], ['0%', '18%']);
-  return <div className="min-h-screen overflow-hidden bg-[#f8f6f1] text-[#2b2728] font-jost"><StudioNav /><main><section className="relative flex min-h-[92vh] items-center overflow-hidden border-b border-[#2b2728]/10 px-5 pb-24 pt-32 sm:px-8"><RouteLines /><motion.div style={{ y: heroY }} className="relative z-10 mx-auto w-full max-w-7xl"><motion.p {...reveal} className="eyebrow">{STUDIO_CONTENT.hero.eyebrow}</motion.p><motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.15 }} className="mt-8 max-w-5xl font-fraunces text-5xl leading-[0.95] break-words text-[#2b2728] sm:text-7xl lg:text-[9rem]">{STUDIO_CONTENT.hero.title}</motion.h1><motion.p {...reveal} transition={{ delay: 0.35, duration: 0.8 }} className="mt-10 max-w-md text-xl font-normal leading-relaxed text-[#2b2728]">{STUDIO_CONTENT.hero.intro}</motion.p><div className="absolute bottom-0 right-0 flex items-center gap-3 font-mono-code text-[10px] tracking-[0.18em] text-[#4a4542]/70"><span>{STUDIO_CONTENT.hero.scrollLabel}</span><ArrowDown className="h-4 w-4 text-[#8c956a]" /></div></motion.div></section><GapSection /><BuildingSection /><FeatureConstellation /><FoundersSection /><FutureProspectsSection /><CareersSection /><section className="px-5 py-32 sm:px-8 sm:py-52"><motion.div {...reveal} className="mx-auto max-w-5xl text-center"><h2 className="font-fraunces text-5xl leading-[0.98] break-words text-[#2b2728] sm:text-8xl">{STUDIO_CONTENT.final.statement}</h2><div className="mt-12 flex flex-wrap justify-center gap-8 font-mono-code text-[10px] uppercase tracking-[0.18em]"><a href="/" className="text-[#8c956a] hover:text-[#2b2728]">Explore SADHYAATRA <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></a><a href="#careers" className="text-[#4a4542] hover:text-[#2b2728]">Work with us <ArrowUpRight className="ml-1 inline h-3.5 w-3.5" /></a></div></motion.div></section></main><motion.div style={{ scaleX: progress }} className="fixed bottom-0 left-0 right-0 z-[60] h-1 origin-left bg-[#8c956a]" /></div>;
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+  });
+
+  return (
+    <div className="min-h-screen overflow-hidden bg-[#f8f6f1] text-[#2b2728] font-jost">
+      <StudioNav />
+
+      <main>
+        <HeroSection />
+        <GapSection />
+        <BuildingSection />
+        <FeatureConstellation />
+        <FoundersSection />
+        <FutureProspectsSection />
+        <CareersSection />
+        <FinalSection />
+      </main>
+
+      <motion.div
+        style={{ scaleX: progress }}
+        className="fixed bottom-0 left-0 right-0 z-[60] h-[2px] origin-left bg-[#8c956a]"
+      />
+    </div>
+  );
 };
