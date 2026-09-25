@@ -1,7 +1,7 @@
-import { PrismaClient } from '../generated/prisma/client';
+import { PrismaClient } from '../generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { DESTINATIONS } from '../data/destinations';
-import { Destination, FilterState } from '../types';
+import { DESTINATIONS } from '../data/destinations.js';
+import { Destination, FilterState } from '../types.js';
 
 let prisma: PrismaClient | null = null;
 

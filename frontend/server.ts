@@ -12,7 +12,7 @@ import {
   getSavedDestinations,
   toggleSavedDestination,
   seedDatabaseIfEmpty,
-} from './src/lib/db';
+} from './src/lib/db.js';
 
 dotenv.config();
 
