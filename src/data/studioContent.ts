@@ -39,8 +39,23 @@ export const FEATURES = [
 ] as const;
 
 export const FOUNDERS = [
-  { name: 'anushree balaji', role: 'co-founder & ceo', bio: 'backend developer, cybersecurity enthusiast & ai explorer. turning complex problems into systems that are simple, practical, and scalable.', philosophy: 'technology should take care of the complexity in the background, so that the traveller can focus on the journey itself.', link: '#' },
-  { name: 'chahak adwani', role: 'co-founder & chairperson', bio: 'decision scientist & ai explorer. using data to solve real-world problems and build data-driven solutions.', philosophy: 'solve real world problems and create insightful stories through data.', link: '#' },
+
+  {
+    name: 'anushree balaji',
+    role: 'co-founder & ceo',
+    bio: 'backend developer, cybersecurity enthusiast & ai explorer. turning complex problems into systems that are simple, practical, and scalable.',
+    philosophy: 'technology should take care of the complexity in the background, so that the traveller can focus on the journey itself.',
+    link: 'https://anushree.is-a.dev',
+  },
+
+  {
+    name: 'chahak adwani',
+    role: 'co-founder & chairperson',
+    bio: 'decision scientist & ai explorer. using data to solve real-world problems and build data-driven solutions.',
+    philosophy: 'solve real world problems and create insightful stories through data.',
+    link: 'http://chahak-ds.netlify.app/',
+  },
+
 ] as const;
 
 export const FUTURE_PROSPECTS = [
