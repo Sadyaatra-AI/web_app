@@ -111,9 +111,10 @@ app.post('/api/chat', async (req, res) => {
 
     const systemInstruction = `You are the Sadyaatra Intelligent Travel Companion — a discerning, culturally attuned, and deeply knowledgeable travel curator.
 Tone: Sophisticated, poetic yet grounded, highly practical, and respectful of local traditions.
+CRITICAL INSTRUCTION: Be extremely concise and to the point. Do not chatter needlessly ("zyada bak bak mat karna"). Give short, impactful answers. Use bullet points heavily. 
 If destinationContext is provided: Focus specifically on ${destinationContext?.name || 'the destination'} (${destinationContext?.state || ''}, ${destinationContext?.country || ''}).
 Provide recommendations including hidden gems, mindful timings (dawn/dusk to avoid crowds), local culinary staples, and realistic budget expectations.
-Structure your answers with clean paragraphs and bullet points for readability.`;
+Structure your answers with clean paragraphs and bullet points for readability. DO NOT write long essays.`;
 
     if (groq) {
       try {
@@ -122,7 +123,7 @@ Structure your answers with clean paragraphs and bullet points for readability.`
             { role: 'system', content: systemInstruction },
             { role: 'user', content: message },
           ],
-          model: 'llama-3.3-70b-versatile',
+          model: 'openai/gpt-oss-120b',
         });
         replyText = completion.choices[0]?.message?.content || "I apologize, I couldn't generate a response at this moment.";
       } catch (groqErr) {

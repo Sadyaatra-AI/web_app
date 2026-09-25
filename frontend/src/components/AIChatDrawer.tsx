@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   Sparkles,
   X,
@@ -45,6 +47,34 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
   ]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Resize State & Refs
+  const [drawerWidth, setDrawerWidth] = useState(448);
+  const isDragging = useRef(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current) return;
+      const newWidth = window.innerWidth - e.clientX;
+      setDrawerWidth(Math.max(320, Math.min(newWidth, 800)));
+    };
+    const handleMouseUp = () => {
+      if (isDragging.current) {
+        isDragging.current = false;
+        document.body.style.cursor = 'default';
+        document.body.style.userSelect = 'auto';
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -147,28 +177,6 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
     ]);
   };
 
-  const formatText = (content: string) => {
-    return content.split('\n').map((line, idx) => {
-      let formatted = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>');
-      if (line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')) {
-        return (
-          <p
-            key={idx}
-            className="pl-4 relative before:content-['•'] before:absolute before:left-0 text-xs sm:text-sm my-1"
-            dangerouslySetInnerHTML={{ __html: formatted.replace(/^[\s•\-\*]+/, '') }}
-          />
-        );
-      }
-      return (
-        <p
-          key={idx}
-          className="text-xs sm:text-sm my-1.5 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: formatted }}
-        />
-      );
-    });
-  };
-
   const currentDestObj = destinations.find((d) => d.id === selectedDestId);
 
   const SUGGESTIONS = currentDestObj
@@ -195,8 +203,19 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
           exit={{ x: '100%' }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-md h-full bg-[#f8f6f1] border-l border-[#2b2728]/10 flex flex-col justify-between shadow-2xl text-[#2b2728]"
+          style={{ width: `${drawerWidth}px`, maxWidth: '100vw' }}
+          className="relative h-full bg-[#f8f6f1] border-l border-[#2b2728]/10 flex flex-col justify-between shadow-2xl text-[#2b2728]"
         >
+          {/* Draggable Resizer Handle */}
+          <div
+            className="absolute top-0 left-0 w-2 h-full cursor-col-resize hover:bg-[#8c956a]/30 active:bg-[#8c956a]/50 z-50 transition-colors"
+            onMouseDown={() => {
+              isDragging.current = true;
+              document.body.style.cursor = 'col-resize';
+              document.body.style.userSelect = 'none';
+            }}
+          />
+
           {/* Header */}
           <div className="p-4 sm:p-5 border-b border-[#2b2728]/10 bg-white flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-3">
@@ -270,7 +289,51 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                       : 'bg-white text-[#2b2728] border border-[#2b2728]/10 rounded-tl-none'
                   }`}
                 >
-                  <div className="break-words">{formatText(msg.text)}</div>
+                  <div className="break-words">
+                    {msg.sender === 'user' ? (
+                      <p className="text-xs sm:text-sm">{msg.text}</p>
+                    ) : (
+                      <div className="markdown-body">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            h1: ({node, ...props}) => <h2 className="text-lg font-fraunces font-bold text-[#8c956a] mt-5 mb-2" {...props} />,
+                            h2: ({node, ...props}) => <h3 className="text-base font-fraunces font-bold text-[#8c956a] mt-5 mb-2 border-b border-[#8c956a]/20 pb-1" {...props} />,
+                            h3: ({node, ...props}) => <h4 className="text-sm font-fraunces font-bold text-[#2b2728] mt-4 mb-1" {...props} />,
+                            p: ({node, ...props}) => <p className="text-xs sm:text-sm my-2 leading-relaxed" {...props} />,
+                            ul: ({node, ...props}) => <ul className="my-2 space-y-1.5 pl-1" {...props} />,
+                            ol: ({node, ...props}) => <ol className="my-2 space-y-1.5 pl-1 list-decimal ml-4" {...props} />,
+                            li: ({node, ...props}) => {
+                              // If it's in a bulleted list, use our custom icon
+                              const parentNode = (node as any)?.parent;
+                              if (parentNode?.type === 'element' && parentNode.tagName === 'ul') {
+                                return (
+                                  <li className="flex gap-2 items-start text-xs sm:text-sm leading-relaxed">
+                                    <span className="text-[#8c956a] mt-0.5 text-[10px]">✦</span>
+                                    <span className="flex-1">{props.children}</span>
+                                  </li>
+                                );
+                              }
+                              // Otherwise (numbered list), render normally
+                              return <li className="text-xs sm:text-sm leading-relaxed">{props.children}</li>;
+                            },
+                            table: ({node, ...props}) => (
+                              <div className="w-full overflow-x-auto my-3 rounded-lg border border-[#2b2728]/10">
+                                <table className="w-full text-left text-xs sm:text-sm" {...props} />
+                              </div>
+                            ),
+                            th: ({node, ...props}) => <th className="bg-[#f8f6f1] p-2 border-b border-[#2b2728]/10 font-semibold text-[#8c956a]" {...props} />,
+                            td: ({node, ...props}) => <td className="p-2 border-b border-[#2b2728]/5 last:border-0" {...props} />,
+                            strong: ({node, ...props}) => <strong className="font-semibold text-[#8c956a]" {...props} />,
+                            em: ({node, ...props}) => <em className="italic text-[#4a4542]" {...props} />,
+                            a: ({node, ...props}) => <a className="text-[#8c956a] hover:underline" {...props} />
+                          }}
+                        >
+                          {msg.text}
+                        </ReactMarkdown>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="flex items-center justify-between pt-1 text-[10px] font-mono-code opacity-60">
                     <span>{msg.timestamp}</span>

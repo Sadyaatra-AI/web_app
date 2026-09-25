@@ -1,0 +1,40 @@
+To run the Sadyaatra application locally:
+
+1. Install Dependencies (Using --no-bin-links for your drive type):
+   # In the root web_app directory
+   npm install --no-bin-links
+   
+   # In the frontend directory
+   cd frontend
+   npm install --no-bin-links
+   cd ..
+
+2. Generate Prisma Database Client:
+   # Due to --no-bin-links, run Prisma via Node directly from the root
+   node node_modules/prisma/build/index.js generate
+
+3. Setup Environment Variables:
+   # Copy the example environment file
+   cp frontend/.env.example frontend/.env
+   # Add your specific config (DATABASE_URL, API keys) inside frontend/.env locally. 
+   # Ensure you never commit your .env file to version control.
+
+4. Start the Application:
+   # From the frontend directory, start the server
+   cd frontend
+   npm run dev
+
+   # (If npm run dev fails finding 'tsx', run the server manually with Node)
+   cd frontend
+   node ../node_modules/tsx/dist/cli.mjs server.ts
+
+5. Open your browser to:
+   http://localhost:3000
+
+6. Verify Database Connection (PostgreSQL/Supabase):
+   # To verify the app is pushing data to your database, you can run Prisma Studio locally.
+   # Due to --no-bin-links, run it via Node from the root directory:
+   node node_modules/prisma/build/index.js studio
+   
+   # This will open a visual database browser at http://localhost:5555 where you can view your tables.
+   # Alternatively, you can verify data directly in the Supabase Dashboard Table Editor online.
