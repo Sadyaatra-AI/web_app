@@ -1,26 +1,115 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --sage-deep: #8c956a;
+    --sage-mid: #9eb094;
+    --khaki-pale: #c6cab2;
+    --blush-grey: #d6cfcc;
+    --paper: #f8f6f1;
+    --ink: #2b2728;
+    --ink-soft: #4a4542;
+
+    /* Additional user palette variables */
+    --brand-dark: #171a14;
+    --brand-sage-dark: #30362a;
+    --brand-ivory: #e9e5d8;
+    --brand-clay: #a66f5b;
+
+    --bg: var(--paper);
+    --surface: #ffffff;
+    --text: var(--ink);
+    --text-soft: var(--ink-soft);
+    --accent: var(--sage-deep);
+    --accent-2: var(--sage-mid);
+    --line: rgba(43, 39, 40, 0.12);
+    --tint: var(--khaki-pale);
+    --tint-2: var(--blush-grey);
+
+    --font-fraunces: 'Fraunces', serif;
+    --font-jost: 'Jost', sans-serif;
+    --font-serif: "Fraunces", "EB Garamond", serif;
+    --font-sans: "Jost", "Hanken Grotesk", sans-serif;
+    --font-mono: "Space Mono", monospace;
+  }
+
+  body {
+    font-family: var(--font-jost), 'Jost', sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+  }
+
+  h1, h2, h3, .display, .font-serif-heading {
+    font-family: var(--font-fraunces), 'Fraunces', serif;
+    font-weight: 500;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Utilities */
+.font-fraunces {
+  font-family: "Fraunces", "EB Garamond", serif;
+}
+
+.font-jost {
+  font-family: "Jost", system-ui, sans-serif;
+}
+
+.font-ebGaramond {
+  font-family: "Fraunces", "EB Garamond", Georgia, serif;
+}
+
+.font-hankenGrotesk {
+  font-family: "Jost", "Hanken Grotesk", system-ui, sans-serif;
+}
+
+.font-mono-code {
+  font-family: "Space Mono", monospace;
+}
+
+.eyebrow {
+  font-family: 'Jost', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 12px;
+  color: var(--sage-deep);
+  font-weight: 600;
+}
+
+.crosshatch {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(43,39,40,0.04) 0, rgba(43,39,40,0.04) 1px, transparent 1px, transparent 34px),
+    repeating-linear-gradient(-45deg, rgba(43,39,40,0.04) 0, rgba(43,39,40,0.04) 1px, transparent 1px, transparent 34px);
+}
+
+/* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar,
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hover Lift */
+.hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Image Zoom */
+.img-zoom {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .img-zoom {
+  transform: scale(1.06);
+}
+
+/* Custom Grain Overlay */
+.grain-bg {
+  background-image: radial-gradient(rgba(232, 225, 222, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
 }

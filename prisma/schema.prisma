@@ -5,7 +5,7 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../frontend/src/generated/prisma"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -13,16 +13,16 @@ datasource db {
 }
 
 model Destination {
-  id              String   @id @default(uuid())
+  id              String  @id @default(uuid())
   name            String
   country         String
   state           String?
-  description     String?  @db.Text
+  description     String? @db.Text
   latitude        Float
   longitude       Float
-  averageBudget   Float?   @map("average_budget")
-  popularityScore Float    @default(0) @map("popularity_score")
-  status          String   @default("active")
+  averageBudget   Float?  @map("average_budget")
+  popularityScore Float   @default(0) @map("popularity_score")
+  status          String  @default("active")
 
   attractions      Attraction[]
   localExperiences LocalExperience[]
@@ -34,36 +34,36 @@ model Destination {
 }
 
 model Attraction {
-  id            String   @id @default(uuid())
-  destinationId String   @map("destination_id")
+  id            String  @id @default(uuid())
+  destinationId String  @map("destination_id")
   name          String
-  description   String?  @db.Text
+  description   String? @db.Text
   category      String?
   latitude      Float?
   longitude     Float?
-  estimatedCost Float?   @map("estimated_cost")
-  openingHours  String?  @map("opening_hours")
-  status        String   @default("active")
+  estimatedCost Float?  @map("estimated_cost")
+  openingHours  String? @map("opening_hours")
+  status        String  @default("active")
 
-  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
-  arAssets      ArAsset[]
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  arAssets    ArAsset[]
 
   @@map("attractions")
 }
 
 model LocalExperience {
-  id              String   @id @default(uuid())
-  destinationId   String   @map("destination_id")
+  id              String  @id @default(uuid())
+  destinationId   String  @map("destination_id")
   name            String
-  description     String?  @db.Text
+  description     String? @db.Text
   category        String?
-  estimatedCost   Float?   @map("estimated_cost")
-  durationMinutes Int?     @map("duration_minutes")
-  popularityScore Float?   @map("popularity_score")
-  isHiddenGem     Boolean  @default(false) @map("is_hidden_gem")
-  status          String   @default("active")
+  estimatedCost   Float?  @map("estimated_cost")
+  durationMinutes Int?    @map("duration_minutes")
+  popularityScore Float?  @map("popularity_score")
+  isHiddenGem     Boolean @default(false) @map("is_hidden_gem")
+  status          String  @default("active")
 
-  destination     Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 
   @@map("local_experiences")
 }
@@ -73,7 +73,7 @@ model DestinationInterest {
   interest       String
   relevanceScore Float? @map("relevance_score")
 
-  destination    Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 
   @@id([destinationId, interest])
   @@map("destination_interests")
@@ -87,7 +87,7 @@ model TrendingDestination {
   calculatedAt  DateTime  @default(now()) @map("calculated_at")
   expiresAt     DateTime? @map("expires_at")
 
-  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 
   @@map("trending_destinations")
 }
@@ -113,7 +113,7 @@ model WebChatMessage {
   metadata       Json?
   createdAt      DateTime @default(now()) @map("created_at")
 
-  conversation   WebChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversation WebChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@map("web_chat_messages")
 }
@@ -129,7 +129,7 @@ model WebPlanPreview {
   previewData    Json?    @map("preview_data")
   createdAt      DateTime @default(now()) @map("created_at")
 
-  conversation   WebChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversation WebChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@map("web_plan_previews")
 }
@@ -142,7 +142,7 @@ model DestinationMedia {
   metadata      Json?
   createdAt     DateTime @default(now()) @map("created_at")
 
-  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  destination Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 
   @@map("destination_media")
 }
@@ -155,7 +155,7 @@ model ArAsset {
   metadata     Json?
   version      Int    @default(1)
 
-  attraction   Attraction @relation(fields: [attractionId], references: [id], onDelete: Cascade)
+  attraction Attraction @relation(fields: [attractionId], references: [id], onDelete: Cascade)
 
   @@map("ar_assets")
 }
