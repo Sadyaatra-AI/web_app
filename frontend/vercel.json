@@ -1,8 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "outputDirectory": "dist",
   "functions": {
-    "server.ts": {
+    "api/index.js": {
       "includeFiles": "src/generated/prisma/**/*"
     }
   }

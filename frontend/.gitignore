@@ -8,3 +8,5 @@ coverage/
 !.env.example
 /public/index.html
 /public/assets/
+api/index.js
+api/index.js.map
