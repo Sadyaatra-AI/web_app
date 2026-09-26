@@ -54,7 +54,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
           <img 
             src="/logo.png" 
             alt="Sadhyatra" 
-            className="h-16 sm:h-24 w-auto object-contain" 
+            className="h-28 sm:h-40 w-auto object-contain mix-blend-multiply [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)]" 
           />
         </motion.div>
 

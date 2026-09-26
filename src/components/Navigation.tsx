@@ -75,19 +75,12 @@ export const Navigation: React.FC<NavigationProps> = ({
             Destinations
           </button>
 
-          <button
-            id="nav-quiz-btn"
-            onClick={() => setActiveTab('quiz')}
-            className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${activeTab === 'quiz'
-              ? 'bg-[#8c956a] text-white shadow-sm font-semibold'
-              : 'text-[#4a4542] hover:text-[#8c956a] hover:bg-white/60'
-              }`}
+          <a
+            href="/studio"
+            className="px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all text-[#4a4542] hover:text-[#2b2728] hover:bg-white/60"
           >
-            <Sparkles className={`w-3.5 h-3.5 ${activeTab === 'quiz' ? 'text-white' : 'text-[#8c956a]'}`} />
-            Trip Matcher
-          </button>
-
-          <button
+            About
+          </a>          <button
             id="nav-saved-btn"
             onClick={() => setActiveTab('saved')}
             className={`px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase flex items-center gap-1.5 transition-all ${activeTab === 'saved'
@@ -102,12 +95,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <a
-            href="/studio"
-            className="hidden lg:flex items-center justify-center px-4 py-2 rounded-full border border-[#8c956a]/30 bg-white/90 hover:bg-white text-[11px] font-semibold uppercase tracking-[0.16em] text-[#2b2728] transition-all hover:border-[#8c956a] hover:text-[#8c956a] shadow-sm hover:shadow-md backdrop-blur-md"
-          >
-            About
-          </a>
+
           {/* Search Trigger */}
           <div className="relative hidden sm:block w-32 md:w-48 lg:w-56">
             <Search className="w-4 h-4 text-[#4a4542]/60 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -144,6 +132,13 @@ export const Navigation: React.FC<NavigationProps> = ({
         >
           Destinations
         </button>
+
+        <a
+          href="/studio"
+          className="px-3 py-1.5 rounded-full text-[11px] font-medium transition-all text-[#4a4542]"
+        >
+          About
+        </a>
 
         <button
           id="mobile-nav-quiz"

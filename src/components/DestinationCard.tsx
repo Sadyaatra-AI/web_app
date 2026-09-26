@@ -102,7 +102,7 @@ export const DestinationCard: React.FC<DestinationCardProps> = ({
             "{poeticTag}"
           </p>
 
-          <p className="text-xs sm:text-sm text-[#4a4542] line-clamp-2 leading-relaxed font-light">
+          <p className="text-sm sm:text-base text-[#4a4542] line-clamp-2 leading-relaxed font-light">
             {destination.shortDescription}
           </p>
         </div>

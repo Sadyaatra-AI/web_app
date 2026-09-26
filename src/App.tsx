@@ -210,16 +210,6 @@ export function App() {
           </div>
         )}
 
-        {/* TAB 2: TRIP MATCHER QUIZ */}
-        {activeTab === 'quiz' && (
-          <div className="py-10">
-            <MatchQuizModal
-              destinations={DESTINATIONS}
-              onSelectDestination={(d) => setSelectedDestination(d)}
-            />
-          </div>
-        )}
-
         {/* TAB 3: SAVED DESTINATIONS */}
         {activeTab === 'saved' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">

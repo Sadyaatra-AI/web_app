@@ -291,7 +291,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                 >
                   <div className="break-words">
                     {msg.sender === 'user' ? (
-                      <p className="text-xs sm:text-sm">{msg.text}</p>
+                      <p className="text-sm sm:text-base">{msg.text}</p>
                     ) : (
                       <div className="markdown-body">
                         <ReactMarkdown
@@ -300,7 +300,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                             h1: ({node, ...props}) => <h2 className="text-lg font-fraunces font-bold text-[#8c956a] mt-5 mb-2" {...props} />,
                             h2: ({node, ...props}) => <h3 className="text-base font-fraunces font-bold text-[#8c956a] mt-5 mb-2 border-b border-[#8c956a]/20 pb-1" {...props} />,
                             h3: ({node, ...props}) => <h4 className="text-sm font-fraunces font-bold text-[#2b2728] mt-4 mb-1" {...props} />,
-                            p: ({node, ...props}) => <p className="text-xs sm:text-sm my-2 leading-relaxed" {...props} />,
+                            p: ({node, ...props}) => <p className="text-sm sm:text-base my-2 leading-relaxed" {...props} />,
                             ul: ({node, ...props}) => <ul className="my-2 space-y-1.5 pl-1" {...props} />,
                             ol: ({node, ...props}) => <ol className="my-2 space-y-1.5 pl-1 list-decimal ml-4" {...props} />,
                             li: ({node, ...props}) => {
@@ -308,18 +308,18 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                               const parentNode = (node as any)?.parent;
                               if (parentNode?.type === 'element' && parentNode.tagName === 'ul') {
                                 return (
-                                  <li className="flex gap-2 items-start text-xs sm:text-sm leading-relaxed">
+                                  <li className="flex gap-2 items-start text-sm sm:text-base leading-relaxed">
                                     <span className="text-[#8c956a] mt-0.5 text-[10px]">✦</span>
                                     <span className="flex-1">{props.children}</span>
                                   </li>
                                 );
                               }
                               // Otherwise (numbered list), render normally
-                              return <li className="text-xs sm:text-sm leading-relaxed">{props.children}</li>;
+                              return <li className="text-sm sm:text-base leading-relaxed">{props.children}</li>;
                             },
                             table: ({node, ...props}) => (
                               <div className="w-full overflow-x-auto my-3 rounded-lg border border-[#2b2728]/10">
-                                <table className="w-full text-left text-xs sm:text-sm" {...props} />
+                                <table className="w-full text-left text-sm sm:text-base" {...props} />
                               </div>
                             ),
                             th: ({node, ...props}) => <th className="bg-[#f8f6f1] p-2 border-b border-[#2b2728]/10 font-semibold text-[#8c956a]" {...props} />,
@@ -415,7 +415,7 @@ export const AIChatDrawer: React.FC<AIChatDrawerProps> = ({
                 }
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 bg-transparent text-xs sm:text-sm text-[#2b2728] placeholder-[#4a4542]/50 outline-none"
+                className="flex-1 bg-transparent text-sm sm:text-base text-[#2b2728] placeholder-[#4a4542]/50 outline-none"
               />
               <button
                 id="ai-chat-send-btn"

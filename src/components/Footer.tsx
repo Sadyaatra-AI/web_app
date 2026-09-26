@@ -42,11 +42,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenQuiz, onOpenAI }) => {
                 <a href="mailto:contact@sadhyatra.com" className="hover:text-[#8c956a] transition-colors font-medium">Contact</a>
               </li>
               <li>
-                <button onClick={onOpenQuiz} className="hover:text-[#8c956a] transition-colors flex items-center gap-1.5 font-medium">
-                  <Sparkles className="w-3.5 h-3.5 text-[#8c956a]" /> Trip Matcher
-                </button>
-              </li>
-              <li>
                 <button onClick={onOpenAI} className="hover:text-[#8c956a] transition-colors flex items-center gap-1.5 font-medium">
                   <Sparkles className="w-3.5 h-3.5 text-[#8c956a]" /> AI Companion
                 </button>

@@ -326,7 +326,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                 "{destination.fullDescription}"
               </p>
               {destination.curatorNotes && (
-                <div className="p-4 rounded-2xl bg-white border-l-4 border-[#8c956a] border-[#2b2728]/10 text-xs sm:text-sm text-[#4a4542] font-light leading-relaxed shadow-xs">
+                <div className="p-4 rounded-2xl bg-white border-l-4 border-[#8c956a] border-[#2b2728]/10 text-sm sm:text-base text-[#4a4542] font-light leading-relaxed shadow-xs">
                   <span className="font-mono-code text-[10px] text-[#8c956a] font-semibold uppercase block mb-1">Curator Note</span>
                   {destination.curatorNotes}
                 </div>
@@ -389,7 +389,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   <span>Curator Match Rationale</span>
                 </div>
-                <p className="text-xs sm:text-sm text-[#4a4542] font-light leading-relaxed">
+                <p className="text-sm sm:text-base text-[#4a4542] font-light leading-relaxed">
                   {activeMatch.reason}
                 </p>
               </div>
@@ -442,7 +442,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                       </div>
 
                       <div className="p-5 space-y-3 flex-1 flex flex-col justify-between">
-                        <p className="text-xs sm:text-sm text-[#4a4542] leading-relaxed font-light">
+                        <p className="text-sm sm:text-base text-[#4a4542] leading-relaxed font-light">
                           {att.description}
                         </p>
                         <button
@@ -563,7 +563,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                   <div className="flex items-center gap-2 text-[#a66f5b] font-medium text-xs font-mono-code uppercase tracking-wider font-semibold">
                     <AlertCircle className="w-4 h-4" /> What to Avoid / Skip
                   </div>
-                  <p className="text-xs sm:text-sm text-[#4a4542] leading-relaxed font-light">
+                  <p className="text-sm sm:text-base text-[#4a4542] leading-relaxed font-light">
                     {destination.thingsToSkip}
                   </p>
                 </div>
@@ -670,8 +670,8 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
 
                   <div
                     className={`max-w-[84%] relative group ${msg.sender === 'user'
-                      ? 'bg-[#2b2728] text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-[11px] leading-relaxed'
-                      : 'bg-white border border-[#2b2728]/08 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[#2b2728] text-[11px] leading-relaxed shadow-xs'
+                      ? 'bg-[#2b2728] text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-sm leading-relaxed'
+                      : 'bg-white border border-[#2b2728]/08 rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-[#2b2728] text-sm leading-relaxed shadow-xs'
                       }`}
                   >
                     <div className="space-y-0.5">
@@ -685,12 +685,12 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                               h1: ({node, ...props}) => <h2 className="text-sm font-fraunces font-bold text-[#8c956a] mt-3 mb-1" {...props} />,
                               h2: ({node, ...props}) => <h3 className="text-xs font-fraunces font-bold text-[#8c956a] mt-3 mb-1 border-b border-[#8c956a]/20 pb-0.5" {...props} />,
                               h3: ({node, ...props}) => <h4 className="text-xs font-fraunces font-bold text-[#2b2728] mt-2 mb-0.5" {...props} />,
-                              p: ({node, ...props}) => <p className="text-[11px] my-1 leading-relaxed" {...props} />,
+                              p: ({node, ...props}) => <p className="text-sm my-1 leading-relaxed" {...props} />,
                               ul: ({node, ...props}) => <ul className="my-1.5 space-y-1 pl-0" {...props} />,
                               ol: ({node, ...props}) => <ol className="my-1.5 space-y-1 pl-4 list-decimal" {...props} />,
                               li: ({node, ...props}) => (
-                                <li className="flex gap-1.5 items-start text-[11px] leading-relaxed">
-                                  <span className="text-[#8c956a] mt-0.5 text-[9px] shrink-0">✦</span>
+                                <li className="flex gap-1.5 items-start text-sm leading-relaxed">
+                                  <span className="text-[#8c956a] mt-0.5 text-[11px] shrink-0">✦</span>
                                   <span className="flex-1">{(props as any).children}</span>
                                 </li>
                               ),
@@ -705,7 +705,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                       )}
                     </div>
 
-                    <div className={`flex items-center justify-between mt-1.5 text-[9px] font-mono-code opacity-40 ${msg.sender === 'user' ? 'text-white' : 'text-[#2b2728]'
+                    <div className={`flex items-center justify-between mt-1.5 text-[11px] font-mono-code opacity-40 ${msg.sender === 'user' ? 'text-white' : 'text-[#2b2728]'
                       }`}>
                       <span>{msg.timestamp}</span>
                       {msg.sender === 'assistant' && (
@@ -748,7 +748,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                   placeholder="Ask the Oracle…"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
-                  className="flex-1 bg-transparent text-[11px] text-[#2b2728] placeholder-[#4a4542]/40 outline-none font-light"
+                  className="flex-1 bg-transparent text-sm text-[#2b2728] placeholder-[#4a4542]/40 outline-none font-light"
                 />
                 <button
                   type="submit"
@@ -758,7 +758,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                   <Send className="w-3 h-3" />
                 </button>
               </form>
-              <p className="text-center text-[9px] font-mono-code text-[#4a4542]/40 mt-2 tracking-wider uppercase">Sadhyatra · Journey Intelligence</p>
+              <p className="text-center text-[11px] font-mono-code text-[#4a4542]/40 mt-2 tracking-wider uppercase">Sadhyatra · Journey Intelligence</p>
             </div>
           </aside>
 
@@ -815,7 +815,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                         </div>
                       )}
                       <div
-                        className={`max-w-[85%] rounded-2xl p-3 text-xs leading-relaxed ${msg.sender === 'user'
+                        className={`max-w-[85%] rounded-2xl p-3 text-sm leading-relaxed ${msg.sender === 'user'
                           ? 'bg-[#2b2728] text-white rounded-tr-none'
                           : 'bg-white text-[#2b2728] border border-[#2b2728]/10 rounded-tl-none shadow-2xs'
                           }`}
@@ -861,7 +861,7 @@ export const SplitScreenDestinationDetail: React.FC<SplitScreenDestinationDetail
                       placeholder="Ask the Oracle..."
                       value={inputMessage}
                       onChange={(e) => setInputMessage(e.target.value)}
-                      className="flex-1 bg-transparent text-xs text-[#2b2728] outline-none"
+                      className="flex-1 bg-transparent text-sm text-[#2b2728] outline-none"
                     />
                     <button
                       type="submit"

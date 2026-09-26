@@ -23,16 +23,16 @@ export const DESTINATIONS: Destination[] = [
     featureTags: ['Forests', 'Waterfalls', 'Caves', 'Slow mornings'],
 
     heroImage:
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85',
+      '/images/pachmarhi/Chitrakoot.jpeg',
 
     secondaryImage:
-      'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80',
+      '/images/pachmarhi/pexels-mohit-khare-3592184-36664317.jpg.jpeg',
 
     galleryImages: [
-      'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85',
-      'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1200&q=80'
+      '/images/pachmarhi/pexels-baskheecho-10346735.jpg.jpeg',
+      '/images/pachmarhi/pexels-2429272-39044399.jpg.jpeg',
+      '/images/pachmarhi/pexels-mohit-khare-3592184-36664317.jpg.jpeg',
+      '/images/pachmarhi/Chitrakoot.jpeg'
     ],
 
     shortDescription:
@@ -85,7 +85,7 @@ export const DESTINATIONS: Destination[] = [
         highlight:
           'Golden evening light filtering through the sal and teak forests',
         photo:
-          'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80'
+          '/images/pachmarhi/pexels-baskheecho-10346735.jpg.jpeg'
       },
       {
         day: 2,
@@ -96,7 +96,7 @@ export const DESTINATIONS: Destination[] = [
         highlight:
           'Standing beside cascading water surrounded by thick Satpura forest',
         photo:
-          'https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=800&q=80'
+          '/images/pachmarhi/beeFalls.jpeg'
       },
       {
         day: 3,
@@ -107,7 +107,7 @@ export const DESTINATIONS: Destination[] = [
         highlight:
           'Sunset spreading across the layered ridges of the Satpura Range',
         photo:
-          'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80'
+          '/images/pachmarhi/dhoopgarh.jpg'
       },
       {
         day: 4,
@@ -148,7 +148,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'The highest point in Madhya Pradesh, offering expansive views across the rolling Satpura Range and dramatic sunsets.',
         image:
-          'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
+          '/images/pachmarhi/dhoopgarh.jpg',
         tag: 'Highest Point'
       },
       {
@@ -157,7 +157,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'One of Pachmarhi’s most popular waterfalls, cascading through dense forest into a refreshing natural pool.',
         image:
-          'https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=800&q=80',
+          '/images/pachmarhi/beeFalls.jpeg',
         tag: 'Waterfall'
       },
       {
@@ -166,7 +166,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'A naturally formed cave complex surrounded by rugged rock formations and deep forest, known for its spiritual significance.',
         image:
-          'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80',
+          '/images/pachmarhi/jatashankar.jpeg',
         tag: 'Sacred Cave'
       },
       {
@@ -175,7 +175,7 @@ export const DESTINATIONS: Destination[] = [
         description:
           'A dramatic forested gorge surrounded by steep sandstone cliffs and panoramic Satpura landscapes.',
         image:
-          'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&q=80',
+          '/images/pachmarhi/HandiKhoh.jpeg',
         tag: 'Scenic Gorge'
       }
     ],
